@@ -1,0 +1,6 @@
+import random
+
+x=random.randint(a,b)
+
+for i in range(0,100):
+        a=input("Donnez une valeur entre 0 et 100")
