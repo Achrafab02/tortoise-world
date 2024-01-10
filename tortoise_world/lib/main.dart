@@ -52,6 +52,23 @@ class MyWidget extends StatelessWidget {
             width: 305.0,
             height: 150.0,
             color: Colors.red,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Instructions:',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  'Ajoutez vos instructions ici.',
+                  style: TextStyle(fontSize: 14.0),
+                ),
+              ],
+            ),
             // Widget 3
           ),
         ),
