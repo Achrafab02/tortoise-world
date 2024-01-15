@@ -22,37 +22,70 @@ class MyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Container(
-                width: 150.0,
-                height: 150.0,
-                color: Colors.blue,
-                // Widget 1
+        Expanded(
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  color: Colors.blue,
+                  child: Center(
+                    child: Container(
+                      width: 200.0,
+                      height: 200.0,
+                    ),
+                  ),
+                ),
               ),
-            ),
-            SizedBox(width: 5.0), // Espacement entre les colonnes
-            Center(
-              child: Container(
-                width: 150.0,
-                height: 150.0,
-                color: Colors.green,
-                // Widget 2
+              SizedBox(width: 5.0),
+              Expanded(
+                child: Container(
+                  color: Colors.blueGrey,
+                  child: Center(
+                    child: Container(
+                      width: 150.0,
+                      height: 150.0,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              print("Start Button Clicked");
+                            },
+                            child: Text('Start'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              print("Clear Button Clicked");
+                            },
+                            child: Text('Clear'),
+                          ),
+                          Container(
+                            width: 150.0,
+                            height: 50.0,
+                            color: Colors.white,
+                            child: TextField(
+                              decoration: InputDecoration(
+                                hintText: 'Entrez votre code ici',
+                                contentPadding: EdgeInsets.all(8.0),
+                              ),
+                              maxLines: 3,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-        SizedBox(height: 5.0), // Espacement entre les lignes
-        Center(
+        SizedBox(height: 5.0),
+        Expanded(
           child: Container(
-            width: 305.0,
-            height: 150.0,
             color: Colors.red,
-            child: Column(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
@@ -62,14 +95,13 @@ class MyWidget extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 8.0),
+                SizedBox(width: 8.0),
                 Text(
                   'Ajoutez vos instructions ici.',
                   style: TextStyle(fontSize: 14.0),
                 ),
               ],
             ),
-            // Widget 3
           ),
         ),
       ],
