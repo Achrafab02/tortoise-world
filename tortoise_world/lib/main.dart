@@ -3,8 +3,13 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 
 void main() async {
+  runApp(MyApp());
+}
+
+void pythonToDart() async {
   // Chemin vers le script Python
-  String pythonScriptPath = '/home/achraf/Documents/2A/projet2A/tortoise-world/Tortoise/tortoise.py';
+  String pythonScriptPath =
+      '/home/achraf/Documents/2A/projet2A/tortoise-world/Tortoise/tortoise.py';
 
   // Chemin vers le répertoire du script Python
   String pythonScriptDirectory = path.dirname(pythonScriptPath);
@@ -37,7 +42,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyWidget extends StatelessWidget {
+class MyWidget extends StatefulWidget {
+  @override
+  _MyWidgetState createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<MyWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -69,6 +79,8 @@ class MyWidget extends StatelessWidget {
                         children: [
                           ElevatedButton(
                             onPressed: () {
+                              // Appel de la fonction pythonToDart() lors du clic sur le bouton "Start"
+                              pythonToDart();
                               print("Start Button Clicked");
                             },
                             child: Text('Start'),
