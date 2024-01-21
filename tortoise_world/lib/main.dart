@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:path/path.dart' as path;
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  // Chemin vers le script Python
+  String pythonScriptPath = '/home/achraf/Documents/2A/projet2A/tortoise-world/Tortoise/tortoise.py';
+
+  // Chemin vers le répertoire du script Python
+  String pythonScriptDirectory = path.dirname(pythonScriptPath);
+
+  // Ajuste le répertoire de travail
+  Directory.current = pythonScriptDirectory;
+
+  // Exécute la commande Python
+  ProcessResult result = await Process.run('python', [pythonScriptPath]);
+
+  // Vérifie si l'exécution s'est bien déroulée
+  if (result.exitCode == 0) {
+    print('Le script Python a été exécuté avec succès.');
+  } else {
+    print('Erreur lors de l\'exécution du script Python : ${result.stderr}');
+  }
 }
 
 class MyApp extends StatelessWidget {

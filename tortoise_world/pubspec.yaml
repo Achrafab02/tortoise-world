@@ -31,6 +31,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  process: ^4.2.4
+  path: ^1.8.0
+
 
 
 
