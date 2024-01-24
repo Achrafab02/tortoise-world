@@ -3,4 +3,4 @@
 from agents import *
 
 def think(capteur):
-	return 1
+	return GAUCHE
