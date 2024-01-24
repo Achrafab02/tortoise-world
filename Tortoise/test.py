@@ -1,0 +1,2 @@
+def think(capteur):
+re
