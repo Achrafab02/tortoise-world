@@ -2,15 +2,9 @@
 
 ## Règles du jeu
 
-Une tortue évolue dans un environnement formé de laitues, de pierres et d'un chien. Le but de la tortue est de manger toutes les salades qui se trouvent dans son environnement. Malheureusement, la tortue ne peut voir que la case qui se trouve directement devant elle. De plus, le chien, très joueur, peut venir perturber la tortue et lui faire perdre des points de santé.
+L'objectif de ce jeu est d'aider l'enfant à apprendre la programmation en lui fournissant des instructions pour utiliser efficacement les commandes, les conditions et les boucles. Le protagoniste du jeu est une tortue équipée de capteurs lui permettant de regarder droit devant. La tortue peut avancer, manger des feuilles de laitue et boire de l'eau en évitant les pierres. Chaque action effectuée par la tortue contribue à l'évolution d'un score. Le but ultime du joueur est d'obtenir le meilleur score possible en écrivant un pseudocode en langage Python.
 
-La tortue dispose de 100 points de santé et de 100 points de boisson au début du jeu. Le jeu se termine dès que la tortue a mangé toutes les salades ou qu'elle meurt à cause de son niveau de santé ou de boisson.
-
-Tous les déplacements vers l'avant (ie. 'forward') consomment 2 unités de boisson, et les autres actions consomment une unité de boisson. Quand la tortue boit de l'eau, son niveau de boisson remonte à 100. Par contre, il n'y a aucun moyen d'augmenter ses points de santé.
-
-Plus le niveau de boisson est bas, moins la tortue réagit. Ainsi, chaque action consomme une unité de temps quand le niveau de boisson est à 100, mais consomme jusqu'à 4 unités de temps quand il est proche de 0.
-
-Chaque collision avec le chien coûte 5 points de santé et chaque collision avec un obstacle coûte un point de santé.
+Le joueur doit programmer la tortue pour qu'elle se déplace de manière stratégique, prenne des décisions basées sur des conditions et utilise des boucles pour optimiser ses actions. Chaque mouvement, chaque interaction avec la laitue et l'eau influence le score total du joueur. L'objectif final est d'élaborer un code efficace et astucieux permettant à la tortue d'accomplir des actions intelligentes et ainsi d'atteindre le meilleur score possible. En résumé, le jeu vise à rendre l'apprentissage de la programmation ludique et interactif, tout en mettant en avant la logique algorithmique et la créativité des joueurs.
 
 ## Les capteurs
 
