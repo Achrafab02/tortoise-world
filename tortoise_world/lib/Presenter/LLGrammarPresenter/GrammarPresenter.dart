@@ -7,12 +7,6 @@ class GrammarPresenter {
   GrammarPresenter(this._model);
 
   void startParsing() {
-    while (true) {
-      var token = _model.lexer.getNextToken();
-      print('${token.type} : ${token.lexeme}');
-      if (token.type == TokenType.EOF) {
-        break;
-      }
-    }
+    _model.parse();
   }
 }
