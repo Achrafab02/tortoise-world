@@ -1,138 +1,161 @@
 import 'Token.dart';
 
-/*
-S -> instruction S | ε
-instruction -> ifStatement | returnStatement | otherStatement
-
-ifStatement -> 'if' condition ':' S 'else' ':' S
-
-returnStatement -> 'return' expression
-
-otherStatement -> identifier '.' identifier '(' args ')' | return random.choice(args)
-
-condition -> identifier '.' identifier | condition 'and' condition | condition 'or' condition | '(' condition ')'
-
-expression -> identifierOrConstant | expression 'and' expression | expression 'or' expression | '(' expression ')'
-
-identifierOrConstant -> identifier | constant | '(' expression ')'
-
-identifier -> IDENTIFIER
-
-constant -> CONSTANT
-
-functionCall -> identifier '.' identifier '(' args ')'
-
-args -> argList | ε
-
-argList -> expression ',' argList | expression
- */
 class Parser {
   final List<Token> tokens;
-  int position = 0;
+  int currentTokenIndex = 0;
 
   Parser(this.tokens);
 
   void parse() {
-    parseS();
-    if (currentToken.type != TokenType.EOF) {
-      print("Erreur syntaxique. Symbole inattendu: ${currentToken.lexeme}");
-    } else {
-      print("Analyse syntaxique réussie !");
+    S();
+  }
+
+  void S() {
+    while (currentToken().type != TokenType.EOF) {
+      instruction();
     }
   }
 
-  void parseS() {
-    while (currentToken.type != TokenType.EOF) {
-      parseInstruction();
-    }
-  }
-
-  void parseInstruction() {
+  void instruction() {
     if (match(TokenType.IF)) {
-      parseCondition();
-      expect(TokenType.COLON);
-      parseS();
-      if (match(TokenType.ELSE)) {
-        expect(TokenType.COLON);
-        parseS();
-      }
+      ifStatement();
     } else if (match(TokenType.RETURN)) {
-      parseExpression();
+      returnStatement();
     } else {
-      parseOtherStatement();
+      otherStatement();
     }
   }
 
-  void parseCondition() {
-    parseExpression();
-    while (match(TokenType.AND) || match(TokenType.OR)) {
-      parseExpression();
-    }
-  }
-
-  void parseExpression() {
-    parseIdentifierOrConstant();
-    while (match(TokenType.AND) || match(TokenType.OR)) {
-      parseExpression();
-    }
-  }
-
-  void parseOtherStatement() {
-    expect(TokenType.IDENTIFIER);
-    expect(TokenType.EQUAL);
-    parseExpression();
-    expect(TokenType.SEMICOLON);
-  }
-
-  void parseIdentifierOrConstant() {
-    if (currentToken.type == TokenType.IDENTIFIER) {
-      expect(TokenType.IDENTIFIER);
-    } else if (currentToken.type == TokenType.CONSTANT) {
-      expect(TokenType.CONSTANT);
+  void ifStatement() {
+    consume(TokenType.IF);
+    condition();
+    if (match(TokenType.COLON)) {
+      consume(TokenType.COLON);
+      S();
     } else {
-      expect(TokenType.LPAREN);
-      parseExpression();
-      expect(TokenType.RPAREN);
+      // Handle logical operators
+      if (match(TokenType.AND) || match(TokenType.OR)) {
+        consume(currentToken().type); // Consume logical operator
+        if (match(TokenType.COLON)) {
+          consume(TokenType.COLON);
+          S();
+        }
+      } else {
+        throw Exception('Unexpected token: ${currentToken().lexeme}. Expected: TokenType.COLON');
+      }
+    }
+
+    if (match(TokenType.ELSE)) {
+      consume(TokenType.ELSE);
+      consume(TokenType.COLON);
+      S();
     }
   }
 
-  void parseFunctionCall() {
-    expect(TokenType.IDENTIFIER);
-    expect(TokenType.DOT);
-    expect(TokenType.IDENTIFIER);
-    expect(TokenType.LPAREN);
-    parseArgs();
-    expect(TokenType.RPAREN);
+  void returnStatement() {
+    consume(TokenType.RETURN);
+    expression();
   }
 
-  void parseArgs() {
-    if (currentToken.type == TokenType.IDENTIFIER || currentToken.type == TokenType.CONSTANT || currentToken.type == TokenType.LPAREN) {
-      parseArgList();
+  void otherStatement() {
+    if (match(TokenType.IDENTIFIER)) {
+      identifier();
+      consume(TokenType.DOT);
+      identifier();
+      consume(TokenType.LPAREN);
+      args();
+      consume(TokenType.RPAREN);
+    } else if (match(TokenType.RETURN)) {
+      consume(TokenType.RETURN);
+      args();
+    } else if (match(TokenType.ELSE)) {
+      consume(TokenType.ELSE);
+      if (match(TokenType.COLON)) {
+        consume(TokenType.COLON);
+        S();
+      }
+    } else {
+      throw Exception('Unexpected token: ${currentToken().lexeme}');
     }
   }
 
-  void parseArgList() {
-    parseExpression();
+  void condition() {
+    if (match(TokenType.IDENTIFIER)) {
+      identifier();
+      consume(TokenType.DOT);
+      identifier();
+    } else if (match(TokenType.LPAREN)) {
+      consume(TokenType.LPAREN);
+      condition();
+      consume(TokenType.RPAREN);
+    } else {
+      condition();
+      consume(TokenType.AND);
+      condition();
+      // Add support for 'or' condition here if needed
+    }
+  }
+
+  void expression() {
+    if (match(TokenType.IDENTIFIER) || match(TokenType.CONSTANT) || match(TokenType.LPAREN)) {
+      identifierOrConstant();
+    } else {
+      expression();
+      consume(TokenType.AND);
+      expression();
+      // Add support for 'or' expression here if needed
+    }
+  }
+
+  void identifierOrConstant() {
+    if (match(TokenType.IDENTIFIER)) {
+      identifier();
+    } else if (match(TokenType.CONSTANT)) {
+      consume(TokenType.CONSTANT);
+    } else {
+      consume(TokenType.LPAREN);
+      expression();
+      consume(TokenType.RPAREN);
+    }
+  }
+
+  void identifier() {
+    consume(TokenType.IDENTIFIER);
+  }
+
+  void args() {
+    if (!match(TokenType.RPAREN)) {
+      argList();
+    }
+  }
+
+  void argList() {
+    expression();
     if (match(TokenType.COMMA)) {
-      parseArgList();
+      consume(TokenType.COMMA);
+      argList();
     }
   }
 
-  Token get currentToken => tokens[position];
-
-  void expect(TokenType expectedType) {
-    if (currentToken.type != expectedType) {
-      print("Erreur syntaxique. Symbole inattendu: ${currentToken.lexeme}");
-    } else {
-      position++;
-    }
+  Token currentToken() {
+    return tokens[currentTokenIndex];
   }
 
   bool match(TokenType expectedType) {
-    if (currentToken.type == expectedType) {
-      position++;
-      return true;
+    return currentToken().type == expectedType;
+  }
+
+  void consume(TokenType expectedType) {
+    if (match(expectedType)) {
+      currentTokenIndex++;
+    } else if (match(TokenType.DOT) && tokens[currentTokenIndex + 1]?.type == TokenType.DOT) {
+      // Consume two consecutive dots
+      currentTokenIndex += 2;
+    } else {
+      throw Exception('Unexpected token: ${currentToken().lexeme}. Expected: $expectedType');
     }
-    return false;
   }
 }
+
+
+

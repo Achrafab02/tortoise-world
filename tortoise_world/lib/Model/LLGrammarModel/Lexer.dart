@@ -6,6 +6,8 @@ class Lexer {
   Lexer(this.input);
 
   Token getNextToken() {
+    skipWhitespace();
+
     if (position >= input.length) {
       return Token(TokenType.EOF, '');
     }
@@ -30,16 +32,42 @@ class Lexer {
       return Token(TokenType.EQUAL, '=');
     }
 
+    if (currentChar == '<' && input[position + 1] == '=') {
+      position = position + 2;
+      return Token(TokenType.LESS_EQUAL, '<=');
+    }
+
+    if (currentChar == '<') {
+      position++;
+      return Token(TokenType.LESS, '<');
+    }
+
+    if (currentChar == '>' && input[position + 1] == '=') {
+      position = position + 2;
+      return Token(TokenType.GREATER_EQUAL, '>=');
+    }
+
+    if (currentChar == '>') {
+      position++;
+      return Token(TokenType.GREATER, '>');
+    }
+
     // Parenthèses et ponctuation
     switch (currentChar) {
       case '(':
         position++;
         return Token(TokenType.LPAREN, '(');
+      case '[':
+        position++;
+        return Token(TokenType.LBRACKET, '[');
+      case ']':
+        position++;
+        return Token(TokenType.RBRACKET, ']');
       case ')':
         position++;
         return Token(TokenType.RPAREN, ')');
       case ':':
-        position++;
+        position = position + 2;
         return Token(TokenType.COLON, ':');
       case ',':
         position++;
@@ -59,11 +87,20 @@ class Lexer {
     } else if (isDigit(currentChar)) {
       var lexeme = consumeWhile(isDigit);
       return Token(TokenType.CONSTANT, lexeme);
+    } else if (isConstant(currentChar)) {
+      var lexeme = consumeWhile(isConstant);
+      return Token(TokenType.CONSTANT, lexeme);
     }
 
     // Caractère non reconnu
     position++;
     return Token(TokenType.EOF, '');
+  }
+
+  void skipWhitespace() {
+    while (position < input.length && input[position] == ' ') {
+      position++;
+    }
   }
 
   bool matchKeyword(String keyword) {
@@ -85,10 +122,9 @@ class Lexer {
     return result;
   }
 
-  bool isAlpha(String char) =>
-      (char.compareTo('a') >= 0 && char.compareTo('z') <= 0) ||
-          (char.compareTo('A') >= 0 && char.compareTo('Z') <= 0) ||
-          char == '_';
+  bool isConstant(String char) => char.compareTo('A') >= 0 && char.compareTo('Z') <= 0;
+
+  bool isAlpha(String char) => (char.compareTo('a') >= 0 && char.compareTo('z') <= 0) || char == '_';
 
 
   bool isDigit(String char) => char.compareTo('0') >= 0 && char.compareTo('9') <= 0;

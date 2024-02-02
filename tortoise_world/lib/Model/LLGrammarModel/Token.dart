@@ -6,13 +6,13 @@ enum TokenType {
   EQUAL,
 
   // Parenthèses et ponctuation
-  LPAREN, RPAREN, COLON, COMMA, SEMICOLON, DOT,
+  LPAREN, RPAREN, COLON, COMMA, SEMICOLON, DOT, LBRACKET, RBRACKET,
 
   // Identifiants et constantes
   IDENTIFIER, CONSTANT,
 
   // Fin de fichier
-  EOF,
+  EOF, LESS_EQUAL, GREATER_EQUAL, GREATER, LESS, RANDOM,
 }
 
 

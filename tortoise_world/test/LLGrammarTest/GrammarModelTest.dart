@@ -11,17 +11,128 @@ void main() {
     test('Tokenizing input with if statement', ()
     {
       var lexer = Lexer("if capteur.libre_devant: return AVANCE else: return DROITE");
-      GrammarModel model = GrammarModel(lexer);
-      Token token = model.lexer.getNextToken();
-      expect(token.type, TokenType.IF);
-      expect(token.lexeme, 'if');
+      var model = GrammarModel(lexer);
+      var token = <Token>[];
+      while (true) {
+        token.add(model.lexer.getNextToken());
+        if (token.last.type == TokenType.EOF) {
+          break;
+        }
+      }
+      expect(token[0].type, TokenType.IF);
+      expect(token[1].type, TokenType.IDENTIFIER);
+      expect(token[2].type, TokenType.DOT);
+      expect(token[3].type, TokenType.IDENTIFIER);
+      expect(token[4].type, TokenType.COLON);
+      expect(token[5].type, TokenType.RETURN);
+      expect(token[6].type, TokenType.CONSTANT);
+      expect(token[7].type, TokenType.ELSE);
+      expect(token[8].type, TokenType.COLON);
+      expect(token[9].type, TokenType.RETURN);
+      expect(token[10].type, TokenType.CONSTANT);
+      expect(token[11].type, TokenType.EOF);
     });
+
+    test('Tokenizing and test lexeme', () {
+      var lexer = Lexer("if capteur.libre_devant: return AVANCE else : return DROITE");
+      var model = GrammarModel(lexer);
+      var token = <Token>[];
+      while (true) {
+        token.add(model.lexer.getNextToken());
+        if (token.last.type == TokenType.EOF) {
+          break;
+        }
+      }
+      expect(token[0].lexeme, 'if');
+      expect(token[1].lexeme, 'capteur');
+      expect(token[2].lexeme, '.');
+      expect(token[3].lexeme, 'libre_devant');
+      expect(token[4].lexeme, ':');
+      expect(token[5].lexeme, 'return');
+      expect(token[6].lexeme, 'AVANCE');
+      expect(token[7].lexeme, 'else');
+      expect(token[8].lexeme, ':');
+      expect(token[9].lexeme, 'return');
+      expect(token[10].lexeme, 'DROITE');
+      expect(token[11].lexeme, '');
+    });
+
+    test('Tokenizing input with niveau.boisson', ()
+    {
+      var lexer = Lexer("if capteur.eau_ici and capteur.niveau.boisson <= 70: return BOIT");
+      var model = GrammarModel(lexer);
+      var token = <Token>[];
+      while (true) {
+        token.add(model.lexer.getNextToken());
+        if (token.last.type == TokenType.EOF) {
+          break;
+        }
+      }
+      expect(token[0].type, TokenType.IF);
+      expect(token[1].type, TokenType.IDENTIFIER);
+      expect(token[2].type, TokenType.DOT);
+      expect(token[3].type, TokenType.IDENTIFIER);
+      expect(token[4].type, TokenType.AND);
+      expect(token[5].type, TokenType.IDENTIFIER);
+      expect(token[6].type, TokenType.DOT);
+      expect(token[7].type, TokenType.IDENTIFIER);
+      expect(token[8].type, TokenType.DOT);
+      expect(token[9].type, TokenType.IDENTIFIER);
+      expect(token[10].type, TokenType.LESS_EQUAL);
+      expect(token[11].type, TokenType.CONSTANT);
+      expect(token[12].type, TokenType.COLON);
+      expect(token[13].type, TokenType.RETURN);
+      expect(token[14].type, TokenType.CONSTANT);
+      expect(token[15].type, TokenType.EOF);
+    });
+
+  test('Tokenizing input with bracket', ()
+  {
+    var lexer = Lexer("return random.choise([GAUCE,DROITE])");
+    var model = GrammarModel(lexer);
+    var token = <Token>[];
+    while (true) {
+      token.add(model.lexer.getNextToken());
+      if (token.last.type == TokenType.EOF) {
+        break;
+      }
+    }
+    expect(token[0].type, TokenType.RETURN);
+    expect(token[1].type, TokenType.IDENTIFIER);
+    expect(token[2].type, TokenType.DOT);
+    expect(token[3].type, TokenType.IDENTIFIER);
+    expect(token[4].type, TokenType.LPAREN);
+    expect(token[5].type, TokenType.LBRACKET);
+    expect(token[6].type, TokenType.CONSTANT);
+    expect(token[7].type, TokenType.COMMA);
+    expect(token[8].type, TokenType.CONSTANT);
+    expect(token[9].type, TokenType.RBRACKET);
+    expect(token[10].type, TokenType.RPAREN);
+    expect(token[11].type, TokenType.EOF);
+
   });
+});
+
 
   group('Parser Tests', () {
     test('Parsing input with if statement', ()
     {
-      var lexer = Lexer("if capteur.libre_devant: return AVANCE else: return DROITE");
+      var lexer = Lexer("if capteur.libre_devant: return AVANCE else : return DROITE");
+      var model = GrammarModel(lexer);
+      var token = <Token>[];
+      while (true) {
+        token.add(model.lexer.getNextToken());
+        if (token.last.type == TokenType.EOF) {
+          break;
+        }
+      }
+      var parser = Parser(token);
+      parser.parse();
+    });
+
+    test('Parsing input with niveau.boisson', ()
+    {
+      var lexer = Lexer("if capteur.eau_ici and capteur.niveau.boisson <= 70: return BOIT");
       var model = GrammarModel(lexer);
       var token = <Token>[];
       while (true) {
