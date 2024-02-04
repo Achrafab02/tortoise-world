@@ -12,14 +12,17 @@ variables:
 
 code_quality:
   stage: test
+  image: "ghcr.io/cirruslabs/flutter:3.16.9"
   script:
     - metrics lib -r codeclimate  > gl-code-quality-report.json
 
 test:
   stage: test
+  image: "ghcr.io/cirruslabs/flutter:3.16.9"
   script:
     - export PATH="$PATH:`pwd`/flutter/bin"
     - flutter test --coverage
+  
 
 
 deploy:
