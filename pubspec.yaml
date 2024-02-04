@@ -28,11 +28,12 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+
   flutter:
     sdk: flutter
 
-  process: ^4.2.4
-  path: ^1.8.0
+  process: ^5.0.2
+  path: ^1.8.3
 
 
 
@@ -42,6 +43,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  junitreport: ^2.0.2
   flutter_test:
     sdk: flutter
 
