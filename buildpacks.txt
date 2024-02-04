@@ -1,2 +1,0 @@
-https://github.com/heroku/heroku-buildpack-dart.git
-https://github.com/heroku/heroku-buildpack-flutter.git
