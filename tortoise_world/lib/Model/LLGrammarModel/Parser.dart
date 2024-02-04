@@ -1,4 +1,19 @@
 import 'Token.dart';
+/*
+  *  LL(1) Grammar
+  * S -> instruction S | ε
+  * instruction -> IF condition COLON S (ELSE (IF condition COLON S | COLON S))? | RETURN args | otherStatement
+  * condition -> (IDENTIFIER DOT IDENTIFIER | LPAREN condition RPAREN | LBRACKET expression RBRACKET) (AND condition)? (OR condition)? (LESS | LESS_EQUAL | GREATER | GREATER_EQUAL | EQUAL) identifierOrConstant (DOT IDENTIFIER)?
+  * otherStatement -> IDENTIFIER (DOT IDENTIFIER LPAREN args RPAREN)?
+               | RETURN args
+               | ELSE (IF condition COLON S | COLON S)?
+  * args -> argList | CONSTANT
+  * argList -> expression (COMMA argList | RPAREN | RBRACKET)
+  * expression -> identifierOrConstant AND expression | identifierOrConstant
+  * identifierOrConstant -> IDENTIFIER (DOT IDENTIFIER (LPAREN | LBRACKET)?)? | CONSTANT | LPAREN expression RPAREN
+  * arguments -> LPAREN argList RPAREN | LBRACKET argList (RBRACKET | RPAREN)
+ */
+
 
 class Parser {
   final List<Token> tokens;
@@ -59,40 +74,44 @@ class Parser {
   }
 
   void condition() {
-  if (match(TokenType.IDENTIFIER)) {
+    if (match(TokenType.IDENTIFIER)) {
+      if (match(TokenType.DOT)) {
+        if (!match(TokenType.IDENTIFIER)) {
+          throw Exception('Syntax error: expected identifier after dot');
+        }
+      }
+    } else if (match(TokenType.LPAREN)) {
+      condition();
+      if (!match(TokenType.RPAREN)) {
+        throw Exception('Syntax error: expected right parenthesis');
+      }
+    } else if (match(TokenType.LBRACKET)) {
+      expression();
+      if (!match(TokenType.RBRACKET)) {
+        throw Exception('Syntax error: expected right bracket');
+      }
+    } else {
+      condition();
+    }
+
+    if (match(TokenType.AND) || match(TokenType.OR)) {
+      condition();
+    }
+
+    if (match(TokenType.LESS) ||
+        match(TokenType.LESS_EQUAL) ||
+        match(TokenType.GREATER) ||
+        match(TokenType.GREATER_EQUAL) ||
+        match(TokenType.EQUAL)) {
+      identifierOrConstant();
+    }
+
     if (match(TokenType.DOT)) {
       if (!match(TokenType.IDENTIFIER)) {
         throw Exception('Syntax error: expected identifier after dot');
       }
     }
-  } else if (match(TokenType.LPAREN)) {
-    condition();
-    if (!match(TokenType.RPAREN)) {
-      throw Exception('Syntax error: expected right parenthesis');
-    }
-  } else if (match(TokenType.LBRACKET)) {
-    expression();
-    if (!match(TokenType.RBRACKET)) {
-      throw Exception('Syntax error: expected right bracket');
-    }
-  } else {
-    condition();
   }
-
-  if (match(TokenType.AND) || match(TokenType.OR)) {
-    condition();
-  }
-
-  if (match(TokenType.LESS) || match(TokenType.LESS_EQUAL) || match(TokenType.GREATER) || match(TokenType.GREATER_EQUAL) || match(TokenType.EQUAL)) {
-    identifierOrConstant();
-  }
-
-  if (match(TokenType.DOT)) {
-    if (!match(TokenType.IDENTIFIER)) {
-      throw Exception('Syntax error: expected identifier after dot');
-    }
-  }
-}
 
   void otherStatement() {
     if (match(TokenType.IDENTIFIER)) {
@@ -101,11 +120,13 @@ class Parser {
           throw Exception('Syntax error: expected identifier after dot');
         }
         if (!match(TokenType.LPAREN)) {
-          throw Exception('Syntax error: expected left parenthesis after identifier');
+          throw Exception(
+              'Syntax error: expected left parenthesis after identifier');
         }
         args();
         if (!match(TokenType.RPAREN)) {
-          throw Exception('Syntax error: expected right parenthesis after arguments');
+          throw Exception(
+              'Syntax error: expected right parenthesis after arguments');
         }
       }
     } else if (match(TokenType.RETURN)) {
@@ -124,9 +145,7 @@ class Parser {
           }
           S();
         }
-      } else {
-
-      }
+      } else {}
     }
   }
 
@@ -134,8 +153,7 @@ class Parser {
     if (currentToken.type == TokenType.IDENTIFIER ||
         currentToken.type == TokenType.LPAREN) {
       argList();
-    }
-    else if (currentToken.type == TokenType.CONSTANT) {
+    } else if (currentToken.type == TokenType.CONSTANT) {
       match(TokenType.CONSTANT);
     }
   }
@@ -144,8 +162,7 @@ class Parser {
     expression();
     if (match(TokenType.COMMA)) {
       argList();
-    }
-    else if (match(TokenType.RPAREN) || match(TokenType.RBRACKET)) {
+    } else if (match(TokenType.RPAREN) || match(TokenType.RBRACKET)) {
       return;
     }
   }
@@ -185,10 +202,9 @@ class Parser {
       }
     } else if (match(TokenType.LBRACKET)) {
       argList();
-      if (!match(TokenType.RBRACKET ) && !match(TokenType.RPAREN)) {
+      if (!match(TokenType.RBRACKET) && !match(TokenType.RPAREN)) {
         throw Exception('Syntax error: expected right bracket');
       }
     }
   }
-
 }
