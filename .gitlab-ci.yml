@@ -9,7 +9,6 @@
 
 code_quality:
   stage: test
-  image: "ghcr.io/cirruslabs/flutter:3.10.3"
   before_script:
     - flutter pub global activate dart_code_metrics
     - export PATH="$PATH:$HOME/.pub-cache/bin"
@@ -21,7 +20,6 @@ code_quality:
 
 test:
   stage: test
-  image: "flutter:3.16.9" 
   before_script:
     - flutter pub global activate junitreport
     - export PATH="$PATH:$HOME/.pub-cache/bin"
