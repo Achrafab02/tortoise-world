@@ -1,0 +1,12 @@
+com.example.tortoise_world.app-jetified-window-1.0.0-beta04-0 /home/achraf/.gradle/caches/transforms-3/51f9884f66079bac2001743c10cfcc6e/transformed/jetified-window-1.0.0-beta04/res
+com.example.tortoise_world.app-core-1.6.0-1 /home/achraf/.gradle/caches/transforms-3/64f14e6a96583f14cc435b36b54fb6f2/transformed/core-1.6.0/res
+com.example.tortoise_world.app-jetified-window-java-1.0.0-beta04-2 /home/achraf/.gradle/caches/transforms-3/cec26645dbb74434aa97981634f97554/transformed/jetified-window-java-1.0.0-beta04/res
+com.example.tortoise_world.app-jetified-annotation-experimental-1.1.0-3 /home/achraf/.gradle/caches/transforms-3/e4d3fee60d43b68dfd768f4e2cc4b0b0/transformed/jetified-annotation-experimental-1.1.0/res
+com.example.tortoise_world.app-debug-4 /home/achraf/Documents/2A/projet2A/tortoise-world/tortoise_world/android/app/src/debug/res
+com.example.tortoise_world.app-main-5 /home/achraf/Documents/2A/projet2A/tortoise-world/tortoise_world/android/app/src/main/res
+com.example.tortoise_world.app-pngs-6 /home/achraf/Documents/2A/projet2A/tortoise-world/tortoise_world/build/app/generated/res/pngs/debug
+com.example.tortoise_world.app-resValues-7 /home/achraf/Documents/2A/projet2A/tortoise-world/tortoise_world/build/app/generated/res/resValues/debug
+com.example.tortoise_world.app-rs-8 /home/achraf/Documents/2A/projet2A/tortoise-world/tortoise_world/build/app/generated/res/rs/debug
+com.example.tortoise_world.app-mergeDebugResources-9 /home/achraf/Documents/2A/projet2A/tortoise-world/tortoise_world/build/app/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.example.tortoise_world.app-mergeDebugResources-10 /home/achraf/Documents/2A/projet2A/tortoise-world/tortoise_world/build/app/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.example.tortoise_world.app-merged_res-11 /home/achraf/Documents/2A/projet2A/tortoise-world/tortoise_world/build/app/intermediates/merged_res/debug
