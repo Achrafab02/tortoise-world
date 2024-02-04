@@ -170,9 +170,6 @@ void main() {
           break;
         }
       }
-      for (var i = 0; i < token.length; i++) {
-        print(token[i].type);
-      }
       var parser = Parser(token);
       parser.parse();
     });
@@ -202,9 +199,6 @@ void main() {
           break;
         }
       }
-      for (var i = 0; i < token.length; i++) {
-        print(token[i].type);
-      }
       var parser = Parser(token);
       parser.parse();
     });
@@ -218,9 +212,6 @@ void main() {
         if (token.last.type == TokenType.EOF) {
           break;
         }
-      }
-      for (var i = 0; i < token.length; i++) {
-        print(token[i].type);
       }
       var parser = Parser(token);
       parser.parse();
