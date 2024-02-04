@@ -6,125 +6,134 @@ class Parser {
 
   Parser(this.tokens);
 
+  Token get currentToken => tokens[currentTokenIndex];
+
+  bool match(TokenType type) {
+    if (currentToken.type == type) {
+      currentTokenIndex++;
+      return true;
+    }
+    return false;
+  }
+
   void parse() {
     S();
+    if (currentToken.type != TokenType.EOF) {
+      throw Exception('Syntax error');
+    }
   }
 
   void S() {
-    while (currentToken().type != TokenType.EOF) {
+    if (currentToken.type != TokenType.EOF) {
       instruction();
+      S();
     }
   }
 
   void instruction() {
     if (match(TokenType.IF)) {
-      ifStatement();
+      condition();
+      if (!match(TokenType.COLON)) {
+        throw Exception('Syntax error: expected colon after condition');
+      }
+      S();
+      if (match(TokenType.ELSE)) {
+        if (match(TokenType.IF)) {
+          condition();
+          if (!match(TokenType.COLON)) {
+            throw Exception('Syntax error: expected colon after condition');
+          }
+          S();
+        } else {
+          if (!match(TokenType.COLON)) {
+            throw Exception('Syntax error: expected colon after else');
+          }
+          S();
+        }
+      }
     } else if (match(TokenType.RETURN)) {
-      returnStatement();
+      args();
     } else {
       otherStatement();
     }
   }
 
-  void ifStatement() {
-    consume(TokenType.IF);
-    condition();
-    if (match(TokenType.COLON)) {
-      consume(TokenType.COLON);
-      S();
-    } else {
-      // Handle logical operators
-      if (match(TokenType.AND) || match(TokenType.OR)) {
-        consume(currentToken().type); // Consume logical operator
-        if (match(TokenType.COLON)) {
-          consume(TokenType.COLON);
-          S();
-        }
-      } else {
-        throw Exception('Unexpected token: ${currentToken().lexeme}. Expected: TokenType.COLON');
+  void condition() {
+  if (match(TokenType.IDENTIFIER)) {
+    if (match(TokenType.DOT)) {
+      if (!match(TokenType.IDENTIFIER)) {
+        throw Exception('Syntax error: expected identifier after dot');
       }
     }
+  } else if (match(TokenType.LPAREN)) {
+    condition();
+    if (!match(TokenType.RPAREN)) {
+      throw Exception('Syntax error: expected right parenthesis');
+    }
+  } else if (match(TokenType.LBRACKET)) {
+    expression();
+    if (!match(TokenType.RBRACKET)) {
+      throw Exception('Syntax error: expected right bracket');
+    }
+  } else {
+    condition();
+  }
 
-    if (match(TokenType.ELSE)) {
-      consume(TokenType.ELSE);
-      consume(TokenType.COLON);
-      S();
+  if (match(TokenType.AND) || match(TokenType.OR)) {
+    condition();
+  }
+
+  if (match(TokenType.LESS) || match(TokenType.LESS_EQUAL) || match(TokenType.GREATER) || match(TokenType.GREATER_EQUAL) || match(TokenType.EQUAL)) {
+    identifierOrConstant();
+  }
+
+  if (match(TokenType.DOT)) {
+    if (!match(TokenType.IDENTIFIER)) {
+      throw Exception('Syntax error: expected identifier after dot');
     }
   }
-
-  void returnStatement() {
-    consume(TokenType.RETURN);
-    expression();
-  }
+}
 
   void otherStatement() {
     if (match(TokenType.IDENTIFIER)) {
-      identifier();
-      consume(TokenType.DOT);
-      identifier();
-      consume(TokenType.LPAREN);
-      args();
-      consume(TokenType.RPAREN);
-    } else if (match(TokenType.RETURN)) {
-      consume(TokenType.RETURN);
-      args();
-    } else if (match(TokenType.ELSE)) {
-      consume(TokenType.ELSE);
-      if (match(TokenType.COLON)) {
-        consume(TokenType.COLON);
-        S();
+      if (match(TokenType.DOT)) {
+        if (!match(TokenType.IDENTIFIER)) {
+          throw Exception('Syntax error: expected identifier after dot');
+        }
+        if (!match(TokenType.LPAREN)) {
+          throw Exception('Syntax error: expected left parenthesis after identifier');
+        }
+        args();
+        if (!match(TokenType.RPAREN)) {
+          throw Exception('Syntax error: expected right parenthesis after arguments');
+        }
       }
+    } else if (match(TokenType.RETURN)) {
+      args();
     } else {
-      throw Exception('Unexpected token: ${currentToken().lexeme}');
-    }
-  }
+      if (match(TokenType.ELSE)) {
+        if (match(TokenType.IF)) {
+          condition();
+          if (!match(TokenType.COLON)) {
+            throw Exception('Syntax error: expected colon after condition');
+          }
+          S();
+        } else {
+          if (!match(TokenType.COLON)) {
+            throw Exception('Syntax error: expected colon after else');
+          }
+          S();
+        }
+      } else {
 
-  void condition() {
-    if (match(TokenType.IDENTIFIER)) {
-      identifier();
-      consume(TokenType.DOT);
-      identifier();
-    } else if (match(TokenType.LPAREN)) {
-      consume(TokenType.LPAREN);
-      condition();
-      consume(TokenType.RPAREN);
-    } else {
-      condition();
-      consume(TokenType.AND);
-      condition();
-      // Add support for 'or' condition here if needed
+      }
     }
-  }
-
-  void expression() {
-    if (match(TokenType.IDENTIFIER) || match(TokenType.CONSTANT) || match(TokenType.LPAREN)) {
-      identifierOrConstant();
-    } else {
-      expression();
-      consume(TokenType.AND);
-      expression();
-      // Add support for 'or' expression here if needed
-    }
-  }
-
-  void identifierOrConstant() {
-    if (match(TokenType.IDENTIFIER)) {
-      identifier();
-    } else if (match(TokenType.CONSTANT)) {
-      consume(TokenType.CONSTANT);
-    } else {
-      consume(TokenType.LPAREN);
-      expression();
-      consume(TokenType.RPAREN);
-    }
-  }
-
-  void identifier() {
-    consume(TokenType.IDENTIFIER);
   }
 
   void args() {
-    if (!match(TokenType.RPAREN)) {
+    if (currentToken.type == TokenType.IDENTIFIER ||
+        currentToken.type == TokenType.CONSTANT ||
+        currentToken.type == TokenType.LPAREN) {
       argList();
     }
   }
@@ -132,30 +141,49 @@ class Parser {
   void argList() {
     expression();
     if (match(TokenType.COMMA)) {
-      consume(TokenType.COMMA);
       argList();
     }
   }
 
-  Token currentToken() {
-    return tokens[currentTokenIndex];
-  }
-
-  bool match(TokenType expectedType) {
-    return currentToken().type == expectedType;
-  }
-
-  void consume(TokenType expectedType) {
-    if (match(expectedType)) {
-      currentTokenIndex++;
-    } else if (match(TokenType.DOT) && tokens[currentTokenIndex + 1]?.type == TokenType.DOT) {
-      // Consume two consecutive dots
-      currentTokenIndex += 2;
-    } else {
-      throw Exception('Unexpected token: ${currentToken().lexeme}. Expected: $expectedType');
+  void expression() {
+    identifierOrConstant();
+    if (match(TokenType.AND)) {
+      expression();
     }
   }
+
+  void identifierOrConstant() {
+    if (match(TokenType.IDENTIFIER)) {
+      if (match(TokenType.DOT)) {
+        if (!match(TokenType.IDENTIFIER)) {
+          throw Exception('Syntax error: expected identifier after dot');
+        }
+        if (match(TokenType.LPAREN) || match(TokenType.LBRACKET)) {
+          arguments();
+        }
+      }
+    } else if (match(TokenType.CONSTANT)) {
+      return;
+    } else if (match(TokenType.LPAREN)) {
+      expression();
+      if (!match(TokenType.RPAREN)) {
+        throw Exception('Syntax error: expected right parenthesis');
+      }
+    }
+  }
+
+  void arguments() {
+    if (match(TokenType.LPAREN)) {
+      argList();
+      if (!match(TokenType.RPAREN)) {
+        throw Exception('Syntax error: expected right parenthesis');
+      }
+    } else if (match(TokenType.LBRACKET)) {
+      argList();
+      if (!match(TokenType.RBRACKET)) {
+        throw Exception('Syntax error: expected right bracket');
+      }
+    }
+  }
+
 }
-
-
-

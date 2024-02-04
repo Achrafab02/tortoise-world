@@ -1,4 +1,4 @@
-# Intelligence Artificielle - L'agent tortue
+# Tortoise World
 
 ## Règles du jeu
 
