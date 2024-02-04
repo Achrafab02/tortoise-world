@@ -4,6 +4,7 @@ import 'package:tortoise_world/Model/LLGrammarModel/Parser.dart';
 import 'package:tortoise_world/Model/LLGrammarModel/Token.dart';
 import 'package:tortoise_world/Model/LLGrammarModel/GrammarModel.dart';
 
+//generate rapports JUnit and coverage
 void main() {
   group('Lexer Tests', () {
     test('Tokenizing input with if statement', () {
