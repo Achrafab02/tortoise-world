@@ -8,6 +8,8 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
 
 
+image: cirrusci/flutter:stable
+
 stages:
   - test
 
