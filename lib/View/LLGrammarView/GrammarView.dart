@@ -1,6 +1,5 @@
-import 'package:tortoise_world/Presenter/LLGrammarPresenter/GrammarPresenter.dart';
-import 'package:tortoise_world/Model/LLGrammarModel/GrammarModel.dart';
-
+import '../../Presenter/LLGrammarPresenter/GrammarPresenter.dart';
+import '../../Model/LLGrammarModel/GrammarModel.dart';
 import '../../Model/LLGrammarModel/Lexer.dart';
 
 class GrammarView {

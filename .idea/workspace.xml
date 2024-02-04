@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="62ad07fd-f4fa-4163-977f-ba58700011c4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/buildpacks.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/tortoise-world.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/tortoise-world.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Model/LLGrammarModel/GrammarModel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Model/LLGrammarModel/GrammarModel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/Presenter/LLGrammarPresenter/GrammarPresenter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Presenter/LLGrammarPresenter/GrammarPresenter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/LLGrammarView/GrammarView.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/View/LLGrammarView/GrammarView.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +45,10 @@
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
     "git-widget-placeholder": "LLGrammar",
-    "last_opened_file_path": "/home/achraf/Documents/2A/projet2A/tortoise-world",
+    "last_opened_file_path": "/home/achraf/Documents/bin/flutter/bin/cache/dart-sdk",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "dart.settings",
     "show.migrate.to.gradle.popup": "false"
   }

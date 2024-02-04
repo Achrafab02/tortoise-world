@@ -1,5 +1,4 @@
-import 'package:tortoise_world/Model/LLGrammarModel/Token.dart';
-import 'package:tortoise_world/Model/LLGrammarModel/GrammarModel.dart';
+import '../../Model/LLGrammarModel/GrammarModel.dart';
 
 class GrammarPresenter {
   final GrammarModel _model;
