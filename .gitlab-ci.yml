@@ -26,7 +26,8 @@ test:
     - flutter pub global activate junitreport
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
-    - flutter test tortoise_world/tortoise_world/test --machine --coverage | tojunit -o report.xml
+    - cd ./tortoise_world  # Change directory to your project
+    - flutter test --machine --coverage | tojunit -o report.xml
     - lcov --summary coverage/lcov.info
     - genhtml coverage/lcov.info --output=coverage
   coverage: '/lines\.*: \d+\.\d+\%/'
