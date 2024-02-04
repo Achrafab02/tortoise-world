@@ -8,21 +8,34 @@
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
 
 
+stages:
+  - test
+
+variables:
+  FLUTTER_CHANNEL: "stable"
+
+before_script:
+  - apt-get update -qy
+  - apt-get install -y lib32stdc++6 libstdc++6
+  - curl -sSL https://get.flutter.dev | sh
+  - export PATH="$PATH:`pwd`/tortoise_world/flutter/bin/cache/dart-sdk/bin"
+  - export PATH="$PATH:`pwd`/tortoise_world/flutter/bin"
+
+cache:
+  paths:
+    - tortoise_world/.dart_tool/
+    - tortoise_world/.packages/
+    - tortoise_world/flutter/
+
 test:
   stage: test
-  before_script:
-    - flutter pub global activate junitreport
-    - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
-    - cd ./tortoise_world  # Change directory to your project
-    - flutter test --coverage 
-    - genhtml coverage/lcov.info --output=coverage
+    - cd tortoise_world
+    - flutter packages get
+    - flutter test --coverage
   artifacts:
     paths:
-      - coverage/
-    expire_in: 5 days
+      - tortoise_world/coverage/
+  only:
+    - master
 
-deploy:
-  stage: deploy
-  script: echo "Define your deployment script!"
-  environment: production
