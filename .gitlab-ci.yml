@@ -6,6 +6,23 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
 
+variables:
+  FLUTTER_CHANNEL: "stable"
+  FLUTTER_VERSION: "3.16.9"
+
+install_flutter:
+  stage: setup
+  script:
+    - apt-get update -q
+    - apt-get install -y lib32stdc++6
+    - git clone https://github.com/flutter/flutter.git -b $FLUTTER_CHANNEL --depth 1
+    - export PATH="$PATH:`pwd`/flutter/bin"
+    - flutter doctor
+    - flutter pub get
+  artifacts:
+    paths:
+      - .flutter
+
 code_quality:
   stage: test
   script:
@@ -14,7 +31,10 @@ code_quality:
 test:
   stage: test
   script:
-    - flutter test --coverage 
+    - export PATH="$PATH:`pwd`/flutter/bin"
+    - flutter test --coverage
+  dependencies:
+    - install_flutter
 
 deploy:
   stage: deploy
