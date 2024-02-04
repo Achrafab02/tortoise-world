@@ -132,9 +132,11 @@ class Parser {
 
   void args() {
     if (currentToken.type == TokenType.IDENTIFIER ||
-        currentToken.type == TokenType.CONSTANT ||
         currentToken.type == TokenType.LPAREN) {
       argList();
+    }
+    else if (currentToken.type == TokenType.CONSTANT) {
+      match(TokenType.CONSTANT);
     }
   }
 
@@ -142,6 +144,9 @@ class Parser {
     expression();
     if (match(TokenType.COMMA)) {
       argList();
+    }
+    else if (match(TokenType.RPAREN) || match(TokenType.RBRACKET)) {
+      return;
     }
   }
 
@@ -180,7 +185,7 @@ class Parser {
       }
     } else if (match(TokenType.LBRACKET)) {
       argList();
-      if (!match(TokenType.RBRACKET)) {
+      if (!match(TokenType.RBRACKET ) && !match(TokenType.RPAREN)) {
         throw Exception('Syntax error: expected right bracket');
       }
     }

@@ -208,5 +208,22 @@ void main() {
       var parser = Parser(token);
       parser.parse();
     });
+
+    test('Parsing input with random.choise', () {
+      var lexer = Lexer("return random.choise([AVAVCE,DROITE,GAUCE])");
+      var model = GrammarModel(lexer);
+      var token = <Token>[];
+      while (true) {
+        token.add(model.lexer.getNextToken());
+        if (token.last.type == TokenType.EOF) {
+          break;
+        }
+      }
+      for (var i = 0; i < token.length; i++) {
+        print(token[i].type);
+      }
+      var parser = Parser(token);
+      parser.parse();
+    });
   });
 }
