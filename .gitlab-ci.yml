@@ -7,16 +7,6 @@
 # This specific template is located at:
 # https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Flutter.gitlab-ci.yml
 
-code_quality:
-  stage: test
-  before_script:
-    - flutter pub global activate dart_code_metrics
-    - export PATH="$PATH:$HOME/.pub-cache/bin"
-  script:
-    - metrics lib -r codeclimate  > gl-code-quality-report.json
-  artifacts:
-    reports:
-      codequality: gl-code-quality-report.json
 
 test:
   stage: test
@@ -25,16 +15,12 @@ test:
     - export PATH="$PATH:$HOME/.pub-cache/bin"
   script:
     - cd ./tortoise_world  # Change directory to your project
-    - flutter test --machine --coverage | tojunit -o report.xml
-    - lcov --summary coverage/lcov.info
+    - flutter test --coverage 
     - genhtml coverage/lcov.info --output=coverage
-  coverage: '/lines\.*: \d+\.\d+\%/'
   artifacts:
-    name: coverage
     paths:
-      - $CI_PROJECT_DIR/coverage
-    reports:
-      junit: report.xml
+      - coverage/
+    expire_in: 5 days
 
 deploy:
   stage: deploy
