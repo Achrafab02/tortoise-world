@@ -1,6 +1,6 @@
-import 'package:tortoise_world/Model/LLGrammarModel/Lexer.dart';
-import 'package:tortoise_world/Model/LLGrammarModel/Token.dart';
-import 'package:tortoise_world/Model/LLGrammarModel/Parser.dart';
+import 'Lexer.dart';
+import 'Token.dart';
+import 'Parser.dart';
 class GrammarModel {
   Lexer lexer;
 
