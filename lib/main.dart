@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
           title: Text('Jeu avec Grille'),
         ),
         body: Center(
-          child: GameGrid(), // Utilisez GameGrid au lieu de JeuGrid
+          child: GameGrid(),
         ),
       ),
     );

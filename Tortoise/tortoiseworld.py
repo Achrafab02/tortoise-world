@@ -35,7 +35,6 @@ class TortoiseFrame( Tkinter.Frame ):
         """
         Creates the visual rendering of the tortoise world.
         """
-        self.first_move_made = False
         Tkinter.Frame.__init__(self, None)
         self.mute = mute
         if simulation_speed > 200:
@@ -74,8 +73,8 @@ class TortoiseFrame( Tkinter.Frame ):
             self.mainloop()
 
     def runWithoutGraphics( self ):
-        #while not self.is_terminated():
-        self.step()
+        while not self.is_terminated():
+            self.step()
 
     def step( self ):
         """
@@ -84,41 +83,29 @@ class TortoiseFrame( Tkinter.Frame ):
         # Update current time
         self.tw.current_time += 0.1
 
-        # Move the tortoise only if the first move hasn't been made
-        if not self.first_move_made and self.tw.current_time >= self.tw.next_tortoise_time:
+        # Move the tortoise 
+        if self.tw.current_time >= self.tw.next_tortoise_time:
             self.tw.step_tortoise()
             # Update ground if necessary
             if self.tw.update_current_place:
-                self.canvas.create_image(self.tw.xpos * 40, self.tw.ypos * 40,
-                                         image=self.images[self.tw.worldmap[self.tw.ypos][self.tw.xpos]],
-                                         anchor=Tkinter.NW)
+                self.canvas.create_image(self.tw.xpos * 40, self.tw.ypos * 40, image = self.images[self.tw.worldmap[self.tw.ypos][self.tw.xpos]], anchor = Tkinter.NW)
             # Redraw tortoise
             tortoise_image = self.direction_tortoise_image_table[self.tw.direction]
             if self.tortoise_image_on_canvas != False:
                 self.canvas.delete(self.tortoise_image_on_canvas)
-            self.tortoise_image_on_canvas = self.canvas.create_image(self.tw.xpos * 40, self.tw.ypos * 40,
-                                                                     image=self.images[tortoise_image],
-                                                                     anchor=Tkinter.NW)
+            self.tortoise_image_on_canvas = self.canvas.create_image(self.tw.xpos * 40, self.tw.ypos * 40, image = self.images[tortoise_image], anchor = Tkinter.NW)
 
-            # Display text information
-            self.canvas.itemconfigure(self.text_item,
-                                      text='Eaten: %2d Time: %4d Score: %3d Drink Level: %2d' % (
-                                          self.tw.eaten, int(self.tw.current_time), self.tw.score,
-                                          self.tw.drink_level))
 
-            # Set the flag to indicate that the first move has been made
-            self.first_move_made = True
-
-        # Continue running the main loop
-        if not self.is_terminated() and self.tw.current_time <= self.tw.MAX_TIME:
+        # Display text information
+        self.canvas.itemconfigure(self.text_item, text = 'Eaten: %2d Time: %4d Score: %3d Drink Level: %2d' % (self.tw.eaten, int(self.tw.current_time), self.tw.score, self.tw.drink_level))
+        if not self.mute and not self.is_terminated() and self.tw.current_time <= self.tw.MAX_TIME:
             self.after(int(200 / self.simulation_speed), self.step)
 
-
-def is_terminated( self ):
+    def is_terminated( self ):
         return self.tw.action == 'stop' 
 
-def is_win( self ):
-    return self.tw.win
+    def is_win( self ):
+        return self.tw.win
 
 class TortoiseWorld():
     """

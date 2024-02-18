@@ -3,4 +3,4 @@
 from agents import *
 
 def think(capteur):
-	return GAUCHE
+	return random.choice([MANGE, BOIT, GAUCHE, DROITE, AVANCE, AVANCE])
