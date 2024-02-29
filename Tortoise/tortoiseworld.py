@@ -152,6 +152,8 @@ class TortoiseWorld():
         self.next_tortoise_time = self.current_time + time_change
         self.update_current_place = False
         dx, dy = self.direction_table[self.direction]
+        print(time_change)
+        print(self.next_tortoise_time)
 
         # Sensing
         ahead = self.worldmap[self.ypos + dy][self.xpos + dx]

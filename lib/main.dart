@@ -1,6 +1,6 @@
 // lib/main.dart
 import 'package:flutter/material.dart';
-import 'View/game_grid.dart'; // Importez le fichier game_grid.dart
+import 'View/game_grid.dart';
 
 void main() {
   runApp(MyApp());

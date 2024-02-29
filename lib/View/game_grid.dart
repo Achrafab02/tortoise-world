@@ -1,116 +1,119 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'dart:async';
 
-import '../model/model.dart';
-class PositionTortoise{
-  int x=1;
-  int y=1;
-}
+import 'package:tortoise_world/model/model.dart';
+import 'package:provider/provider.dart';
+
+import '../utils.dart';
+
+
+
 class GameGrid extends StatefulWidget {
   @override
   State<GameGrid> createState() => _GameGridState();
-}
 
+}
 class _GameGridState extends State<GameGrid> {
+  int simulationSpeed=200;
   final int rows = 12;
   final int columns = 12;
-  List<List<String>> mapImages = [];
-  List<List<String>> mapTiles = [];
-  PositionTortoise positionTortoise = new PositionTortoise();
-  List<String> directionTortoiseImageTable = [
-    'tortoise-n',
-    'tortoise-e',
-    'tortoise-s',
-    'tortoise-w'
-  ];
-
-
-
-  @override
+  List<List<String>> worldMap = [];
+  String tortoiseImage="./assets/images/tortoise-n.gif";
+  late Tortoise tortoise;
+  int eaten=0;
+  int score=0;
+  int time=0;
+  int drinkLevel=MAX_DRINK;
+ @override
   void initState() {
     super.initState();
     initializeWorldMap();
-    Timer(Duration(seconds: 3), () {
-      moveTortoise(positionTortoise);
-    });
-    setState(() {
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      start();
     });
   }
+
 
   void initializeWorldMap() {
+    int countLettuce = 0;
     for (int i = 0; i < rows; i++) {
-      List<String> rowImages = [];
       List<String> rowTypes = [];
       for (int j = 0; j < columns; j++) {
-        String imageName = getImageName(i, j);
-        rowImages.add(imageName);
-        String tileType = getTileTypeFromImage(imageName);
-        rowTypes.add(tileType);
+        rowTypes.add("ground");
       }
-      mapImages.add(rowImages);
-      mapTiles.add(rowTypes);
+      worldMap.add(rowTypes);
     }
-  }
 
-  String getTileTypeFromImage(String imageName) {
-    switch (imageName) {
-      case 'assets/images/tortoise-s.gif':
-        return 'tortoise';
-      case 'assets/images/stone.gif':
-        return 'stone';
-      case 'assets/images/lettuce.gif':
-        return 'lettuce';
-      case 'assets/images/pond.gif':
-        return 'pond';
-      case 'assets/images/ground.gif':
-        return 'ground';
-      case 'assets/images/wall.gif':
-        return 'wall';
-      default:
-        return '';
+
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        String type = selectTileType(j, i);
+        worldMap[i][j] = type;
+        if (type == 'lettuce') {
+          countLettuce++;
+        }
+      }
     }
+
+
+    tortoise = Tortoise(worldMap: worldMap);
+    tortoise.updateLettuceCount(countLettuce);
   }
-
-
-  void moveTortoise(PositionTortoise positionTortoise) {
-    setState(() {
-      Tortoise tortoise = Tortoise(positionTortoise: positionTortoise, mapImages: mapImages, mapTiles: mapTiles);
-
-      tortoise.move(columns, rows);
-      redrawTortoise(tortoise.direction,tortoise.update);
-    });
-
-    Timer(Duration(seconds: 1), () {
-      moveTortoise(positionTortoise);
-    });
-  }
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: columns,
+    return SingleChildScrollView(
+      child: Container(
+        width: 500,
+        height: 600,
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            GridView.builder(
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: columns,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                int x = index % columns;
+                int y = index ~/ columns;
+                bool isTortoisePositon =
+                    tortoise.xpos == x && tortoise.ypos == y;
+                return CaseImage(
+                  imageName: getImageFromType(worldMap[y][x]),
+                  tortoiseImage: tortoiseImage,
+                  isTortoisePosition: isTortoisePositon,
+                );
+              },
+              itemCount: rows * columns,
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Eaten: $eaten "),
+                Text("Time: $time "),
+                Text("Score: $score "),
+                Text("Drink Level: $drinkLevel "),
+              ],
+            ),
+          ],
+        ),
       ),
-      itemBuilder: (BuildContext context, int index) {
-        int x = index % columns;
-        int y = index ~/ columns;
-        return CaseImage(imageName: mapImages[y][x]);
-      },
-      itemCount: rows * columns,
     );
   }
 
-  String getImageName(int x, int y) {
+
+
+
+
+
+  String selectTileType(int x, int y) {
     if (x == 1 && y == 1) {
-      return 'assets/images/tortoise-s.gif';
+      return 'pond';
     } else if (x == 0 || x == columns - 1 || y == 0 || y == rows - 1) {
-      return 'assets/images/wall.gif';
+      return 'wall';
     } else {
       double stoneProbability = 0.1;
       double lettuceProbability = 0.2;
@@ -118,43 +121,68 @@ class _GameGridState extends State<GameGrid> {
 
       double randomValue = Random().nextDouble();
 
-      String overlayImage = 'assets/images/ground.gif';
+      String overlayImage = 'ground';
 
-      if (randomValue < stoneProbability) {
-        overlayImage = 'assets/images/stone.gif';
+      if (randomValue < stoneProbability && !isAdjascentToObstacle(x,y)) {
+        overlayImage = 'stone';
       } else if (randomValue < stoneProbability + lettuceProbability) {
-        overlayImage = 'assets/images/lettuce.gif';
+        overlayImage = 'lettuce';
       } else if (randomValue < stoneProbability + lettuceProbability + pondProbability) {
-        overlayImage = 'assets/images/pond.gif';
+        overlayImage = 'pond';
       }
 
-      if (x == 1 && y == 1) {
-        return 'assets/images/tortoise-s.gif';
-      } else {
+
         return overlayImage;
-      }
+
     }
   }
 
-  void redrawTortoise(int direction,bool update) {
-    //print(directionTortoiseImageTable[direction]);
-    if(update==true) {
-      mapTiles[positionTortoise.x][positionTortoise.y] = 'tortoise';
-      String directionImage = 'assets/images/${directionTortoiseImageTable[direction]}.gif';
-      mapImages[positionTortoise.x][positionTortoise.y] = directionImage;
+  bool isAdjascentToObstacle(int x, int y) {
+
+    bool hasLeftObstacle= (x>0) && (worldMap[x-1][y]=="stone" || worldMap[x-1][y]=="wall");
+    bool hasTopObstacle= (y>0) && (worldMap[x][y-1]=="stone" || worldMap[x][y-1]=="wall");
+    bool hasTopLeftObstacle= (y>0) &&(x>0) && (worldMap[x-1][y-1]=="stone" || worldMap[x-1][y-1]=="wall");
+    return hasLeftObstacle || hasTopObstacle || hasTopLeftObstacle;
+
+  }
+
+  String getImageFromType(String tileType) {
+    switch (tileType) {
+      case 'pond':
+        return 'assets/images/pond.gif';
+      case 'lettuce':
+        return 'assets/images/lettuce.gif';
+      case 'wall':
+        return 'assets/images/wall.gif';
+      case 'stone':
+        return 'assets/images/stone.gif';
+      default:
+        return 'assets/images/ground.gif';
+    }
+
+
+
+
+  }
+  void start() {
+    tortoise.move();
+    tortoiseImage = "./assets/images/" + tortoise.tortoiseImage + ".gif";
+    eaten = tortoise.eaten;
+    score = tortoise.score;
+    drinkLevel = tortoise.drinkLevel;
+    time = tortoise.currentTime.toInt();
+    setState(() {});
+    if (tortoise.action != 'stop') {
+      Future.delayed(Duration(milliseconds: 200 ~/ simulationSpeed), start);
     }
   }
 
   }
-
-
-
-
 
 class CaseImage extends StatelessWidget {
   final String imageName;
-
-  CaseImage({required this.imageName});
+  String tortoiseImage; bool isTortoisePosition;
+  CaseImage({required this.imageName, required this.tortoiseImage,required this.isTortoisePosition});
 
   @override
   Widget build(BuildContext context) {
@@ -172,9 +200,13 @@ class CaseImage extends StatelessWidget {
             Image.asset(
               imageName,
             ),
+            if (isTortoisePosition) Image.asset(tortoiseImage)
+
           ],
         ),
       ),
     );
   }
 }
+
+
