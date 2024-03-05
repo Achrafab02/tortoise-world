@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:tortoise_world/Model/model.dart';
 import 'package:tortoise_world/utils.dart';
 
-import 'case.dart';
+import 'View/case.dart';
 
 void main() {
   runApp(GameApp());
