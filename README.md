@@ -1,44 +1,26 @@
-# Tortoise World
-
-## Règles du jeu
-
-L'objectif de ce jeu est d'aider l'enfant à apprendre la programmation en lui fournissant des instructions pour utiliser efficacement les commandes, les conditions et les boucles. Le protagoniste du jeu est une tortue équipée de capteurs lui permettant de regarder droit devant. La tortue peut avancer, manger des feuilles de laitue et boire de l'eau en évitant les pierres. Chaque action effectuée par la tortue contribue à l'évolution d'un score. Le but ultime du joueur est d'obtenir le meilleur score possible en écrivant un pseudocode en langage Python.
-
-Le joueur doit programmer la tortue pour qu'elle se déplace de manière stratégique, prenne des décisions basées sur des conditions et utilise des boucles pour optimiser ses actions. Chaque mouvement, chaque interaction avec la laitue et l'eau influence le score total du joueur. L'objectif final est d'élaborer un code efficace et astucieux permettant à la tortue d'accomplir des actions intelligentes et ainsi d'atteindre le meilleur score possible. En résumé, le jeu vise à rendre l'apprentissage de la programmation ludique et interactif, tout en mettant en avant la logique algorithmique et la créativité des joueurs.
-
-## Les capteurs
-
-La tortue perçoit la case qui se trouve devant elle grâce à ses capteurs dont les valeurs peuvent être obtenues par les commandes :
-- `capteur.libre_devant` – retourne vrai s'il n'y a aucun rocher ou mur dans la case en face de celle de la tortue.
-- `capteur.laitue_devant` – retourne vrai s'il y a une laitue dans la case en face de celle de la tortue.
-- `capteur.laitue_ici` – retourne vrai s'il y a une laitue dans la case où se trouve la tortue.
-- `capteur.eau_devant` – retourne vrai s'il y a de l'eau dans la case en face de celle de la tortue.
-- `capteur.eau_ici` – retourne vrai s'il y a de l'eau dans la case où se trouve la tortue.
-- `capteur.niveau_boisson` – retourne le niveau de boisson de la tortue ; une valeur entière entre 0 et 100.
-
-De plus, elle peut aussi savoir où se trouve le chien grâce aux deux commandes :
-- `capteur.chien_devant` – retourne le nombre de cases en face ou derrière la tortue. Ce peut donc être une valeur positive si le chien est devant ou une valeur négative si le chien est derrière.
-- `capteur.chien_droite` – retourne le nombre de cases à droite ou à gauche de la tortue. Ce peut donc être une valeur positive si le chien est à droite ou une valeur négative si le chien est à gauche.
-
-## Les actions
-
-À chaque tour, la tortue peut effectuer l'une des cinq actions possibles :
-- `MANGE` – la tortue mange la laitue si une laitue se trouve dans la même case que l'agent.
-- `BOIT` – la tortue boit de l'eau si elle se trouve dans une case où il y a de l'eau.
-- `GAUCHE` – la tortue tourne de 90 degrés vers sa gauche.
-- `DROITE` – la tortue tourne de 90 degrés vers sa droite.
-- `AVANCE` – la tortue avance si cela est possible.
-
-## Exemples d'instructions Python
-
-```python
-if capteur.libre_devant:
-    return AVANCE
-else:
-    return DROITE
-
-if capteur.chien_devant < 10:
-    return GAUCHE
-
-if (abs(capteur.chien_devant) < 3 and abs(capteur.chien_droite) < 3):
-    return GAUCHE
+# TortoiseFrame Class:
+Represents the graphical interface for the game.
+Uses Tkinter for creating the game window and rendering the elements.
+Initializes the game world, sets up the canvas, and loads images for different elements like walls, lettuce, ponds, and the tortoise.
+# TortoiseWorld Class:
+Represents the actual game world and logic.
+Manages the movement of the tortoise and updates the game state accordingly.
+The tortoise can move in four directions: north, east, south, and west.
+The game world is a grid with different types of cells: ground, walls, stones, lettuce, and ponds.
+The tortoise's movement is determined by its "brain," represented by the tortoise_brain parameter. This brain is responsible for making decisions based on sensory input.
+# step_tortoise Method (in TortoiseWorld):
+Handles the tortoise's movement and interactions with the environment.
+Moves the tortoise based on the result of its "thinking" process (handled by the brain).
+Updates the tortoise's position, drink level, and health based on the environment.
+Checks for win or loss conditions and updates the game state accordingly.
+# create_worldmap Method (in TortoiseWorld):
+Generates a random game world map with walls, stones, lettuce, and ponds.
+Ensures that stones are not placed in a way that creates inaccessible areas.
+Places lettuce and ponds randomly on the map.
+# Sensor Class:
+Represents the sensory input for the tortoise.
+Provides information about the environment in front of and around the tortoise, including the presence of walls, lettuce, and water.
+Contains the tortoise's current position, direction, and drink level.
+# runWithGraphics and runWithoutGraphics Methods (in TortoiseFrame):
+# runWithGraphics initializes the Tkinter main loop for running the game with graphical representation.
+runWithoutGraphics runs the game without graphics, essentially calling the step method repeatedly.

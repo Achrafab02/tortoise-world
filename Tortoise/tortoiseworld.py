@@ -136,7 +136,7 @@ class TortoiseWorld():
     drink_level = 0
     eaten = 0
     current_time = 0.0
-    direction = 0 #north = 0, east = 1, south = 2, west = 3
+    direction = 0 # north = 0, east = 1, south = 2, west = 3
     worldmap = None
     action = 'None'
     next_tortoise_time = 0
