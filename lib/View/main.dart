@@ -5,7 +5,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:tortoise_world/model/model.dart';
 import 'package:tortoise_world/utils.dart';
 
-import 'View/case.dart';
+import 'case.dart';
 
 void main() {
   runApp(GameApp());
@@ -133,7 +133,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     setState(() {
       double frameTime = elapsed.inMicroseconds / 1000.0;
       cumulativeTime+=frameTime;
-      if(cumulativeTime>DELAY_IN_MS && tortoise.moveCount<=MAX_TIME &&tortoise.action!="stop"){
+      if(cumulativeTime>DELAY_IN_MS && tortoise.moveCount<=MAX_TIME && tortoise.action!="stop"){
         cumulativeTime=0;
         tortoise.moveTortoise();
         tortoiseImage = "./assets/images/${tortoise.tortoiseImage}.gif";
@@ -141,7 +141,6 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
         score = tortoise.score;
         drinkLevel = tortoise.drinkLevel;
         time = tortoise.moveCount;
-
       }
 
     });
@@ -176,7 +175,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
               },
               itemCount: rows * columns,
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

@@ -29,32 +29,21 @@ class Tortoise {
   late int lettuceCount;
   int score=0;
   bool win=false;
-  double currentTime=0.0;
-  double nextTortoiseTime=0;
   String action='none';
+  int moveCount=0;
+
 
   Tortoise({required List<List<String>> worldMap}) {
     this.worldMap = worldMap;
   }
 
-  void move(){
-    currentTime+=0.1;
-    if (currentTime>=nextTortoiseTime &&currentTime <=MAX_TIME){
-      moveTortoise();
 
-
-    }
-
-  }
   void updateLettuceCount(int count) {
     lettuceCount = count;
   }
 
   void moveTortoise() {
-    currentTime = nextTortoiseTime;
-    int timeChange = 4 - (3 * drinkLevel ~/ MAX_DRINK);
-    nextTortoiseTime = currentTime + timeChange;
-
+    moveCount++;
     List<int> directionXY= directionTable[direction];
     int dx = directionXY[0];
     int dy = directionXY[1];
@@ -67,8 +56,22 @@ class Tortoise {
     bool waterAhead = ahead == 'pond';
     bool waterHere = here == 'pond';
 
-    action = brain.think();
-    print(action);
+    Sensor sensor = Sensor(
+      libreDevant: freeAhead,
+      laitueDevant: lettuceAhead,
+      laitueIci: lettuceHere,
+      eauDevant: waterAhead,
+      eauIci: waterHere,
+      niveauBoisson: drinkLevel,
+      tortoiseX: xpos,
+      tortoiseY: ypos,
+      tortoiseDirection: direction,
+    );
+
+
+
+    action = brain.think(sensor:sensor);
+   // print(action);
     switch (action) {
       case 'left':
         direction = (direction - 1) % 4;
@@ -84,14 +87,12 @@ class Tortoise {
         break;
       case 'eat':
         if (lettuceHere) {
-          print("eat");
           worldMap[ypos][xpos] = 'ground';
           eaten=eaten+1;
         }
         break;
       case 'drink':
         if (waterHere) {
-          print("drink");
           drinkLevel = MAX_DRINK;
         }
         break;
@@ -130,11 +131,34 @@ class Tortoise {
       pain =true;
 
     }
-    int score = eaten * 10 - (currentTime / 10).toInt();
+    int score = eaten * 10 - moveCount ~/ 10;
   }
 
 
+}
 
+class Sensor {
+  bool libreDevant;
+  bool laitueDevant;
+  bool laitueIci;
+  bool eauDevant;
+  bool eauIci;
+  int niveauBoisson;
+  int tortoiseX;
+  int tortoiseY;
+  int tortoiseDirection;
+
+  Sensor({
+    required this.libreDevant,
+    required this.laitueDevant,
+    required this.laitueIci,
+    required this.eauDevant,
+    required this.eauIci,
+    required this.niveauBoisson,
+    required this.tortoiseX,
+    required this.tortoiseY,
+    required this.tortoiseDirection,
+  });
 
 
 }
