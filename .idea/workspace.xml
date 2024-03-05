@@ -4,51 +4,56 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="62ad07fd-f4fa-4163-977f-ba58700011c4" name="Changes" comment="files changed">
-      <change afterPath="$PROJECT_DIR$/lib/View/case.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/BrowsingTopicsState" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/BrowsingTopicsState" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/DIPS" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/DIPS" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Extension Rules/CURRENT" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Extension Rules/CURRENT" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Favicons" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Favicons" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/GCM Store/Encryption/LOG.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/History" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/History" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Local Storage/leveldb/LOG.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/Network Persistent State" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/Network Persistent State" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/Reporting and NEL" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/Reporting and NEL" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/TransportSecurity" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Network/TransportSecurity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Preferences" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Preferences" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Service Worker/Database/000003.log" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Service Worker/Database/000003.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Service Worker/Database/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Service Worker/Database/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Service Worker/Database/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Service Worker/Database/LOG.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Service Worker/ScriptCache/index-dir/the-real-index" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Service Worker/ScriptCache/index-dir/the-real-index" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Session Storage/000003.log" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Session Storage/000003.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Session Storage/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Session Storage/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Session Storage/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Session Storage/LOG.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Shared Dictionary/cache/index-dir/the-real-index" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Shared Dictionary/cache/index-dir/the-real-index" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Site Characteristics Database/000003.log" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Site Characteristics Database/000003.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Site Characteristics Database/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Site Characteristics Database/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Site Characteristics Database/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Site Characteristics Database/LOG.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Sync Data/LevelDB/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Sync Data/LevelDB/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Sync Data/LevelDB/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Sync Data/LevelDB/LOG.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Visited Links" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/Visited Links" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/WebStorage/QuotaManager" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/WebStorage/QuotaManager" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/e76ff22a-28d6-455f-913c-9c84ed923b7f.tmp" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/e76ff22a-28d6-455f-913c-9c84ed923b7f.tmp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/000003.log" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/000003.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/LOG.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/metadata/000003.log" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/metadata/000003.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/metadata/LOG" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/metadata/LOG" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/metadata/LOG.old" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/chrome-device/Default/shared_proto_db/metadata/LOG.old" afterDir="false" />
+    <list default="true" id="f9e056e4-b5a3-4262-9578-4fddf2e89e4c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/Model/LLGrammarModel/GrammarModel.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Model/LLGrammarModel/Lexer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Model/LLGrammarModel/Parser.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Model/LLGrammarModel/Token.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Presenter/LLGrammarPresenter/GrammarPresenter.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/View/LLGrammarView/GrammarView.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/LLGrammarTest/GrammarMode_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/version" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/2145bf5498a0fa983be3e587359ed9e3.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/2145bf5498a0fa983be3e587359ed9e3.cache.dill.track.dill" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/flutter_assets/NOTICES" beforeDir="false" afterPath="$PROJECT_DIR$/build/flutter_assets/NOTICES" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/View/game_grid.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/View/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/agent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/agent.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/model/model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/model/model.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.last_build_id" beforeDir="false" afterPath="$PROJECT_DIR$/build/.last_build_id" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/8b350d9138557c599a98ab5fff9aba56.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/8b350d9138557c599a98ab5fff9aba56.cache.dill.track.dill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/flutter_assets/shaders/ink_sparkle.frag" beforeDir="false" afterPath="$PROJECT_DIR$/build/flutter_assets/shaders/ink_sparkle.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CMakeSystem.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CompilerIdCXX/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CompilerIdCXX/a.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/rules.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/flutter/generated_plugin_registrant.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/flutter/generated_plugin_registrant.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/main.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/main.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/my_application.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/my_application.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/build.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/tortoise_world" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/tortoise_world" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/flutter/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/flutter/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/install_manifest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/install_manifest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/intermediates_do_not_run/tortoise_world" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/intermediates_do_not_run/tortoise_world" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test_cache/build/c075001b96339384a97db4862b8ab8db.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/test_cache/build/c075001b96339384a97db4862b8ab8db.cache.dill.track.dill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/unit_test_assets/AssetManifest.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/unit_test_assets/AssetManifest.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/unit_test_assets/AssetManifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/unit_test_assets/AssetManifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/unit_test_assets/NOTICES.Z" beforeDir="false" afterPath="$PROJECT_DIR$/build/unit_test_assets/NOTICES.Z" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/unit_test_assets/shaders/ink_sparkle.frag" beforeDir="false" afterPath="$PROJECT_DIR$/build/unit_test_assets/shaders/ink_sparkle.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/case.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/View/case.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/View/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/agent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Model/agent.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Model/model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,61 +74,39 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="2" />
-  </component>
-  <component name="ProjectId" id="2atpeOeKMjbnuMY998D3jKXFwjA" />
+  <component name="ProjectId" id="2dHv7l8jPC6EsNh05OGG5vHWMQx" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "LLGrammar",
+    "git-widget-placeholder": "tortmove",
     "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "C:/Users/hp/Desktop/tortoise-world",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "SDKs",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "flutter.settings",
-    "show.migrate.to.gradle.popup": "false",
-    "vue.rearranger.settings.migration": "true"
+    "last_opened_file_path": "/home/achraf/Documents/2A/projet2A/tortoise-world",
+    "show.migrate.to.gradle.popup": "false"
   }
 }]]></component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\hp\Desktop\tortoise-world\lib\View" />
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/lib/View" />
+      <recent name="$PROJECT_DIR$/lib" />
+      <recent name="$PROJECT_DIR$/lib/model" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter.main.dart">
-    <configuration name="GrammarMode_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
-      <option name="filePath" value="$PROJECT_DIR$/test/LLGrammarTest/GrammarMode_test.dart" />
-      <option name="workingDirectory" value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter" nameIsGenerated="true">
+  <component name="RunManager" selected="Flutter.main.dart (1)">
+    <configuration name="main.dart (1)" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/lib/View/main.dart" />
       <method v="2" />
     </configuration>
-    <configuration name="Parsing input with if statement" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testName" value="Parsing input with if statement" />
-      <option name="testFile" value="$PROJECT_DIR$/test/LLGrammarTest/GrammarMode_test.dart" />
-      <option name="useRegexp" value="false" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Tokenizing input with if statement" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
-      <option name="testName" value="Tokenizing input with if statement" />
-      <option name="testFile" value="$PROJECT_DIR$/test/LLGrammarTest/GrammarMode_test.dart" />
-      <option name="useRegexp" value="false" />
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
       <method v="2" />
     </configuration>
     <configuration name="tests in GrammarMode_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
@@ -131,55 +114,23 @@
       <option name="useRegexp" value="false" />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter.main.dart (1)" />
+        <item itemvalue="Flutter Test.tests in GrammarMode_test.dart" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="62ad07fd-f4fa-4163-977f-ba58700011c4" name="Changes" comment="" />
-      <created>1705147824142</created>
+      <changelist id="f9e056e4-b5a3-4262-9578-4fddf2e89e4c" name="Changes" comment="" />
+      <created>1709677653044</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1705147824142</updated>
-      <workItem from="1708108953970" duration="147000" />
-      <workItem from="1708220233534" duration="77000" />
+      <updated>1709677653044</updated>
     </task>
-    <task id="LOCAL-00001" summary="files changed">
-      <option name="closed" value="true" />
-      <created>1707056036995</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1707056036995</updated>
-    </task>
-    <task id="LOCAL-00002" summary="files changed with the structures of the project">
-      <option name="closed" value="true" />
-      <created>1707056621942</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1707056621942</updated>
-    </task>
-    <task id="LOCAL-00003" summary="files changed with the structures">
-      <option name="closed" value="true" />
-      <created>1707059882690</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1707059882690</updated>
-    </task>
-    <task id="LOCAL-00004" summary="files changed">
-      <option name="closed" value="true" />
-      <created>1707059941743</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1707059941743</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -191,11 +142,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="files changed with the structures of the project" />
-    <MESSAGE value="files changed with the structures" />
-    <MESSAGE value="files changed" />
-    <option name="LAST_COMMIT_MESSAGE" value="files changed" />
   </component>
 </project>

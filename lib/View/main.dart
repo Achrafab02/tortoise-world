@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:tortoise_world/model/model.dart';
+import 'package:tortoise_world/Model/model.dart';
 import 'package:tortoise_world/utils.dart';
 
 import 'case.dart';

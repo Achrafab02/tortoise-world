@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-import 'package:tortoise_world/model/model.dart';
+import 'package:tortoise_world/Model/model.dart';
 import '../utils.dart';
 
 
