@@ -1,4 +1,0 @@
-#Sun Jan 21 21:29:12 CET 2024
-base.0=/home/achraf/Documents/2A/projet2A/tortoise-world/tortoise_world/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-path.0=classes.dex
-renamed.0=classes.dex

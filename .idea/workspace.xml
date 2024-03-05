@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f9e056e4-b5a3-4262-9578-4fddf2e89e4c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/lib/Model/LLGrammarModel/GrammarModel.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Model/LLGrammarModel/Lexer.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Model/LLGrammarModel/Parser.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Model/LLGrammarModel/Token.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/Presenter/LLGrammarPresenter/GrammarPresenter.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/View/LLGrammarView/GrammarView.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/LLGrammarTest/GrammarMode_test.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/package_config_subset" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/package_config_subset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.dart_tool/version" beforeDir="false" afterPath="$PROJECT_DIR$/.dart_tool/version" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/.last_build_id" beforeDir="false" afterPath="$PROJECT_DIR$/build/.last_build_id" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/8b350d9138557c599a98ab5fff9aba56.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/8b350d9138557c599a98ab5fff9aba56.cache.dill.track.dill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/flutter_assets/shaders/ink_sparkle.frag" beforeDir="false" afterPath="$PROJECT_DIR$/build/flutter_assets/shaders/ink_sparkle.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeCache.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CMakeSystem.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CMakeSystem.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CompilerIdCXX/a.out" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/3.27.7/CompilerIdCXX/a.out" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/rules.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/rules.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/flutter/generated_plugin_registrant.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/flutter/generated_plugin_registrant.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/main.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/main.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/my_application.cc.o" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/CMakeFiles/tortoise_world.dir/my_application.cc.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/build.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.bin.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/AssetManifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/NOTICES.Z" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/data/flutter_assets/kernel_blob.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/bundle/tortoise_world" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/bundle/tortoise_world" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/flutter/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/flutter/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/install_manifest.txt" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/install_manifest.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/linux/x64/debug/intermediates_do_not_run/tortoise_world" beforeDir="false" afterPath="$PROJECT_DIR$/build/linux/x64/debug/intermediates_do_not_run/tortoise_world" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/test_cache/build/c075001b96339384a97db4862b8ab8db.cache.dill.track.dill" beforeDir="false" afterPath="$PROJECT_DIR$/build/test_cache/build/c075001b96339384a97db4862b8ab8db.cache.dill.track.dill" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/unit_test_assets/AssetManifest.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/unit_test_assets/AssetManifest.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/unit_test_assets/AssetManifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/build/unit_test_assets/AssetManifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/unit_test_assets/NOTICES.Z" beforeDir="false" afterPath="$PROJECT_DIR$/build/unit_test_assets/NOTICES.Z" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/unit_test_assets/shaders/ink_sparkle.frag" beforeDir="false" afterPath="$PROJECT_DIR$/build/unit_test_assets/shaders/ink_sparkle.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/case.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/View/case.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/View/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/View/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/agent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Model/agent.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/model/model.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/Model/model.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2dHv7l8jPC6EsNh05OGG5vHWMQx" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "tortmove",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/home/achraf/Documents/2A/projet2A/tortoise-world",
+    "show.migrate.to.gradle.popup": "false"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/lib/View" />
+      <recent name="$PROJECT_DIR$/lib" />
+      <recent name="$PROJECT_DIR$/lib/model" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Flutter.main.dart (1)">
+    <configuration name="main.dart (1)" type="FlutterRunConfigurationType" factoryName="Flutter" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/lib/View/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main.dart" type="FlutterRunConfigurationType" factoryName="Flutter">
+      <option name="filePath" value="$PROJECT_DIR$/lib/main.dart" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tests in GrammarMode_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/test/LLGrammarTest/GrammarMode_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter.main.dart (1)" />
+        <item itemvalue="Flutter Test.tests in GrammarMode_test.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f9e056e4-b5a3-4262-9578-4fddf2e89e4c" name="Changes" comment="" />
+      <created>1709677653044</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709677653044</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
