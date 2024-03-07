@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tortoise_world/Model/LLGrammarModel/Parser.dart';
 import 'dart:math';
+import '';
 
 import 'package:tortoise_world/Model/model.dart';
 
 class TortoiseBrain {
   String think({required Sensor sensor}) {
-    List<String> actions = ['LEFT', 'RIGHT', 'EAT', 'DRINK','FORWARD','FORWARD','FORWARD'];
-    Random random = Random();
-    return actions[random.nextInt(actions.length)];
+    return 'FORWARD';
   }
 }
 

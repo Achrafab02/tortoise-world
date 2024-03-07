@@ -33,11 +33,10 @@ class GameScreen extends StatefulWidget {
 }
 
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
-  int simulationSpeed = 30;
   final int rows = 12;
   final int columns = 12;
   List<List<String>> worldMap = [];
-  String tortoiseImage = "./assets/images/tortoise-n.gif";
+  String tortoiseImage = "./assets/images/tortoise-e.gif";
   late Tortoise tortoise;
   int eaten = 0;
   int score = 0;
@@ -131,8 +130,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   void _update(Duration elapsed) {
     setState(() {
-      double frameTime = elapsed.inMicroseconds / 1000.0;
-      cumulativeTime+=frameTime;
+      cumulativeTime+=1000;
       if(cumulativeTime>DELAY_IN_MS && tortoise.moveCount<=MAX_TIME && tortoise.action!="stop"){
         cumulativeTime=0;
         tortoise.moveTortoise();
