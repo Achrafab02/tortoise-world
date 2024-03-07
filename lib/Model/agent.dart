@@ -13,8 +13,11 @@ import 'LLGrammarModel/Token.dart';
 class TortoiseBrain {
   late Parser parser;
 
+  void setParser(Parser parser) {
+    this.parser = parser;
+  }
 
-  String think({required Sensor sensor}) {
+  String? think({required Sensor sensor}) {
     return parser.result;
   }
 
