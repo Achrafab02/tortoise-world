@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:tortoise_world/Model/model.dart';
-import '../utils.dart';
+import 'utils.dart';
 
 
 class CaseImage extends StatelessWidget {

@@ -1,28 +1,146 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:tortoise_world/Presenter/LLGrammarPresenter/GrammarPresenter.dart';
+import '../Model/LLGrammarModel/GrammarModel.dart';
+import '../Model/LLGrammarModel/Lexer.dart';
+import '../Model/LLGrammarModel/Parser.dart';
+import '../Model/LLGrammarModel/Token.dart';
+
+import 'dart:math';
+
+
 import 'package:flutter/scheduler.dart';
 import 'package:tortoise_world/Model/model.dart';
-import 'package:tortoise_world/utils.dart';
+import 'package:tortoise_world/View/utils.dart';
 
-import 'View/case.dart';
+import 'case.dart';
+
 
 void main() {
-  runApp(GameApp());
+  runApp(SplitWindowApp());
 }
 
-class GameApp extends StatelessWidget {
+class SplitWindowApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Jeu de la Tortue'),
+          title: Text('Fenêtre divisée'),
         ),
-        body: Center(
-          child: GameScreen(),
-        ),
+        body: SplitScreen(),
       ),
+    );
+  }
+}
+
+class SplitScreen extends StatefulWidget {
+  @override
+  _SplitScreenState createState() => _SplitScreenState();
+}
+GrammarPresenter presenter = GrammarPresenter();
+class _SplitScreenState extends State<SplitScreen> {
+
+  String code = '';
+  bool isCodeExecuted = false;
+
+  // Fonction pour arrêter l'exécution du code
+  void _stopCodeExecution() {
+    setState(() {
+      isCodeExecuted = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          // Partie gauche de la fenêtre
+          child: Container(
+            color: Colors.blueGrey[100],
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Éditeur de Code',
+                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20.0),
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      code = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Écrivez votre code ici',
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.all(10.0),
+                  ),
+                  maxLines: 10,
+                ),
+                SizedBox(height: 20.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        var lexer = Lexer(code);
+                        var model = GrammarModel(lexer);
+                        var token = <Token>[];
+                        while (true) {
+                          token.add(model.lexer.getNextToken());
+                          if (token.last.type == TokenType.EOF) {
+                            break;
+                          }
+                        }
+                        var parser = Parser(token);
+                        parser.parse();
+                        presenter.setParser(parser);
+                        presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
+
+
+
+
+
+                        // Exécuter le code et mettre à jour la grille
+                        setState(() {
+                          isCodeExecuted = true;
+                        });
+                      },
+                      child: Text('Exécuter'),
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: _stopCodeExecution, // Appeler la fonction d'arrêt
+                      child: Text('Stop'),
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          // Partie droite de la fenêtre
+          child: Container(
+            color: Colors.lightGreen[100],
+            padding: EdgeInsets.all(20.0),
+            child: Center(
+              child: isCodeExecuted ? GameScreen() : Container(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -37,7 +155,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   final int columns = 12;
   List<List<String>> worldMap = [];
   String tortoiseImage = "./assets/images/tortoise-e.gif";
-  late Tortoise tortoise;
+  Tortoise tortoise = presenter.tortoise;
   int eaten = 0;
   int score = 0;
   int time = 0;
@@ -77,7 +195,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       }
     }
 
-    tortoise = Tortoise(worldMap: worldMap);
+    tortoise.worldMap = worldMap;
     tortoise.updateLettuceCount(countLettuce);
   }
   String selectTileType(int x, int y) {
@@ -133,7 +251,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       cumulativeTime+=1000;
       if(cumulativeTime>DELAY_IN_MS && tortoise.moveCount<=MAX_TIME && tortoise.action!="stop"){
         cumulativeTime=0;
-        tortoise.moveTortoise();
+        tortoise.moveTortoise(presenter.tortoiseBrain.parser.result);
         tortoiseImage = "./assets/images/${tortoise.tortoiseImage}.gif";
         eaten = tortoise.eaten;
         score = tortoise.score;
@@ -189,3 +307,4 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
     );
   }
 }
+

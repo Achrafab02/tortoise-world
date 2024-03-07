@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-import '../utils.dart';
+import '../Presenter/LLGrammarPresenter/GrammarPresenter.dart';
+import '../View/utils.dart';
+import 'LLGrammarModel/Token.dart';
 import 'agent.dart';
 
 class Tortoise {
@@ -17,8 +19,7 @@ class Tortoise {
   int xpos=1;
   int ypos=1;
   List<List<String>> worldMap = [];
-  TortoiseBrain brain = TortoiseBrain();
-   late String tortoiseImage;
+  late String tortoiseImage;
   List<String> directionTortoiseImageTable = ['tortoise-n', 'tortoise-e', 'tortoise-s', 'tortoise-w'];
   int drinkLevel=MAX_DRINK;
   int health=MAX_HEALTH;
@@ -40,7 +41,7 @@ class Tortoise {
     lettuceCount = count;
   }
 
-  void moveTortoise() {
+  void moveTortoise(String action) {
     moveCount++;
     List<int> directionXY= directionTable[direction];
     int dx = directionXY[0];
@@ -66,10 +67,7 @@ class Tortoise {
       tortoiseDirection: direction,
     );
 
-
-
-    action = brain.think(sensor:sensor);
-   // print(action);
+    print(action);
     switch (action) {
       case 'LEFT':
         direction = (direction - 1) % 4;
@@ -131,6 +129,7 @@ class Tortoise {
 
 
 }
+
 
 class Sensor {
   bool libre_devant;

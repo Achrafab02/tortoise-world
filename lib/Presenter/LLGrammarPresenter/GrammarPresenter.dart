@@ -1,11 +1,16 @@
 import '../../Model/LLGrammarModel/GrammarModel.dart';
+import '../../Model/LLGrammarModel/Parser.dart';
+import '../../Model/LLGrammarModel/Token.dart';
+import '../../Model/agent.dart';
+import '../../Model/model.dart';
 
 class GrammarPresenter {
-  final GrammarModel _model;
 
-  GrammarPresenter(this._model);
+  Tortoise tortoise = Tortoise(worldMap: []);
 
-  void startParsing() {
-    _model.parse();
+  TortoiseBrain tortoiseBrain = TortoiseBrain();
+
+  void setParser(Parser parser) {
+    tortoiseBrain.setParser(parser);
   }
 }
