@@ -3,27 +3,19 @@ import 'package:tortoise_world/Model/LLGrammarModel/Parser.dart';
 import 'dart:math';
 import '';
 
+
 import 'package:tortoise_world/Model/model.dart';
 
+import 'LLGrammarModel/Token.dart';
+
+
+
 class TortoiseBrain {
+  late Parser parser;
+
+
   String think({required Sensor sensor}) {
-    return 'FORWARD';
+    return parser.result;
   }
+
 }
-
-/*
-    if (sensor.laitue_devant) {
-      return 'FORWARD';
-    } else if (sensor.libre_devant) {
-      return 'FORWARD';
-    } else if (sensor.laitue_ici) {
-      return 'EAT';
-    } else if (sensor.eau_devant) {
-      return 'FORWARD';
-    } else if (sensor.laitue_ici   ) {
-      return 'EAT';
-
-    } else {
-      return 'LEFT';
-    }
-     */

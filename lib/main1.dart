@@ -1,4 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'Model/LLGrammarModel/GrammarModel.dart';
+import 'Model/LLGrammarModel/Lexer.dart';
+import 'Model/LLGrammarModel/Parser.dart';
+import 'Model/LLGrammarModel/Token.dart';
+import 'Model/agent.dart';
 import 'main.dart'; // Importation de grid_generator.dart
 
 void main() {
@@ -70,7 +77,20 @@ class _SplitScreenState extends State<SplitScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        var lexer = Lexer(code);
+                        var model = GrammarModel(lexer);
+                        var token = <Token>[];
+                        while (true) {
+                          token.add(model.lexer.getNextToken());
+                          if (token.last.type == TokenType.EOF) {
+                            break;
+                          }
+                        }
+                        TortoiseBrain brain = TortoiseBrain();
+                        brain.parser = Parser(token);
+                        brain.parser.parse();
+
                         // Exécuter le code et mettre à jour la grille
                         setState(() {
                           isCodeExecuted = true;
@@ -110,3 +130,4 @@ class _SplitScreenState extends State<SplitScreen> {
     );
   }
 }
+
