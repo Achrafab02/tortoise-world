@@ -23,6 +23,10 @@ class Parser {
 
   Token get currentToken => tokens[currentTokenIndex];
 
+  List<String> sensor = [];
+
+  String result = '';
+
   bool match(TokenType type) {
     if (currentToken.type == type) {
       currentTokenIndex++;
@@ -76,8 +80,11 @@ class Parser {
   void condition() {
     if (match(TokenType.IDENTIFIER)) {
       if (match(TokenType.DOT)) {
+        String Sensor = currentToken.lexeme;
         if (!match(TokenType.IDENTIFIER)) {
           throw Exception('Syntax error: expected identifier after dot');
+        } else {
+          sensor.add(Sensor);
         }
       }
     } else if (match(TokenType.LPAREN)) {
@@ -154,7 +161,10 @@ class Parser {
         currentToken.type == TokenType.LPAREN) {
       argList();
     } else if (currentToken.type == TokenType.CONSTANT) {
-      match(TokenType.CONSTANT);
+      String Result = currentToken.lexeme;
+      if (match(TokenType.CONSTANT)) {
+        result = Result;
+      }
     }
   }
 

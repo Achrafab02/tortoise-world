@@ -6,7 +6,7 @@ import 'agent.dart';
 
 class Tortoise {
   bool update_current_place = false;
-  int direction=0;
+  int direction=1;
   List<List<int>> directionTable = [
     [0, -1],
     [1, 0],
@@ -93,25 +93,12 @@ class Tortoise {
         if (waterHere) {
           drinkLevel = MAX_DRINK;
         }
-        if (freeAhead) {
-          xpos = xpos + dx;
-          ypos = ypos + dy;
-
-        }
-        else {
-          health=health-1;
-          pain=true;
-          drinkLevel=max(drinkLevel-2, 0);
-        }
         break;
 
       case 'FORWARD':
-        if (freeAhead) {
-          xpos = xpos + dx;
-          ypos = ypos + dy;
-
-        }
-        else {
+        xpos = xpos + dx;
+        ypos = ypos + dy;
+        if (!freeAhead) {
           health=health-1;
           pain=true;
           drinkLevel=max(drinkLevel-2, 0);
