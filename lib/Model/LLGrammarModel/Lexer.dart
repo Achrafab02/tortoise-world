@@ -47,6 +47,16 @@ class Lexer {
       return Token(TokenType.GREATER_EQUAL, '>=');
     }
 
+    if (currentChar == '{') {
+      position++;
+      return Token(TokenType.LBRACE, '{');
+    }
+
+    if (currentChar == '}') {
+      position++;
+      return Token(TokenType.RBRACE, '}');
+    }
+
     if (currentChar == '>') {
       position++;
       return Token(TokenType.GREATER, '>');

@@ -6,7 +6,7 @@ enum TokenType {
   EQUAL,
 
   // Parenthèses et ponctuation
-  LPAREN, RPAREN, COLON, COMMA, SEMICOLON, DOT, LBRACKET, RBRACKET,
+  LPAREN, RPAREN, COLON, COMMA, SEMICOLON, DOT, LBRACKET, RBRACKET, LBRACE, RBRACE,
 
   // Identifiants et constantes
   IDENTIFIER, CONSTANT,

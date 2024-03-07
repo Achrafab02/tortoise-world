@@ -55,12 +55,12 @@ class Tortoise {
     bool waterHere = here == 'pond';
 
     Sensor sensor = Sensor(
-      libreDevant: freeAhead,
-      laitueDevant: lettuceAhead,
-      laitueIci: lettuceHere,
-      eauDevant: waterAhead,
-      eauIci: waterHere,
-      niveauBoisson: drinkLevel,
+      libre_devant: freeAhead,
+      laitue_devant: lettuceAhead,
+      laitue_ici: lettuceHere,
+      eau_devant: waterAhead,
+      eau_ici: waterHere,
+      niveau_boisson: drinkLevel,
       tortoiseX: xpos,
       tortoiseY: ypos,
       tortoiseDirection: direction,
@@ -71,31 +71,41 @@ class Tortoise {
     action = brain.think(sensor:sensor);
    // print(action);
     switch (action) {
-      case 'left':
+      case 'LEFT':
         direction = (direction - 1) % 4;
         drinkLevel=max(drinkLevel-1, 0);
 
 
         break;
-      case 'right':
+      case 'RIGHT':
         direction = (direction + 1) % 4;
         drinkLevel=max(drinkLevel-1, 0);
 
 
         break;
-      case 'eat':
+      case 'EAT':
         if (lettuceHere) {
           worldMap[ypos][xpos] = 'ground';
           eaten=eaten+1;
         }
         break;
-      case 'drink':
+      case 'DRINK':
         if (waterHere) {
           drinkLevel = MAX_DRINK;
         }
+        if (freeAhead) {
+          xpos = xpos + dx;
+          ypos = ypos + dy;
+
+        }
+        else {
+          health=health-1;
+          pain=true;
+          drinkLevel=max(drinkLevel-2, 0);
+        }
         break;
 
-      case 'forward':
+      case 'FORWARD':
         if (freeAhead) {
           xpos = xpos + dx;
           ypos = ypos + dy;
@@ -136,27 +146,25 @@ class Tortoise {
 }
 
 class Sensor {
-  bool libreDevant;
-  bool laitueDevant;
-  bool laitueIci;
-  bool eauDevant;
-  bool eauIci;
-  int niveauBoisson;
+  bool libre_devant;
+  bool laitue_devant;
+  bool laitue_ici;
+  bool eau_devant;
+  bool eau_ici;
+  int niveau_boisson;
   int tortoiseX;
   int tortoiseY;
   int tortoiseDirection;
 
   Sensor({
-    required this.libreDevant,
-    required this.laitueDevant,
-    required this.laitueIci,
-    required this.eauDevant,
-    required this.eauIci,
-    required this.niveauBoisson,
+    required this.libre_devant,
+    required this.laitue_devant,
+    required this.laitue_ici,
+    required this.eau_devant,
+    required this.eau_ici,
+    required this.niveau_boisson,
     required this.tortoiseX,
     required this.tortoiseY,
     required this.tortoiseDirection,
   });
-
-
 }
