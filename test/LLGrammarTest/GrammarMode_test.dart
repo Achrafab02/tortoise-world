@@ -170,7 +170,24 @@ void main() {
       }
       var parser = Parser(token);
       parser.parse();
-      expect(parser.result, 'RIGHT');
+      expect(parser.result[0], 'RIGHT');
+    });
+
+test('Parsing input with if statement and else statement', () {
+      var lexer = Lexer("if capteur.libre_devant: return AVANCE else : return DROITE");
+      var model = GrammarModel(lexer);
+      var token = <Token>[];
+      while (true) {
+        token.add(model.lexer.getNextToken());
+        if (token.last.type == TokenType.EOF) {
+          break;
+        }
+      }
+      var parser = Parser(token);
+      parser.parse();
+      expect(parser.sensors['libre_devant'], true);
+      expect(parser.result[0], 'AVANCE');
+      expect(parser.result[1], 'DROITE');
     });
 
     test('Parsing input with laitue condition and else if condition', () {

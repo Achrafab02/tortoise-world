@@ -48,15 +48,18 @@ class Tortoise {
     this.worldMap = worldMap;
   }
 
-  String think(Map<String, bool> sensors, String action) {
+  String think(Map<String, bool> sensors, List<String> actions) {
     if (sensors['vide'] == true) {
-      return action;
+      return actions[0];
     }
     else if (sensors['libre_devant'] == getlibre_devant()) {
-      return action;
+      return actions[0];
+    }
+    else if (actions[0] == 'AVANCE' && !getlibre_devant()){
+      return actions[1];
     }
     else {
-      return 'stop';
+      return 'none';
     }
   }
   
@@ -68,6 +71,54 @@ class Tortoise {
     String ahead =worldMap[ypos + dy][xpos + dx];
     bool freeAhead = !['stone', 'wall'].contains(ahead);
     return freeAhead;
+  }
+
+  bool getlaitue_devant() {
+    List<int> directionXY= directionTable[direction];
+    int dx = directionXY[0];
+    int dy = directionXY[1];
+
+    String ahead =worldMap[ypos + dy][xpos + dx];
+    bool lettuceAhead = ahead == 'lettuce';
+    return lettuceAhead;
+  }
+
+  bool getlaitue_ici() {
+    String here = worldMap[ypos][xpos];
+    bool lettuceHere = here == 'lettuce';
+    return lettuceHere;
+  }
+
+  bool geteau_devant() {
+    List<int> directionXY= directionTable[direction];
+    int dx = directionXY[0];
+    int dy = directionXY[1];
+
+    String ahead =worldMap[ypos + dy][xpos + dx];
+    bool waterAhead = ahead == 'pond';
+    return waterAhead;
+  }
+
+  bool geteau_ici() {
+    String here = worldMap[ypos][xpos];
+    bool waterHere = here == 'pond';
+    return waterHere;
+  }
+
+  int getniveau_boisson() {
+    return drinkLevel;
+  }
+
+  int gettortoiseX() {
+    return xpos;
+  }
+
+  int gettortoiseY() {
+    return ypos;
+  }
+
+  int gettortoiseDirection() {
+    return direction;
   }
 
 
@@ -111,31 +162,31 @@ class Tortoise {
 
     print(action);
     switch (action) {
-      case 'LEFT':
+      case 'GAUCHE':
         direction = (direction - 1) % 4;
         drinkLevel=max(drinkLevel-1, 0);
 
 
         break;
-      case 'RIGHT':
+      case 'DROITE':
         direction = (direction + 1) % 4;
         drinkLevel=max(drinkLevel-1, 0);
 
 
         break;
-      case 'EAT':
+      case 'MANGE':
         if (sensor.laitue_ici) {
           worldMap[ypos][xpos] = 'ground';
           eaten=eaten+1;
         }
         break;
-      case 'DRINK':
+      case 'BOIT':
         if (sensor.eau_ici) {
           drinkLevel = MAX_DRINK;
         }
         break;
 
-      case 'FORWARD':
+      case 'AVANCE':
         xpos = xpos + dx;
         ypos = ypos + dy;
         if (!sensor.libre_devant) {
@@ -148,7 +199,7 @@ class Tortoise {
     }
     tortoiseImage = directionTortoiseImageTable[direction];
     if(eaten==lettuceCount){
-      print("you win");
+      print("Vous avez gagné!");
       action="stop";
       win=true;
 
@@ -156,10 +207,10 @@ class Tortoise {
     else if (drinkLevel<=0 || health<=0){
       win =false;
       if (drinkLevel<=0){
-        print("you died of thirst");
+        print("Vous êtes mort de soif!");
       }
       else{
-        print("you died of ill health");
+        print("Vous êtes mort de faim!");
 
       }
       action="stop";

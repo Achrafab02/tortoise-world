@@ -34,7 +34,7 @@ class Parser {
   };
 
 
-  String result = '';
+  List<String> result = [];
 
   bool match(TokenType type) {
     if (currentToken.type == type) {
@@ -175,7 +175,7 @@ class Parser {
     } else if (currentToken.type == TokenType.CONSTANT) {
       String Result = currentToken.lexeme;
       if (match(TokenType.CONSTANT)) {
-        result = Result;
+        result.add(Result);
       }
     }
   }
