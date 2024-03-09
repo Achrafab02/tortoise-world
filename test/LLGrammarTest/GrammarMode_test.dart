@@ -155,7 +155,7 @@ void main() {
       parser.parse();
       expect(parser.sensors['libre_devant'], true);
       expect(parser.sensors['laitue_devant'], false);
-      expect(parser.result, 'FORWARD');
+      expect(parser.result[0], 'FORWARD');
     });
 
     test('Parsing input with only return statement', () {
