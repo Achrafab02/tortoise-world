@@ -251,7 +251,7 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
       cumulativeTime+=1000;
       if(cumulativeTime>DELAY_IN_MS && tortoise.moveCount<=MAX_TIME && tortoise.action!="stop"){
         cumulativeTime=0;
-        tortoise.moveTortoise(presenter.tortoiseBrain.parser.result);
+        tortoise.moveTortoise(presenter.tortoise.think(presenter.tortoiseBrain.parser.sensors, presenter.tortoiseBrain.parser.result));
         tortoiseImage = "./assets/images/${tortoise.tortoiseImage}.gif";
         eaten = tortoise.eaten;
         score = tortoise.score;

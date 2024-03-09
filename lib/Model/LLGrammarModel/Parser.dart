@@ -1,4 +1,5 @@
 import 'Token.dart';
+import 'package:tortoise_world/Model/model.dart';
 /*
   *  LL(1) Grammar
   * S -> instruction S | ε
@@ -23,7 +24,15 @@ class Parser {
 
   Token get currentToken => tokens[currentTokenIndex];
 
-  List<String> sensor = [];
+  var sensors = {
+    'vide': true,
+    'libre_devant': false,
+    'laitue_devant': false,
+    'laitue_ici': false,
+    'eau_devant': false,
+    'eau_ici': false,
+  };
+
 
   String result = '';
 
@@ -84,7 +93,10 @@ class Parser {
         if (!match(TokenType.IDENTIFIER)) {
           throw Exception('Syntax error: expected identifier after dot');
         } else {
-          sensor.add(Sensor);
+          if (sensors.containsKey(Sensor)) {
+            sensors[Sensor] = true;
+            sensors['vide'] = false;
+          }
         }
       }
     } else if (match(TokenType.LPAREN)) {

@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-
+import 'package:tortoise_world/Model/LLGrammarModel/Parser.dart';
 import '../Presenter/LLGrammarPresenter/GrammarPresenter.dart';
 import '../View/utils.dart';
 import 'LLGrammarModel/Token.dart';
-import 'agent.dart';
+
+class TortoiseBrain {
+  late Parser parser;
+
+  void setParser(Parser parser) {
+    this.parser = parser;
+  }
+
+  
+
+}
+
+
 
 class Tortoise {
   bool update_current_place = false;
@@ -36,6 +48,28 @@ class Tortoise {
     this.worldMap = worldMap;
   }
 
+  String think(Map<String, bool> sensors, String action) {
+    if (sensors['vide'] == true) {
+      return action;
+    }
+    else if (sensors['libre_devant'] == getlibre_devant()) {
+      return action;
+    }
+    else {
+      return 'stop';
+    }
+  }
+  
+  bool getlibre_devant() {
+    List<int> directionXY= directionTable[direction];
+    int dx = directionXY[0];
+    int dy = directionXY[1];
+
+    String ahead =worldMap[ypos + dy][xpos + dx];
+    bool freeAhead = !['stone', 'wall'].contains(ahead);
+    return freeAhead;
+  }
+
 
   void updateLettuceCount(int count) {
     lettuceCount = count;
@@ -54,6 +88,14 @@ class Tortoise {
     bool lettuceHere = here == 'lettuce';
     bool waterAhead = ahead == 'pond';
     bool waterHere = here == 'pond';
+
+    var sensors = {
+      'libre_devant': freeAhead,
+      'laitue_devant': lettuceAhead,
+      'laitue_ici': lettuceHere,
+      'eau_devant': waterAhead,
+      'eau_ici': waterHere,
+    };
 
     Sensor sensor = Sensor(
       libre_devant: freeAhead,
@@ -82,13 +124,13 @@ class Tortoise {
 
         break;
       case 'EAT':
-        if (lettuceHere) {
+        if (sensor.laitue_ici) {
           worldMap[ypos][xpos] = 'ground';
           eaten=eaten+1;
         }
         break;
       case 'DRINK':
-        if (waterHere) {
+        if (sensor.eau_ici) {
           drinkLevel = MAX_DRINK;
         }
         break;
@@ -96,7 +138,7 @@ class Tortoise {
       case 'FORWARD':
         xpos = xpos + dx;
         ypos = ypos + dy;
-        if (!freeAhead) {
+        if (!sensor.libre_devant) {
           health=health-1;
           pain=true;
           drinkLevel=max(drinkLevel-2, 0);
