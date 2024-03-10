@@ -56,7 +56,7 @@ class _SplitScreenState extends State<SplitScreen> {
         Expanded(
           // Partie gauche de la fenêtre
           child: Container(
-            color: Colors.blueGrey[100],
+            color: Colors.lightBlue[100],
             padding: EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

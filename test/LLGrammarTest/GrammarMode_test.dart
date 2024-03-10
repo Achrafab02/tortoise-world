@@ -155,11 +155,11 @@ void main() {
       parser.parse();
       expect(parser.sensors['libre_devant'], true);
       expect(parser.sensors['laitue_devant'], false);
-      expect(parser.result[0], 'FORWARD');
+      expect(parser.result[0], 'AVANCE');
     });
 
     test('Parsing input with only return statement', () {
-      var lexer = Lexer("return RIGHT");
+      var lexer = Lexer("return DROITE");
       var model = GrammarModel(lexer);
       var token = <Token>[];
       while (true) {
@@ -170,7 +170,7 @@ void main() {
       }
       var parser = Parser(token);
       parser.parse();
-      expect(parser.result[0], 'RIGHT');
+      expect(parser.result[0], 'DROITE');
     });
 
 test('Parsing input with if statement and else statement', () {
@@ -223,6 +223,8 @@ test('Parsing input with if statement and else statement', () {
       }
       var parser = Parser(token);
       parser.parse();
+      expect(parser.sensors['eau_ici'], true);
+      expect(parser.result[0], 'BOIT');
     });
 
     test('Parsing input with random.choise', () {
