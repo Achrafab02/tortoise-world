@@ -142,7 +142,7 @@ void main() {
   group('Parser Tests', () {
     test('Parsing input with if statement', () {
       var lexer =
-      Lexer("if capteur.libre_devant: return FORWARD");
+      Lexer("if capteur.libre_devant: return AVANCE");
       var model = GrammarModel(lexer);
       var token = <Token>[];
       while (true) {
@@ -203,6 +203,11 @@ test('Parsing input with if statement and else statement', () {
       }
       var parser = Parser(token);
       parser.parse();
+      expect(parser.sensors['laitue_devant'], true);
+      expect(parser.sensors['laitue_ici'], true);
+      expect(parser.result[0], 'AVANCE');
+      expect(parser.result[1], 'MANGE');
+      expect(parser.result[2], 'DROITE');
     });
 
     test('Parsing input with niveau.boisson', () {

@@ -47,7 +47,7 @@ class Parser {
   void parse() {
     S();
     if (currentToken.type != TokenType.EOF) {
-      throw Exception('Syntax error');
+      throw Exception('faute de syntaxe');
     }
   }
 
@@ -62,19 +62,19 @@ class Parser {
     if (match(TokenType.IF)) {
       condition();
       if (!match(TokenType.COLON)) {
-        throw Exception('Syntax error: expected colon after condition');
+        throw Exception('Il faut un deux points après la condition');
       }
       S();
       if (match(TokenType.ELSE)) {
         if (match(TokenType.IF)) {
           condition();
           if (!match(TokenType.COLON)) {
-            throw Exception('Syntax error: expected colon after condition');
+            throw Exception('Il faut un deux points après la condition');
           }
           S();
         } else {
           if (!match(TokenType.COLON)) {
-            throw Exception('Syntax error: expected colon after else');
+            throw Exception('Il faut un deux points après else');
           }
           S();
         }
@@ -91,7 +91,7 @@ class Parser {
       if (match(TokenType.DOT)) {
         String Sensor = currentToken.lexeme;
         if (!match(TokenType.IDENTIFIER)) {
-          throw Exception('Syntax error: expected identifier after dot');
+          throw Exception('Il faut un identifiant après le point');
         } else {
           if (sensors.containsKey(Sensor)) {
             sensors[Sensor] = true;
@@ -102,12 +102,12 @@ class Parser {
     } else if (match(TokenType.LPAREN)) {
       condition();
       if (!match(TokenType.RPAREN)) {
-        throw Exception('Syntax error: expected right parenthesis');
+        throw Exception('Il faut une parenthèse fermante');
       }
     } else if (match(TokenType.LBRACKET)) {
       expression();
       if (!match(TokenType.RBRACKET)) {
-        throw Exception('Syntax error: expected right bracket');
+        throw Exception('Il faut un crochet fermant');
       }
     } else {
       condition();
@@ -127,7 +127,7 @@ class Parser {
 
     if (match(TokenType.DOT)) {
       if (!match(TokenType.IDENTIFIER)) {
-        throw Exception('Syntax error: expected identifier after dot');
+        throw Exception('Il faut un identifiant après le point');
       }
     }
   }
@@ -136,16 +136,16 @@ class Parser {
     if (match(TokenType.IDENTIFIER)) {
       if (match(TokenType.DOT)) {
         if (!match(TokenType.IDENTIFIER)) {
-          throw Exception('Syntax error: expected identifier after dot');
+          throw Exception('Il faut un identifiant après le point');
         }
         if (!match(TokenType.LPAREN)) {
           throw Exception(
-              'Syntax error: expected left parenthesis after identifier');
+              'Il faut une parenthèse ouvrante après l\'identifiant');
         }
         args();
         if (!match(TokenType.RPAREN)) {
           throw Exception(
-              'Syntax error: expected right parenthesis after arguments');
+              'Il faut une parenthèse fermante après les arguments');
         }
       }
     } else if (match(TokenType.RETURN)) {
@@ -155,12 +155,12 @@ class Parser {
         if (match(TokenType.IF)) {
           condition();
           if (!match(TokenType.COLON)) {
-            throw Exception('Syntax error: expected colon after condition');
+            throw Exception('Il faut un deux points après la condition');
           }
           S();
         } else {
           if (!match(TokenType.COLON)) {
-            throw Exception('Syntax error: expected colon after else');
+            throw Exception('Il faut un deux points après else');
           }
           S();
         }
@@ -200,7 +200,7 @@ class Parser {
     if (match(TokenType.IDENTIFIER)) {
       if (match(TokenType.DOT)) {
         if (!match(TokenType.IDENTIFIER)) {
-          throw Exception('Syntax error: expected identifier after dot');
+          throw Exception('Il faut un identifiant après le point');
         }
         if (match(TokenType.LPAREN) || match(TokenType.LBRACKET)) {
           arguments();
@@ -211,7 +211,7 @@ class Parser {
     } else if (match(TokenType.LPAREN)) {
       expression();
       if (!match(TokenType.RPAREN)) {
-        throw Exception('Syntax error: expected right parenthesis');
+        throw Exception('Il faut une parenthèse fermante après l\'expression');
       }
     }
   }
@@ -220,12 +220,12 @@ class Parser {
     if (match(TokenType.LPAREN)) {
       argList();
       if (!match(TokenType.RPAREN)) {
-        throw Exception('Syntax error: expected right parenthesis');
+        throw Exception('Il faut une parenthèse fermante après les arguments');
       }
     } else if (match(TokenType.LBRACKET)) {
       argList();
       if (!match(TokenType.RBRACKET) && !match(TokenType.RPAREN)) {
-        throw Exception('Syntax error: expected right bracket');
+        throw Exception('Il faut un crochet fermant ou une parenthèse fermante');
       }
     }
   }

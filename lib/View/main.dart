@@ -25,9 +25,7 @@ class SplitWindowApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Fenêtre divisée'),
-        ),
+
         body: SplitScreen(),
       ),
     );
@@ -42,7 +40,7 @@ GrammarPresenter presenter = GrammarPresenter();
 class _SplitScreenState extends State<SplitScreen> {
 
   String code = '';
-  bool isCodeExecuted = false;
+  bool isCodeExecuted = true;
 
   // Fonction pour arrêter l'exécution du code
   void _stopCodeExecution() {
@@ -97,18 +95,21 @@ class _SplitScreenState extends State<SplitScreen> {
                           }
                         }
                         var parser = Parser(token);
-                        parser.parse();
-                        presenter.setParser(parser);
-                        presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
-
-
-
-
-
-                        // Exécuter le code et mettre à jour la grille
-                        setState(() {
-                          isCodeExecuted = true;
-                        });
+                        bool hasError = false;
+                        try {
+                          parser.parse();
+                          presenter.setParser(parser);
+                        } catch (e) {
+                          showErrorDialog(context, e.toString().replaceFirst('Exception: ', ''));
+                          hasError = true;
+                        }
+                        if (!hasError) {
+                          presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
+                          // Exécuter le code et mettre à jour la grille
+                          setState(() {
+                            isCodeExecuted = true;
+                          });
+                        }
                       },
                       child: Text('Exécuter'),
                       style: ElevatedButton.styleFrom(
@@ -144,6 +145,29 @@ class _SplitScreenState extends State<SplitScreen> {
     );
   }
 }
+
+void showErrorDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Correction de code'),
+        content: Text('Vous devez corriger votre code: $message'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Fermer'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+
 
 class GameScreen extends StatefulWidget {
   @override
