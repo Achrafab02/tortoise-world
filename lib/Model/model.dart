@@ -48,18 +48,26 @@ class Tortoise {
     this.worldMap = worldMap;
   }
 
-  String think(Map<String, bool> sensors, List<String> actions) {
-    if (sensors['vide'] == true) {
-      return actions[0];
-    }
-    else if (sensors['libre_devant'] == getlibre_devant()) {
-      return actions[0];
-    }
-    else if (actions[0] == 'AVANCE' && !getlibre_devant()){
-      return actions[1];
-    }
-    else {
-      return 'none';
+  String think(Map<String, List<String>> _data) {
+    var sensors = {
+      'libre_devant': getlibre_devant(),
+      'laitue_devant': getlaitue_devant(),
+      'laitue_ici': getlaitue_ici(),
+      'eau_devant': geteau_devant(),
+      'eau_ici': geteau_ici(),
+      'niveau_boisson': getniveau_boisson(),
+      'tortoiseX': gettortoiseX(),
+      'tortoiseY': gettortoiseY(),
+      'tortoiseDirection': gettortoiseDirection(),
+    };
+    if (_data['libre_devant']!.isNotEmpty && getlibre_devant()) {
+      return _data['libre_devant']![0];
+    } else if (_data['choise']!.isNotEmpty) {
+        // return random.choise(_data['choise']);
+      var random = Random(DateTime.now().millisecondsSinceEpoch);
+      return _data['choise']![random.nextInt(_data['choise']!.length)];
+    } else {
+      return _data['vide']!.last;
     }
   }
   

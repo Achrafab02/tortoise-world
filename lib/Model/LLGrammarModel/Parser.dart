@@ -15,15 +15,48 @@ import 'package:tortoise_world/Model/model.dart';
   * arguments -> LPAREN argList RPAREN | LBRACKET argList (RBRACKET | RPAREN)
  */
 
+class ResultMap {
+  Map<String, List<String>> _data = {
+    'vide': [],
+  };
+
+  void add(String key, String value) {
+    if (!_data.containsKey(key)) {
+      _data[key] = [];
+    }
+    _data[key]?.add(value);
+  }
+
+  void addkey(String key) {
+    if (!_data.containsKey(key)) {
+      _data[key] = [];
+    }
+  }
+
+  Map<String, List<String>> get data => _data;
+
+
+
+  List<String> get(String key) {
+    return _data[key]!;
+  }
+}
+
 
 class Parser {
   final List<Token> tokens;
   int currentTokenIndex = 0;
 
+
   Parser(this.tokens);
 
   Token get currentToken => tokens[currentTokenIndex];
+  Token get lastToken => tokens[currentTokenIndex - 1];
 
+  ResultMap resultMap = ResultMap();
+
+
+  /*
   var sensors = {
     'vide': true,
     'libre_devant': false,
@@ -35,6 +68,8 @@ class Parser {
 
 
   List<String> result = [];
+
+   */
 
   bool match(TokenType type) {
     if (currentToken.type == type) {
@@ -93,10 +128,8 @@ class Parser {
         if (!match(TokenType.IDENTIFIER)) {
           throw Exception('Il faut un identifiant après le point');
         } else {
-          if (sensors.containsKey(Sensor)) {
-            sensors[Sensor] = true;
-            sensors['vide'] = false;
-          }
+          resultMap.addkey(Sensor);
+          resultMap.add('vide', Sensor);
         }
       }
     } else if (match(TokenType.LPAREN)) {
@@ -175,7 +208,8 @@ class Parser {
     } else if (currentToken.type == TokenType.CONSTANT) {
       String Result = currentToken.lexeme;
       if (match(TokenType.CONSTANT)) {
-        result.add(Result);
+        resultMap.add(resultMap._data.keys.last, Result);
+        resultMap.add('vide', Result);
       }
     }
   }
@@ -199,15 +233,19 @@ class Parser {
   void identifierOrConstant() {
     if (match(TokenType.IDENTIFIER)) {
       if (match(TokenType.DOT)) {
+        String Sensor = currentToken.lexeme;
         if (!match(TokenType.IDENTIFIER)) {
           throw Exception('Il faut un identifiant après le point');
         }
+        resultMap.addkey(Sensor);
         if (match(TokenType.LPAREN) || match(TokenType.LBRACKET)) {
           arguments();
         }
       }
     } else if (match(TokenType.CONSTANT)) {
-      return;
+      String Result = lastToken.lexeme;
+      resultMap.add(resultMap._data.keys.last, Result);
+      resultMap.add('vide', Result);
     } else if (match(TokenType.LPAREN)) {
       expression();
       if (!match(TokenType.RPAREN)) {

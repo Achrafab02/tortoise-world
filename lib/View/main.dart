@@ -38,6 +38,7 @@ class SplitScreen extends StatefulWidget {
 }
 GrammarPresenter presenter = GrammarPresenter();
 class _SplitScreenState extends State<SplitScreen> {
+  final GlobalKey<_GameScreenState> _gameScreenKey = GlobalKey<_GameScreenState>();
 
   String code = '';
   bool isCodeExecuted = true;
@@ -109,6 +110,8 @@ class _SplitScreenState extends State<SplitScreen> {
                           setState(() {
                             isCodeExecuted = true;
                           });
+                          // Réinitialiser l'état du GameScreen
+                          _gameScreenKey.currentState?.reinitialize();
                         }
                       },
                       child: Text('Exécuter'),
@@ -137,7 +140,7 @@ class _SplitScreenState extends State<SplitScreen> {
             color: Colors.lightGreen[100],
             padding: EdgeInsets.all(20.0),
             child: Center(
-              child: isCodeExecuted ? GameScreen() : Container(),
+              child: isCodeExecuted ? GameScreen(key: _gameScreenKey) : Container(),
             ),
           ),
         ),
@@ -145,6 +148,8 @@ class _SplitScreenState extends State<SplitScreen> {
     );
   }
 }
+
+
 
 void showErrorDialog(BuildContext context, String message) {
   showDialog(
@@ -170,11 +175,14 @@ void showErrorDialog(BuildContext context, String message) {
 
 
 class GameScreen extends StatefulWidget {
+  GameScreen({Key? key}) : super(key: key);
+
   @override
   _GameScreenState createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
+
   final int rows = 12;
   final int columns = 12;
   List<List<String>> worldMap = [];
@@ -186,6 +194,15 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int drinkLevel = MAX_DRINK;
   late Ticker _ticker;
   double cumulativeTime=0;
+
+  void reinitialize() {
+    setState(() {
+      // Réinitialiser la tortue
+      presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
+      _ticker = createTicker((elapsed) => _update(elapsed));
+      _ticker.start();
+    });
+  }
 
 
 
@@ -272,10 +289,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   void _update(Duration elapsed) {
     setState(() {
-      cumulativeTime+=1000;
+      cumulativeTime+=1500;
       if(cumulativeTime>DELAY_IN_MS && tortoise.moveCount<=MAX_TIME && tortoise.action!="stop"){
         cumulativeTime=0;
-        tortoise.moveTortoise(presenter.tortoise.think(presenter.tortoiseBrain.parser.sensors, presenter.tortoiseBrain.parser.result));
+        tortoise.moveTortoise(presenter.tortoise.think(presenter.tortoiseBrain.parser.resultMap.data));
         tortoiseImage = "./assets/images/${tortoise.tortoiseImage}.gif";
         eaten = tortoise.eaten;
         score = tortoise.score;
