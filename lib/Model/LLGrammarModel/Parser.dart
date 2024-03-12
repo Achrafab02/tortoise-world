@@ -18,6 +18,7 @@ import 'package:tortoise_world/Model/model.dart';
 class ResultMap {
   Map<String, List<String>> _data = {
     'vide': [],
+    'else': [],
   };
 
   void add(String key, String value) {
@@ -209,7 +210,7 @@ class Parser {
       String Result = currentToken.lexeme;
       if (match(TokenType.CONSTANT)) {
         resultMap.add(resultMap._data.keys.last, Result);
-        resultMap.add('vide', Result);
+        resultMap.add('else', Result);
       }
     }
   }
