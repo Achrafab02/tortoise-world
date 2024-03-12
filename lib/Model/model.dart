@@ -59,12 +59,13 @@ class Tortoise {
       'tortoiseY': gettortoiseY(),
       'tortoiseDirection': gettortoiseDirection(),
     };
-    if (_data.containsKey('libre_devant') && _data['libre_devant']!.isNotEmpty && getlibre_devant()) {
-      return _data['libre_devant']![0];
+
+    if (_data.containsKey('laitue_ici') && _data['laitue_ici']!.isNotEmpty && getlaitue_ici()) {
+      return _data['laitue_ici']![0];
     } else if (_data.containsKey('laitue_devant') && _data['laitue_devant']!.isNotEmpty && getlaitue_devant()) {
       return _data['laitue_devant']![0];
-    } else if (_data.containsKey('laitue_ici') && _data['laitue_ici']!.isNotEmpty && getlaitue_ici()) {
-      return _data['laitue_ici']![0];
+    } else if (_data.containsKey('libre_devant') && _data['libre_devant']!.isNotEmpty && getlibre_devant()) {
+      return _data['libre_devant']![0];
     } else if (_data.containsKey('eau_devant') && _data['eau_devant']!.isNotEmpty && geteau_devant()) {
       return _data['eau_devant']![0];
     } else if (_data.containsKey('eau_ici') && _data['eau_ici']!.isNotEmpty && geteau_ici()) {
@@ -73,7 +74,7 @@ class Tortoise {
         // return random.choise(_data['choise']);
       var random = Random(DateTime.now().millisecondsSinceEpoch);
       return _data['choise']![random.nextInt(_data['choise']!.length)];
-    } else if (_data['else']!.isNotEmpty && _data['else']!.length > 1) {
+    } else if (_data['else']!.isNotEmpty && _data['else']!.length > (_data.keys.length - 2)) {
       return _data['else']!.last;
     }
     return 'none';
