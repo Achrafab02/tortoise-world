@@ -38,10 +38,9 @@ class SplitScreen extends StatefulWidget {
 }
 GrammarPresenter presenter = GrammarPresenter();
 class _SplitScreenState extends State<SplitScreen> {
-  final GlobalKey<_GameScreenState> _gameScreenKey = GlobalKey<_GameScreenState>();
 
   String code = '';
-  bool isCodeExecuted = true;
+  bool isCodeExecuted = false;
 
   // Fonction pour arrêter l'exécution du code
   void _stopCodeExecution() {
@@ -57,7 +56,7 @@ class _SplitScreenState extends State<SplitScreen> {
         Expanded(
           // Partie gauche de la fenêtre
           child: Container(
-            color: Colors.lightBlue[100],
+            color: Colors.blueGrey[100],
             padding: EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -96,23 +95,18 @@ class _SplitScreenState extends State<SplitScreen> {
                           }
                         }
                         var parser = Parser(token);
-                        bool hasError = false;
-                        try {
-                          parser.parse();
-                          presenter.setParser(parser);
-                        } catch (e) {
-                          showErrorDialog(context, e.toString().replaceFirst('Exception: ', ''));
-                          hasError = true;
-                        }
-                        if (!hasError) {
-                          presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
-                          // Exécuter le code et mettre à jour la grille
-                          setState(() {
-                            isCodeExecuted = true;
-                          });
-                          // Réinitialiser l'état du GameScreen
-                          _gameScreenKey.currentState?.reinitialize();
-                        }
+                        parser.parse();
+                        presenter.setParser(parser);
+                        presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
+
+
+
+
+
+                        // Exécuter le code et mettre à jour la grille
+                        setState(() {
+                          isCodeExecuted = true;
+                        });
                       },
                       child: Text('Exécuter'),
                       style: ElevatedButton.styleFrom(
@@ -140,7 +134,7 @@ class _SplitScreenState extends State<SplitScreen> {
             color: Colors.lightGreen[100],
             padding: EdgeInsets.all(20.0),
             child: Center(
-              child: isCodeExecuted ? GameScreen(key: _gameScreenKey) : Container(),
+              child: isCodeExecuted ? GameScreen() : Text('Aucun code à exécuter, ou code arrêté'),
             ),
           ),
         ),
@@ -194,15 +188,6 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
   int drinkLevel = MAX_DRINK;
   late Ticker _ticker;
   double cumulativeTime=0;
-
-  void reinitialize() {
-    setState(() {
-      // Réinitialiser la tortue
-      presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
-      _ticker = createTicker((elapsed) => _update(elapsed));
-      _ticker.start();
-    });
-  }
 
 
 

@@ -48,18 +48,6 @@ class Tortoise {
   }
 
   String think(Map<String, List<String>> _data) {
-    var sensors = {
-      'libre_devant': getlibre_devant(),
-      'laitue_devant': getlaitue_devant(),
-      'laitue_ici': getlaitue_ici(),
-      'eau_devant': geteau_devant(),
-      'eau_ici': geteau_ici(),
-      'niveau_boisson': getniveau_boisson(),
-      'tortoiseX': gettortoiseX(),
-      'tortoiseY': gettortoiseY(),
-      'tortoiseDirection': gettortoiseDirection(),
-    };
-
     if (_data.containsKey('laitue_ici') && _data['laitue_ici']!.isNotEmpty && getlaitue_ici()) {
       return _data['laitue_ici']![0];
     } else if (_data.containsKey('laitue_devant') && _data['laitue_devant']!.isNotEmpty && getlaitue_devant()) {
