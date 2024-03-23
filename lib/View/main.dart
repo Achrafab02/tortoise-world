@@ -25,9 +25,7 @@ class SplitWindowApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Fenêtre divisée'),
-        ),
+
         body: SplitScreen(),
       ),
     );
@@ -40,6 +38,7 @@ class SplitScreen extends StatefulWidget {
 }
 GrammarPresenter presenter = GrammarPresenter();
 class _SplitScreenState extends State<SplitScreen> {
+  final GlobalKey<_GameScreenState> _gameScreenKey = GlobalKey<_GameScreenState>();
 
   String code = '';
   bool isCodeExecuted = false;
@@ -97,18 +96,23 @@ class _SplitScreenState extends State<SplitScreen> {
                           }
                         }
                         var parser = Parser(token);
+                        bool hasError = false;
+                        try {
+                          parser.parse();
+                          presenter.setParser(parser);
+                        } catch (e) {
+                          showErrorDialog(context, e.toString().replaceFirst('Exception: ', ''));
+                          hasError = true;
+                        }
+                        if (!hasError) {
+                          presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
+                          // Exécuter le code et mettre à jour la grille
+                          setState(() {
+                            isCodeExecuted = true;
+                          });
+                        }
                         parser.parse();
                         presenter.setParser(parser);
-                        presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
-
-
-
-
-
-                        // Exécuter le code et mettre à jour la grille
-                        setState(() {
-                          isCodeExecuted = true;
-                        });
                       },
                       child: Text('Exécuter'),
                       style: ElevatedButton.styleFrom(
@@ -136,7 +140,7 @@ class _SplitScreenState extends State<SplitScreen> {
             color: Colors.lightGreen[100],
             padding: EdgeInsets.all(20.0),
             child: Center(
-              child: isCodeExecuted ? GameScreen() : Container(),
+              child: isCodeExecuted ? GameScreen() : Text('Aucun code à exécuter, ou code arrêté'),
             ),
           ),
         ),
@@ -145,12 +149,40 @@ class _SplitScreenState extends State<SplitScreen> {
   }
 }
 
+
+
+void showErrorDialog(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Correction de code'),
+        content: Text('Vous devez corriger votre code: $message'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Fermer'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
+
+
 class GameScreen extends StatefulWidget {
+  GameScreen({Key? key}) : super(key: key);
+
   @override
   _GameScreenState createState() => _GameScreenState();
 }
 
 class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
+
   final int rows = 12;
   final int columns = 12;
   List<List<String>> worldMap = [];
@@ -248,10 +280,10 @@ class _GameScreenState extends State<GameScreen> with TickerProviderStateMixin {
 
   void _update(Duration elapsed) {
     setState(() {
-      cumulativeTime+=1000;
+      cumulativeTime+=1500;
       if(cumulativeTime>DELAY_IN_MS && tortoise.moveCount<=MAX_TIME && tortoise.action!="stop"){
         cumulativeTime=0;
-        tortoise.moveTortoise(presenter.tortoiseBrain.parser.result);
+        tortoise.moveTortoise(presenter.tortoise.think(presenter.tortoiseBrain.parser.resultMap.data));
         tortoiseImage = "./assets/images/${tortoise.tortoiseImage}.gif";
         eaten = tortoise.eaten;
         score = tortoise.score;

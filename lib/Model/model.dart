@@ -1,10 +1,21 @@
-import 'package:flutter/material.dart';
 import 'dart:math';
-
+import 'package:tortoise_world/Model/LLGrammarModel/Parser.dart';
 import '../Presenter/LLGrammarPresenter/GrammarPresenter.dart';
 import '../View/utils.dart';
 import 'LLGrammarModel/Token.dart';
-import 'agent.dart';
+
+class TortoiseBrain {
+  late Parser parser;
+
+  void setParser(Parser parser) {
+    this.parser = parser;
+  }
+
+  
+
+}
+
+
 
 class Tortoise {
   bool update_current_place = false;
@@ -36,6 +47,85 @@ class Tortoise {
     this.worldMap = worldMap;
   }
 
+  String think(Map<String, List<String>> _data) {
+    if (_data.containsKey('laitue_ici') && _data['laitue_ici']!.isNotEmpty && getlaitue_ici()) {
+      return _data['laitue_ici']![0];
+    } else if (_data.containsKey('laitue_devant') && _data['laitue_devant']!.isNotEmpty && getlaitue_devant()) {
+      return _data['laitue_devant']![0];
+    } else if (_data.containsKey('libre_devant') && _data['libre_devant']!.isNotEmpty && getlibre_devant()) {
+      return _data['libre_devant']![0];
+    } else if (_data.containsKey('eau_devant') && _data['eau_devant']!.isNotEmpty && geteau_devant()) {
+      return _data['eau_devant']![0];
+    } else if (_data.containsKey('eau_ici') && _data['eau_ici']!.isNotEmpty && geteau_ici()) {
+      return _data['eau_ici']![0];
+    } else if (_data.containsKey('choise') && _data['choise']!.isNotEmpty) {
+        // return random.choise(_data['choise']);
+      var random = Random(DateTime.now().millisecondsSinceEpoch);
+      return _data['choise']![random.nextInt(_data['choise']!.length)];
+    } else if (_data['else']!.isNotEmpty && _data['else']!.length > (_data.keys.length - 2)) {
+      return _data['else']!.last;
+    }
+    return 'none';
+  }
+  
+  bool getlibre_devant() {
+    List<int> directionXY= directionTable[direction];
+    int dx = directionXY[0];
+    int dy = directionXY[1];
+
+    String ahead =worldMap[ypos + dy][xpos + dx];
+    bool freeAhead = !['stone', 'wall'].contains(ahead);
+    return freeAhead;
+  }
+
+  bool getlaitue_devant() {
+    List<int> directionXY= directionTable[direction];
+    int dx = directionXY[0];
+    int dy = directionXY[1];
+
+    String ahead =worldMap[ypos + dy][xpos + dx];
+    bool lettuceAhead = ahead == 'lettuce';
+    return lettuceAhead;
+  }
+
+  bool getlaitue_ici() {
+    String here = worldMap[ypos][xpos];
+    bool lettuceHere = here == 'lettuce';
+    return lettuceHere;
+  }
+
+  bool geteau_devant() {
+    List<int> directionXY= directionTable[direction];
+    int dx = directionXY[0];
+    int dy = directionXY[1];
+
+    String ahead =worldMap[ypos + dy][xpos + dx];
+    bool waterAhead = ahead == 'pond';
+    return waterAhead;
+  }
+
+  bool geteau_ici() {
+    String here = worldMap[ypos][xpos];
+    bool waterHere = here == 'pond';
+    return waterHere;
+  }
+
+  int getniveau_boisson() {
+    return drinkLevel;
+  }
+
+  int gettortoiseX() {
+    return xpos;
+  }
+
+  int gettortoiseY() {
+    return ypos;
+  }
+
+  int gettortoiseDirection() {
+    return direction;
+  }
+
 
   void updateLettuceCount(int count) {
     lettuceCount = count;
@@ -55,6 +145,14 @@ class Tortoise {
     bool waterAhead = ahead == 'pond';
     bool waterHere = here == 'pond';
 
+    var sensors = {
+      'libre_devant': freeAhead,
+      'laitue_devant': lettuceAhead,
+      'laitue_ici': lettuceHere,
+      'eau_devant': waterAhead,
+      'eau_ici': waterHere,
+    };
+
     Sensor sensor = Sensor(
       libre_devant: freeAhead,
       laitue_devant: lettuceAhead,
@@ -69,34 +167,34 @@ class Tortoise {
 
     print(action);
     switch (action) {
-      case 'LEFT':
+      case 'GAUCHE':
         direction = (direction - 1) % 4;
         drinkLevel=max(drinkLevel-1, 0);
 
 
         break;
-      case 'RIGHT':
+      case 'DROITE':
         direction = (direction + 1) % 4;
         drinkLevel=max(drinkLevel-1, 0);
 
 
         break;
-      case 'EAT':
-        if (lettuceHere) {
+      case 'MANGE':
+        if (sensor.laitue_ici) {
           worldMap[ypos][xpos] = 'ground';
           eaten=eaten+1;
         }
         break;
-      case 'DRINK':
-        if (waterHere) {
+      case 'BOIT':
+        if (sensor.eau_ici) {
           drinkLevel = MAX_DRINK;
         }
         break;
 
-      case 'FORWARD':
+      case 'AVANCE':
         xpos = xpos + dx;
         ypos = ypos + dy;
-        if (!freeAhead) {
+        if (!sensor.libre_devant) {
           health=health-1;
           pain=true;
           drinkLevel=max(drinkLevel-2, 0);
@@ -106,7 +204,7 @@ class Tortoise {
     }
     tortoiseImage = directionTortoiseImageTable[direction];
     if(eaten==lettuceCount){
-      print("you win");
+      print("Vous avez gagné!");
       action="stop";
       win=true;
 
@@ -114,10 +212,10 @@ class Tortoise {
     else if (drinkLevel<=0 || health<=0){
       win =false;
       if (drinkLevel<=0){
-        print("you died of thirst");
+        print("Vous êtes mort de soif!");
       }
       else{
-        print("you died of ill health");
+        print("Vous êtes mort de faim!");
 
       }
       action="stop";

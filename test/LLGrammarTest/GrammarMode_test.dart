@@ -142,7 +142,7 @@ void main() {
   group('Parser Tests', () {
     test('Parsing input with if statement', () {
       var lexer =
-      Lexer("if capteur.libre_devant: return FORWARD");
+      Lexer("if capteur.libre_devant : return AVANCE");
       var model = GrammarModel(lexer);
       var token = <Token>[];
       while (true) {
@@ -153,8 +153,34 @@ void main() {
       }
       var parser = Parser(token);
       parser.parse();
-      expect(parser.sensor, ['libre_devant']);
-      expect(parser.result, 'FORWARD');
+    });
+
+    test('Parsing input with only return statement', () {
+      var lexer = Lexer("return DROITE");
+      var model = GrammarModel(lexer);
+      var token = <Token>[];
+      while (true) {
+        token.add(model.lexer.getNextToken());
+        if (token.last.type == TokenType.EOF) {
+          break;
+        }
+      }
+      var parser = Parser(token);
+      parser.parse();
+    });
+
+test('Parsing input with if statement and else statement', () {
+      var lexer = Lexer("if capteur.libre_devant: return AVANCE else : return random.choise([GAUCHE,DROITE])");
+      var model = GrammarModel(lexer);
+      var token = <Token>[];
+      while (true) {
+        token.add(model.lexer.getNextToken());
+        if (token.last.type == TokenType.EOF) {
+          break;
+        }
+      }
+      var parser = Parser(token);
+      parser.parse();
     });
 
     test('Parsing input with laitue condition and else if condition', () {
@@ -188,7 +214,7 @@ void main() {
     });
 
     test('Parsing input with random.choise', () {
-      var lexer = Lexer("return random.choise([GAUCE,DROITE])");
+      var lexer = Lexer("return random.choise([GAUCHE,DROITE])");
       var model = GrammarModel(lexer);
       var token = <Token>[];
       while (true) {
