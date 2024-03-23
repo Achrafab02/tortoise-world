@@ -38,6 +38,7 @@ class SplitScreen extends StatefulWidget {
 }
 GrammarPresenter presenter = GrammarPresenter();
 class _SplitScreenState extends State<SplitScreen> {
+  final GlobalKey<_GameScreenState> _gameScreenKey = GlobalKey<_GameScreenState>();
 
   String code = '';
   bool isCodeExecuted = false;
@@ -95,18 +96,23 @@ class _SplitScreenState extends State<SplitScreen> {
                           }
                         }
                         var parser = Parser(token);
+                        bool hasError = false;
+                        try {
+                          parser.parse();
+                          presenter.setParser(parser);
+                        } catch (e) {
+                          showErrorDialog(context, e.toString().replaceFirst('Exception: ', ''));
+                          hasError = true;
+                        }
+                        if (!hasError) {
+                          presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
+                          // Exécuter le code et mettre à jour la grille
+                          setState(() {
+                            isCodeExecuted = true;
+                          });
+                        }
                         parser.parse();
                         presenter.setParser(parser);
-                        presenter.tortoise = Tortoise(worldMap: presenter.tortoise.worldMap);
-
-
-
-
-
-                        // Exécuter le code et mettre à jour la grille
-                        setState(() {
-                          isCodeExecuted = true;
-                        });
                       },
                       child: Text('Exécuter'),
                       style: ElevatedButton.styleFrom(
