@@ -11,7 +11,6 @@ class TortoiseBrain {
     this.parser = parser;
   }
 
-  
 
 }
 
@@ -222,7 +221,7 @@ class Tortoise {
       pain =true;
 
     }
-    int score = eaten * 10 - moveCount ~/ 10;
+     score = eaten * 10 - moveCount ~/ 10;
   }
 
 
