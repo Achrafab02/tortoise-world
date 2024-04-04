@@ -130,7 +130,7 @@ class Tortoise {
     lettuceCount = count;
   }
 
-  void moveTortoise(String action) {
+  String moveTortoise(String action) {
     moveCount++;
     List<int> directionXY= directionTable[direction];
     int dx = directionXY[0];
@@ -203,25 +203,26 @@ class Tortoise {
     }
     tortoiseImage = directionTortoiseImageTable[direction];
     if(eaten==lettuceCount){
-      print("Vous avez gagné!");
       action="stop";
       win=true;
-
+      return "Vous avez gagné!";
     }
     else if (drinkLevel<=0 || health<=0){
       win =false;
       if (drinkLevel<=0){
-        print("Vous êtes mort de soif!");
+        return "Vous êtes mort de soif!";
       }
       else{
-        print("Vous êtes mort de faim!");
+        return "Vous êtes mort de faim!";
 
       }
       action="stop";
       pain =true;
 
+
     }
      score = eaten * 10 - moveCount ~/ 10;
+    return '';
   }
 
 
