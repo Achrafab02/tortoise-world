@@ -101,6 +101,11 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Container(
+                width: 300.0,
+                height: 300.0,
+                child: Image.asset('assets/images/logo.gif'),
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
