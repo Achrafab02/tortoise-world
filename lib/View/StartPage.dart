@@ -59,7 +59,7 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: Text('Instructions du jeu'),
+                      title: Text('Instructions du jeu :'),
                       content: Text('Bienvenue dans le monde de la tortue!\n'
                           'Le but du jeu est de déplacer la tortue sur la grille pour qu\'elle mange toutes les laitues. \n'
                           'La tortue peut se déplacer vers le haut, le bas, la gauche et la droite. \n'
@@ -95,7 +95,9 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
         ),
         backgroundColor: Colors.blueGrey,
       ),
-      body: Center(
+      body: Container(
+        color: Colors.white,
+        child: Center(
         child: Form(
           key: _formKey,
           child: Column(
@@ -185,6 +187,7 @@ class _StartPageState extends State<StartPage> with SingleTickerProviderStateMix
             ],
           ),
         ),
+        )
       ),
     );
   }
