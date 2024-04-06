@@ -1,1 +1,9 @@
 /.idea/
+pubspec.lock
+.dart_tool/
+coverage/
+/build/75efac685314314c5a51ff7b36a8d4b3/_composite.stamp
+/build/75efac685314314c5a51ff7b36a8d4b3/gen_dart_plugin_registrant.stamp
+/build/75efac685314314c5a51ff7b36a8d4b3/gen_localizations.stamp
+/build/flutter_assets/assets/images/logo.gif
+/build/461dc019dabf5ffbda3bd375e1b1771f.cache.dill.track.dill
