@@ -1,5 +1,4 @@
 import 'Token.dart';
-import 'package:tortoise_world/Model/model.dart';
 /*
   *  LL(1) Grammar
   * S -> instruction S | ε
@@ -16,7 +15,7 @@ import 'package:tortoise_world/Model/model.dart';
  */
 
 class ResultMap {
-  Map<String, List<String>> _data = {
+  final Map<String, List<String>> _data = {
     'vide': [],
     'else': [],
   };
@@ -36,26 +35,22 @@ class ResultMap {
 
   Map<String, List<String>> get data => _data;
 
-
-
   List<String> get(String key) {
     return _data[key]!;
   }
 }
 
-
 class Parser {
   final List<Token> tokens;
   int currentTokenIndex = 0;
 
-
   Parser(this.tokens);
 
   Token get currentToken => tokens[currentTokenIndex];
+
   Token get lastToken => tokens[currentTokenIndex - 1];
 
   ResultMap resultMap = ResultMap();
-
 
   /*
   var sensors = {
@@ -125,12 +120,12 @@ class Parser {
   void condition() {
     if (match(TokenType.IDENTIFIER)) {
       if (match(TokenType.DOT)) {
-        String Sensor = currentToken.lexeme;
+        String sensor = currentToken.lexeme;
         if (!match(TokenType.IDENTIFIER)) {
           throw Exception('Il faut un identifiant après le point');
         } else {
-          resultMap.addkey(Sensor);
-          resultMap.add('vide', Sensor);
+          resultMap.addkey(sensor);
+          resultMap.add('vide', sensor);
         }
       }
     } else if (match(TokenType.LPAREN)) {
@@ -151,11 +146,7 @@ class Parser {
       condition();
     }
 
-    if (match(TokenType.LESS) ||
-        match(TokenType.LESS_EQUAL) ||
-        match(TokenType.GREATER) ||
-        match(TokenType.GREATER_EQUAL) ||
-        match(TokenType.EQUAL)) {
+    if (match(TokenType.LESS) || match(TokenType.LESS_EQUAL) || match(TokenType.GREATER) || match(TokenType.GREATER_EQUAL) || match(TokenType.EQUAL)) {
       identifierOrConstant();
     }
 
@@ -173,13 +164,11 @@ class Parser {
           throw Exception('Il faut un identifiant après le point');
         }
         if (!match(TokenType.LPAREN)) {
-          throw Exception(
-              'Il faut une parenthèse ouvrante après l\'identifiant');
+          throw Exception('Il faut une parenthèse ouvrante après l\'identifiant');
         }
         args();
         if (!match(TokenType.RPAREN)) {
-          throw Exception(
-              'Il faut une parenthèse fermante après les arguments');
+          throw Exception('Il faut une parenthèse fermante après les arguments');
         }
       }
     } else if (match(TokenType.RETURN)) {
@@ -203,14 +192,13 @@ class Parser {
   }
 
   void args() {
-    if (currentToken.type == TokenType.IDENTIFIER ||
-        currentToken.type == TokenType.LPAREN) {
+    if (currentToken.type == TokenType.IDENTIFIER || currentToken.type == TokenType.LPAREN) {
       argList();
     } else if (currentToken.type == TokenType.CONSTANT) {
-      String Result = currentToken.lexeme;
+      String result = currentToken.lexeme;
       if (match(TokenType.CONSTANT)) {
-        resultMap.add(resultMap._data.keys.last, Result);
-        resultMap.add('else', Result);
+        resultMap.add(resultMap._data.keys.last, result);
+        resultMap.add('else', result);
       }
     }
   }
@@ -234,19 +222,19 @@ class Parser {
   void identifierOrConstant() {
     if (match(TokenType.IDENTIFIER)) {
       if (match(TokenType.DOT)) {
-        String Sensor = currentToken.lexeme;
+        String sensor = currentToken.lexeme;
         if (!match(TokenType.IDENTIFIER)) {
           throw Exception('Il faut un identifiant après le point');
         }
-        resultMap.addkey(Sensor);
+        resultMap.addkey(sensor);
         if (match(TokenType.LPAREN) || match(TokenType.LBRACKET)) {
           arguments();
         }
       }
     } else if (match(TokenType.CONSTANT)) {
-      String Result = lastToken.lexeme;
-      resultMap.add(resultMap._data.keys.last, Result);
-      resultMap.add('vide', Result);
+      String result = lastToken.lexeme;
+      resultMap.add(resultMap._data.keys.last, result);
+      resultMap.add('vide', result);
     } else if (match(TokenType.LPAREN)) {
       expression();
       if (!match(TokenType.RPAREN)) {

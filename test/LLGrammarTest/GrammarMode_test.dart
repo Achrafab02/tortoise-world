@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:tortoise_world/Model/LLGrammarModel/Lexer.dart';
-import 'package:tortoise_world/Model/LLGrammarModel/Parser.dart';
-import 'package:tortoise_world/Model/LLGrammarModel/Token.dart';
-import 'package:tortoise_world/Model/LLGrammarModel/GrammarModel.dart';
+import 'package:tortoise_world/model/LLGrammarModel/Lexer.dart';
+import 'package:tortoise_world/model/LLGrammarModel/Parser.dart';
+import 'package:tortoise_world/model/LLGrammarModel/Token.dart';
+import 'package:tortoise_world/model/LLGrammarModel/GrammarModel.dart';
 
 //generate rapports JUnit and coverage
 void main() {

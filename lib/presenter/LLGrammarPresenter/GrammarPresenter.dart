@@ -1,7 +1,7 @@
-import '../../Model/LLGrammarModel/GrammarModel.dart';
-import '../../Model/LLGrammarModel/Parser.dart';
-import '../../Model/LLGrammarModel/Token.dart';
-import '../../Model/model.dart';
+import '../../model/LLGrammarModel/GrammarModel.dart';
+import '../../model/LLGrammarModel/Parser.dart';
+import '../../model/LLGrammarModel/Token.dart';
+import '../../model/model.dart';
 
 class GrammarPresenter {
 
