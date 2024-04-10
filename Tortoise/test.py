@@ -1,2 +1,0 @@
-def think(capteur):
-re
