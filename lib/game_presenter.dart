@@ -1,16 +1,15 @@
 import 'package:flutter/scheduler.dart';
-import 'package:tortoise_world/editor/LLGrammar/Parser.dart';
-import 'package:tortoise_world/editor/LLGrammar/code_interpreter.dart';
+import 'package:tortoise_world/editor/interpreter.dart';
 import 'package:tortoise_world/editor/editor_view.dart';
 import 'package:tortoise_world/game/board_view.dart';
 import 'package:tortoise_world/game/tortoise_world.dart';
 
 class GamePresenter {
-  final TortoiseBrain tortoiseBrain = TortoiseBrain();
-  final CodeInterpreter _codeInterpreter = CodeInterpreter();
+  final Interpreter _codeInterpreter = Interpreter();
   late final Ticker _ticker;
   final TortoiseWorld tortoiseWorld = TortoiseWorld();
   double _cumulativeTime = 0;
+  EditorViewState? _editorViewState;
 
   GamePresenter();
 
@@ -22,7 +21,8 @@ class GamePresenter {
     _ticker.dispose();
   }
 
-  void start() {
+  void _start(EditorViewState editorViewState) {
+    _editorViewState = editorViewState;
     _ticker.start();
   }
 
@@ -32,39 +32,31 @@ class GamePresenter {
 
   void initializeWorldMap() => tortoiseWorld.initializeWorldMap();
 
-  void setCode(String code) {
-    _codeInterpreter.setCode(code);
-  }
-
-  void executeCode(EditorViewState editorViewState) {
-    Parser parser = _codeInterpreter.getParser();
-    tortoiseBrain.setParser(parser);
-    String? error = _codeInterpreter.parse(parser);
+  void executeCode(EditorViewState editorViewState, String code) {
+    String? error = _codeInterpreter.parse(code);
     if (error != null) {
       editorViewState.showErrorDialog(error.replaceFirst('Exception: ', ''));
     } else {
-      start();
+      _start(editorViewState);
     }
   }
 
-  void update(Duration elapsed, BoardViewState boardViewState) {
-    _cumulativeTime += 1500;
-    if (_cumulativeTime > DELAY_IN_MS && tortoiseWorld.moveCount <= MAX_TIME && tortoiseWorld.action != "stop") {
+  Future<void> update(Duration elapsed, BoardViewState boardViewState) async {
+    _cumulativeTime += 1500; // TODO Voir le ticker
+    if (_cumulativeTime > TortoiseWorld.delayInMs && tortoiseWorld.moveCount <= TortoiseWorld.maxTime) {
       _cumulativeTime = 0;
-      if (tortoiseBrain.parser == null) {
-        return;
-      }
-      MoveResultType result = tortoiseWorld.moveTortoise(_codeInterpreter.executeCode(tortoiseBrain.parser!.resultMap.data, tortoiseWorld));
+      var action = _codeInterpreter.executeCode(tortoiseWorld);
+      MoveResultType result = tortoiseWorld.moveTortoise(action);
       if (result == MoveResultType.diedOfThirsty) {
-        stop();
+        _editorViewState?.stopExecution();
         boardViewState.showResultDialog("Vous êtes mort de soif!");
       }
-
       if (result == MoveResultType.diedOfHunger) {
-        stop();
-        // TODO Ajouter le niveau de sante
+        _editorViewState?.stopExecution();
         boardViewState.showResultDialog("Vous êtes mort de faim!");
+        // TODO Ajouter le niveau de sante
       }
+      // IF Success -> stop sur une victoire
     }
   }
 }

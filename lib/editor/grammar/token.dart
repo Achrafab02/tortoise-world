@@ -1,15 +1,14 @@
 enum TokenType {
-  // Mots-clés
+  // Keywords
   IF,
-  ELSE,
   RETURN,
   AND,
   OR,
 
-  // Opérateurs
+  // Operators
   EQUAL,
 
-  // Parenthèses et ponctuation
+  // Punctuation and Parenthesis
   LPAREN,
   RPAREN,
   COLON,
@@ -18,20 +17,29 @@ enum TokenType {
   DOT,
   LBRACKET,
   RBRACKET,
-  LBRACE,
-  RBRACE,
 
-  // Identifiants et constantes
+  // Identifiers and constants
   IDENTIFIER,
   CONSTANT,
 
-  // Fin de fichier
-  EOF,
+  // Relational operators
   LESS_EQUAL,
   GREATER_EQUAL,
   GREATER,
   LESS,
+
+  // Others
+  EOF,
+
   RANDOM,
+  CHOICE,
+  SENSOR,
+  FREE_AHEAD,
+  LETTUCE_HERE,
+  LETTUCE_AHEAD,
+  WATER_AHEAD,
+  WATER_HERE,
+  DRINK_LEVEL
 }
 
 class Token {

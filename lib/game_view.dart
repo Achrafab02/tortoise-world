@@ -33,6 +33,7 @@ class _GameViewState extends State<GameView> {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('Instructions du jeu'),
+                    // TODO Changer pour ne garder que les actions et les capteurs
                     content: const Text(
                       'Bienvenue dans le monde de la tortue! \n'
                       '- Pour faire avancer la tortue, il faut que la case devant elle soit libre. on verifie cette condition avec le code suivant: \n'
@@ -79,7 +80,7 @@ class _GameViewState extends State<GameView> {
           children: [
             Expanded(
               child: Container(
-                alignment: Alignment.topCenter,
+                alignment: Alignment.center,
                 padding: const EdgeInsets.all(20.0),
                 child: BoardView(_gamePresenter),
               ),

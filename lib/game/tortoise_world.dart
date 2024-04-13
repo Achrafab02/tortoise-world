@@ -1,22 +1,12 @@
 import 'dart:math';
 
-import 'package:tortoise_world/editor/LLGrammar/Parser.dart';
-
-int MAX_DRINK = 100;
-int MAX_HEALTH = 100;
-int MAX_TIME = 5000;
-double DELAY_IN_MS = 1000;
-
-class TortoiseBrain {
-  // TODO dans une autre classe
-  Parser? parser;
-
-  void setParser(Parser parser) {
-    this.parser = parser;
-  }
-}
-
 class TortoiseWorld {
+  // TODO pouvoir changer la taille du tableau (avec un taille maximum)
+  static const int maxDrinkLevel = 100;
+  static const int maxHealthLevel = 100;
+  static const int maxTime = 5000;
+  static const double delayInMs = 1000;
+
   final int rows = 12;
   final int columns = 12;
   int _direction = 1;
@@ -29,16 +19,15 @@ class TortoiseWorld {
   ];
   int _xpos = 1;
   int _ypos = 1;
-  final List<List<CellType>> _worldMap = []; // TODO Faire un typedef
+  final List<List<CellType>> _worldMap = [];
   late String _tortoiseImage = "tortoise-east";
   final List<String> _directionTortoiseImageTable = ['tortoise-north', 'tortoise-east', 'tortoise-south', 'tortoise-west'];
-  int _drinkLevel = MAX_DRINK;
-  int _health = MAX_HEALTH;
+  int _drinkLevel = maxDrinkLevel;
+  int _health = maxHealthLevel;
   int _eaten = 0;
   late int _lettuceCount;
   int _score = 0;
   bool _win = false;
-  final String _action = 'none';
   int _moveCount = 0;
 
   TortoiseWorld();
@@ -53,18 +42,11 @@ class TortoiseWorld {
 
   get tortoiseImage => _tortoiseImage;
 
-  get action => _action;
-
   get xpos => _xpos;
 
   get ypos => _ypos;
 
-  List<List<CellType>> getWorldMap() {
-    return _worldMap;
-  }
-
   void initializeWorldMap() {
-    // TODO faire cette construction dans tortoise
     for (int i = 0; i < rows; i++) {
       List<CellType> rows = [];
       for (int j = 0; j < columns; j++) {
@@ -83,8 +65,7 @@ class TortoiseWorld {
         }
       }
     }
-    print("taille worldmap ${_worldMap.length}");
-    updateLettuceCount(countLettuce);
+    _lettuceCount = countLettuce;
   }
 
   CellType _selectTileType(int x, int y) {
@@ -114,10 +95,6 @@ class TortoiseWorld {
   }
 
   CellType getCellContent(int x, int y) => _worldMap[y][x];
-
-  void updateLettuceCount(int count) {
-    _lettuceCount = count;
-  }
 
   MoveResultType moveTortoise(String action) {
     _moveCount++;
@@ -161,22 +138,23 @@ class TortoiseWorld {
         break;
       case 'BOIT':
         if (sensor.isWaterHere) {
-          _drinkLevel = MAX_DRINK;
+          _drinkLevel = maxDrinkLevel;
         }
         break;
-
       case 'AVANCE':
-        _xpos = _xpos + dx;
-        _ypos = _ypos + dy;
+        // TODO pourquoi Wall n'est pas pris en compte ?
         if (!sensor.isFreeAhead) {
           _health = _health - 1;
           _drinkLevel = max(_drinkLevel - 2, 0);
+        } else {
+          _xpos = _xpos + dx;
+          _ypos = _ypos + dy;
         }
         break;
     }
     _tortoiseImage = _directionTortoiseImageTable[_direction];
     if (_eaten == _lettuceCount) {
-      action = "stop";
+      action = "stop"; // TODO plus utile si success est pris en compte dans update()
       _win = true;
       return MoveResultType.success;
     } else if (_drinkLevel <= 0 || _health <= 0) {

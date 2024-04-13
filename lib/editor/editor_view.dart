@@ -18,15 +18,14 @@ class EditorView extends StatefulWidget {
 
 class EditorViewState extends State<EditorView> {
   late final CodeController? _codeController;
-  bool isCodeExecuted = false;
+  bool _isRunning = false;
 
   @override
   void initState() {
     super.initState();
-    // Instantiate the CodeController
     _codeController = CodeController(
-      text: "",
       language: python,
+      params: const EditorParams(tabSpaces: 8),
     );
   }
 
@@ -56,45 +55,39 @@ class EditorViewState extends State<EditorView> {
           ),
         ),
         const SizedBox(height: 20.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                // TODO faire un seul bouton pour Execute et Stop
-                child: ElevatedButton(
-                  onPressed: () async {
-                    widget.gamePresenter.setCode(_codeController.text);
-                    widget.gamePresenter.executeCode(this);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.blueGrey,
-                  ),
-                  child: const Text('Exécuter'),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: _stopCodeExecution,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.blueGrey,
-                  ),
-                  child: const Text('Stop'),
-                ),
-              ),
-            ),
-          ],
+        ElevatedButton(
+          onPressed: () async {
+            if (_isRunning) {
+              stopExecution();
+            } else {
+              _startExecution();
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            fixedSize: const Size(150, 30),
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.blueGrey,
+          ),
+          child: _isRunning ? const Text("Stop") : const Text("Exécuter"),
         ),
       ],
     );
+  }
+
+  void _startExecution() {
+    if (_codeController != null) {
+      setState(() {
+        widget.gamePresenter.executeCode(this, _codeController.text);
+        _isRunning = true;
+      });
+    }
+  }
+
+  void stopExecution() {
+    setState(() {
+      _isRunning = false;
+      widget.gamePresenter.stop();
+    });
   }
 
   void showErrorDialog(String message) {
@@ -103,7 +96,7 @@ class EditorViewState extends State<EditorView> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Correction de code'),
-          content: Text('Vous devez corriger votre code: $message'),
+          content: Text('Vous devez corriger votre code : $message'),
           actions: <Widget>[
             TextButton(
               child: const Text('Fermer'),
@@ -115,12 +108,5 @@ class EditorViewState extends State<EditorView> {
         );
       },
     );
-  }
-
-  void _stopCodeExecution() {
-    setState(() {
-      isCodeExecuted = false;
-      widget.gamePresenter.stop();
-    });
   }
 }
