@@ -1,5 +1,4 @@
-import 'dart:math';
-
+import 'package:flutter/foundation.dart';
 import 'package:tortoise_world/editor/grammar/grammar.dart';
 import 'package:tortoise_world/game/tortoise_world.dart';
 
@@ -18,9 +17,9 @@ class Interpreter {
     // TODO -> Expression
     // TODO il suffit ensuite de faire expression. interperete(données d'execution)
     _code = code;
-    _parser = _tokenizeCode();
+    _parser = tokenizeCode(code);
     try {
-      _program = _parser!.parse1();
+      _program = _parser!.parse();
       print("** programme construit");
       return null;
     } catch (e) {
@@ -28,15 +27,10 @@ class Interpreter {
     }
   }
 
-  Parser _tokenizeCode() {
-    var lexer = Lexer(_code);
-    var token = <Token>[];
-    while (true) {
-      token.add(lexer.getNextToken());
-      if (token.last.type == TokenType.EOF) {
-        break;
-      }
-    }
+  @visibleForTesting
+  static Parser tokenizeCode(code) {
+    var lexer = Lexer(code);
+    List<Token> token = lexer.tokenizeCode();
     var parser = Parser(token);
     return parser;
   }

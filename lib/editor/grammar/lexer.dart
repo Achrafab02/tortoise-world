@@ -23,24 +23,30 @@ class Lexer {
       return Token(TokenType.AND, 'and');
     } else if (currentChar == 'o' && _matchKeyword('or')) {
       return Token(TokenType.OR, 'or');
-    } else if (currentChar == 'r' && _matchKeyword('random')) {
-      return Token(TokenType.RANDOM, 'random');
-    } else if (currentChar == 'c' && _matchKeyword('choice')) {
-      return Token(TokenType.CHOICE, 'choice');
-    } else if (currentChar == 'c' && _matchKeyword('capteur')) {
-      return Token(TokenType.SENSOR, 'capteur');
-    } else if (currentChar == 'l' && _matchKeyword('libre_devant')) {
-      return Token(TokenType.FREE_AHEAD, 'libre_devant');
-    }else if (currentChar == 'l' && _matchKeyword('laitue_devant')) {
-      return Token(TokenType.LETTUCE_AHEAD, 'laitue_devant');
-    }else if (currentChar == 'l' && _matchKeyword('laitue_ici')) {
-      return Token(TokenType.LETTUCE_HERE, 'laitue_ici');
-    }else if (currentChar == 'l' && _matchKeyword('eau_devant')) {
-      return Token(TokenType.WATER_AHEAD, 'eau_devant');
-    }else if (currentChar == 'l' && _matchKeyword('eau_ici')) {
-      return Token(TokenType.WATER_HERE, 'eau_ci');
-    }else if (currentChar == 'l' && _matchKeyword('niveau_eau')) {
-      return Token(TokenType.DRINK_LEVEL, 'niveau_eau');
+    } else if (currentChar == 'r' && _matchKeyword('random.choice')) {
+      return Token(TokenType.RANDOM, 'random.choice');
+    } else if (currentChar == 'c' && _matchKeyword('capteur.libre_devant')) {
+      return Token(TokenType.FREE_AHEAD, 'capteur.libre_devant');
+    } else if (currentChar == 'c' && _matchKeyword('capteur.laitue_devant')) {
+      return Token(TokenType.LETTUCE_AHEAD, 'capteur.laitue_devant');
+    } else if (currentChar == 'c' && _matchKeyword('capteur.laitue_ici')) {
+      return Token(TokenType.LETTUCE_HERE, 'capteur.laitue_ici');
+    } else if (currentChar == 'c' && _matchKeyword('capteur.eau_devant')) {
+      return Token(TokenType.WATER_AHEAD, 'capteur.eau_devant');
+    } else if (currentChar == 'c' && _matchKeyword('capteur.eau_ici')) {
+      return Token(TokenType.WATER_HERE, 'capteur.eau_ici');
+    } else if (currentChar == 'c' && _matchKeyword('capteur.niveau_boisson')) {
+      return Token(TokenType.DRINK_LEVEL, 'capteur.niveau_boisson');
+    } else if (currentChar == 'A' && _matchKeyword('AVANCE')) {
+      return Token(TokenType.FORWARD, 'AVANCE');
+    } else if (currentChar == 'D' && _matchKeyword('DROITE')) {
+      return Token(TokenType.RIGHT, 'DROITE');
+    } else if (currentChar == 'G' && _matchKeyword('GAUCHE')) {
+      return Token(TokenType.LEFT, 'GAUCHE');
+    } else if (currentChar == 'B' && _matchKeyword('BOIT')) {
+      return Token(TokenType.DRINK, 'BOIT');
+    } else if (currentChar == 'M' && _matchKeyword('MANGE')) {
+      return Token(TokenType.EAT, 'MANGE');
     }
 
     // Logical operators
@@ -98,13 +104,14 @@ class Lexer {
     }
 
     // Identifiers et constants
-    if (_isAlpha(currentChar)) {
+    if (_isDigit(currentChar)) {
+      var lexeme = _consumeWhile(_isDigit);
+      return Token(TokenType.INTEGER, lexeme);
+    } else if (_isAlpha(currentChar)) {
       var lexeme = _consumeWhile(_isAlphaNumeric);
       return Token(TokenType.IDENTIFIER, lexeme);
-    } else if (_isDigit(currentChar)) {
-      var lexeme = _consumeWhile(_isDigit);
-      return Token(TokenType.CONSTANT, lexeme);
     } else if (_isConstant(currentChar)) {
+      // TODO utile maintenant ?
       var lexeme = _consumeWhile(_isConstant);
       return Token(TokenType.CONSTANT, lexeme);
     }
@@ -146,4 +153,15 @@ class Lexer {
   bool _isDigit(String char) => char.compareTo('0') >= 0 && char.compareTo('9') <= 0;
 
   bool _isAlphaNumeric(String char) => _isAlpha(char) || _isDigit(char);
+
+  List<Token> tokenizeCode() {
+    var token = <Token>[];
+    while (true) {
+      token.add(getNextToken());
+      if (token.last.type == TokenType.EOF) {
+        break;
+      }
+    }
+    return token;
+  }
 }

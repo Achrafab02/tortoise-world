@@ -143,7 +143,7 @@ void main() {
         }
       }
       var parser = Parser(token);
-      parser.parse1();
+      parser.parse();
     });
 
     test('Parsing input with only return statement', () {
@@ -156,7 +156,7 @@ void main() {
         }
       }
       var parser = Parser(token);
-      parser.parse1();
+      parser.parse();
     });
 
 test('Parsing input with if statement and else statement', () {
@@ -169,7 +169,7 @@ test('Parsing input with if statement and else statement', () {
         }
       }
       var parser = Parser(token);
-      parser.parse1();
+      parser.parse();
     });
 
     test('Parsing input with laitue condition and else if condition', () {
@@ -183,7 +183,7 @@ test('Parsing input with if statement and else statement', () {
         }
       }
       var parser = Parser(token);
-      parser.parse1();
+      parser.parse();
     });
 
     test('Parsing input with niveau.boisson', () {
@@ -197,7 +197,7 @@ test('Parsing input with if statement and else statement', () {
         }
       }
       var parser = Parser(token);
-      parser.parse1();
+      parser.parse();
     });
 
     test('Parsing input with random.choise', () {
@@ -210,7 +210,7 @@ test('Parsing input with if statement and else statement', () {
         }
       }
       var parser = Parser(token);
-      parser.parse1();
+      parser.parse();
     });
 
     test('Parsing input with random.choise', () {
@@ -223,7 +223,7 @@ test('Parsing input with if statement and else statement', () {
         }
       }
       var parser = Parser(token);
-      parser.parse1();
+      parser.parse();
     });
   });
 }

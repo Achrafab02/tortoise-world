@@ -2,6 +2,7 @@ import 'package:tortoise_world/game/tortoise_world.dart';
 
 import 'token.dart';
 
+// Use Interpreter Design pattern
 abstract class Expression {
   dynamic result;
 

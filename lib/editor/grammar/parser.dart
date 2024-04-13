@@ -1,25 +1,26 @@
 import 'package:tortoise_world/editor/grammar/grammar.dart';
 
-import 'token.dart';
 /*
  * LL(1) Grammar
- * pg :: instruction pg | ε
- * instruction ::> ifExpression | returnExpression
- * returnExpression :: RETURN CONSTANT | RETURN RANDOM DOT CHOICE arrayExpression
- * arrayExpression :: [ argList ]
- * argList :: CONSTANT | CONSTANT COMA argList
- *
- * instruction -> IF condition COLON S | RETURN args | otherStatement
- * condition -> (IDENTIFIER DOT IDENTIFIER | LPAREN condition RPAREN | LBRACKET expression RBRACKET) (AND condition)? (OR condition)? (LESS | LESS_EQUAL | GREATER | GREATER_EQUAL | EQUAL) identifierOrConstant (DOT IDENTIFIER)?
- * otherStatement -> IDENTIFIER (DOT IDENTIFIER LPAREN args RPAREN)?
-               | RETURN args
-               | ELSE (IF condition COLON S | COLON S)?
- * args -> argList | CONSTANT
- * argList -> expression (COMMA argList | RPAREN | RBRACKET)
- * expression -> identifierOrConstant AND expression | identifierOrConstant
- * identifierOrConstant -> IDENTIFIER (DOT IDENTIFIER (LPAREN | LBRACKET)?)? | CONSTANT | LPAREN expression RPAREN
- * arguments -> LPAREN argList RPAREN | LBRACKET argList (RBRACKET | RPAREN)
+ * pg : instructionExpression pg
+ *    | ε
+ * instructionExpresion : ifExpression
+ *                      | returnExpression
+ * returnExpression : RETURN CONSTANT
+ *                  | RETURN RANDOM DOT CHOICE arrayExpression
+ * arrayExpression : [ argList ]
+ * argList : CONSTANT
+ *         | CONSTANT COMA argList
+ * ifExpression : IF conditionExpression COLON instructionExpression (TODO les tabulations)
+ * conditionExpression : sensorExpression
+ *                     | sensorExpression RELATION_OPERATOR INTEGER
+ *                     | LPAREN conditionExpression RPAREN
+ *                     | NOT conditionExpression
+ *                     | conditionExpression AND conditionExpression
+ *                     | conditionExpression OR conditionExpression
+ * sensorExpression: SENSOR DOT VALUE
  */
+import 'token.dart';
 
 // TODO refaire les TU
 class Parser {
@@ -32,9 +33,7 @@ class Parser {
 
   Token get lastToken => _tokens[currentTokenIndex - 1];
 
-  ResultMap resultMap = ResultMap();
-
-  Expression parse1() {
+  Expression parse() {
     return _pg();
   }
 
@@ -92,19 +91,13 @@ class Parser {
   Expression _randomExpression() {
     // expression:: random.choice([AVANCE]) or random.choice([AVANCE, DROITE])
     if (_match(TokenType.RANDOM)) {
-      if (_match(TokenType.DOT)) {
-        if (_match(TokenType.CHOICE)) {
-          if (_match(TokenType.LPAREN)) {
-            Expression argList1 = _arrayExpression();
-            if (_match(TokenType.RPAREN)) {
-              return argList1;
-            }
-          }
-          throw Exception("Manque la parenthèse fermante");
+      if (_match(TokenType.LPAREN)) {
+        Expression argList1 = _arrayExpression();
+        if (_match(TokenType.RPAREN)) {
+          return argList1;
         }
-        throw Exception("Manque choice après random");
       }
-      throw Exception("Manque un point après random");
+      throw Exception("Manque choice après random");
     }
     throw Exception("Ne devrait jamais arriver");
   }
@@ -139,96 +132,96 @@ class Parser {
 
   Expression _ifCondition() {
     throw Exception("Not implemented");
-    if (_match(TokenType.IDENTIFIER)) {
-      if (_match(TokenType.DOT)) {
-        String sensor = currentToken.lexeme;
-        if (!_match(TokenType.IDENTIFIER)) {
-          throw Exception('Il faut un identifiant après le point');
-        } else {
-          resultMap.addkey(sensor);
-          resultMap.add('vide', sensor);
-        }
-      }
-    } else if (_match(TokenType.LPAREN)) {
-      _ifCondition();
-      if (!_match(TokenType.RPAREN)) {
-        throw Exception('Il faut une parenthèse fermante');
-      }
-    } else if (_match(TokenType.LBRACKET)) {
-      expression();
-      if (!_match(TokenType.RBRACKET)) {
-        throw Exception('Il faut un crochet fermant');
-      }
-    } else {
-      _ifCondition();
-    }
-
-    if (_match(TokenType.AND) || _match(TokenType.OR)) {
-      _ifCondition();
-    }
-
-    if (_match(TokenType.LESS) || _match(TokenType.LESS_EQUAL) || _match(TokenType.GREATER) || _match(TokenType.GREATER_EQUAL) || _match(TokenType.EQUAL)) {
-      identifierOrConstant();
-    }
-
-    if (_match(TokenType.DOT)) {
-      if (!_match(TokenType.IDENTIFIER)) {
-        throw Exception('Il faut un identifiant après le point');
-      }
-    }
+    // if (_match(TokenType.IDENTIFIER)) {
+    //   if (_match(TokenType.DOT)) {
+    //     String sensor = currentToken.lexeme;
+    //     if (!_match(TokenType.IDENTIFIER)) {
+    //       throw Exception('Il faut un identifiant après le point');
+    //     } else {
+    //       // resultMap.addkey(sensor);
+    //       // resultMap.add('vide', sensor);
+    //     }
+    //   }
+    // } else if (_match(TokenType.LPAREN)) {
+    //   _ifCondition();
+    //   if (!_match(TokenType.RPAREN)) {
+    //     throw Exception('Il faut une parenthèse fermante');
+    //   }
+    // } else if (_match(TokenType.LBRACKET)) {
+    //   expression();
+    //   if (!_match(TokenType.RBRACKET)) {
+    //     throw Exception('Il faut un crochet fermant');
+    //   }
+    // } else {
+    //   _ifCondition();
+    // }
+    //
+    // if (_match(TokenType.AND) || _match(TokenType.OR)) {
+    //   _ifCondition();
+    // }
+    //
+    // if (_match(TokenType.LESS) || _match(TokenType.LESS_EQUAL) || _match(TokenType.GREATER) || _match(TokenType.GREATER_EQUAL) || _match(TokenType.EQUAL)) {
+    //   identifierOrConstant();
+    // }
+    //
+    // if (_match(TokenType.DOT)) {
+    //   if (!_match(TokenType.IDENTIFIER)) {
+    //     throw Exception('Il faut un identifiant après le point');
+    //   }
+    // }
   }
 
   Expression otherStatement() {
     throw Exception("Not implemented");
-    if (_match(TokenType.IDENTIFIER)) {
-      if (_match(TokenType.DOT)) {
-        if (!_match(TokenType.IDENTIFIER)) {
-          throw Exception('Il faut un identifiant après le point');
-        }
-        if (!_match(TokenType.LPAREN)) {
-          throw Exception('Il faut une parenthèse ouvrante après l\'identifiant');
-        }
-        _returnExpression();
-        if (!_match(TokenType.RPAREN)) {
-          throw Exception('Il faut une parenthèse fermante après les arguments');
-        }
-      }
-    } else if (_match(TokenType.RETURN)) {
-      _returnExpression();
-    }
+    // if (_match(TokenType.IDENTIFIER)) {
+    //   if (_match(TokenType.DOT)) {
+    //     if (!_match(TokenType.IDENTIFIER)) {
+    //       throw Exception('Il faut un identifiant après le point');
+    //     }
+    //     if (!_match(TokenType.LPAREN)) {
+    //       throw Exception('Il faut une parenthèse ouvrante après l\'identifiant');
+    //     }
+    //     _returnExpression();
+    //     if (!_match(TokenType.RPAREN)) {
+    //       throw Exception('Il faut une parenthèse fermante après les arguments');
+    //     }
+    //   }
+    // } else if (_match(TokenType.RETURN)) {
+    //   _returnExpression();
+    // }
   }
 
   Expression expression() {
     throw Exception("Not implemented");
-    identifierOrConstant();
-    if (_match(TokenType.AND)) {
-      expression();
-    }
+    // identifierOrConstant();
+    // if (_match(TokenType.AND)) {
+    //   expression();
+    // }
   }
 
   Expression identifierOrConstant() {
     throw Exception("Not implemented");
-    if (_match(TokenType.IDENTIFIER)) {
-      if (_match(TokenType.DOT)) {
-        String sensor = currentToken.lexeme;
-        if (!_match(TokenType.IDENTIFIER)) {
-          throw Exception('Il faut un identifiant après le point');
-        }
-        resultMap.addkey(sensor);
-        if (_match(TokenType.LPAREN) || _match(TokenType.LBRACKET)) {
-          arguments();
-        }
-      }
-    } else if (_match(TokenType.CONSTANT)) {
-      String result = lastToken.lexeme;
-      resultMap.add(resultMap._data.keys.last, result);
-      resultMap.add('vide', result);
-    } else if (_match(TokenType.LPAREN)) {
-      expression();
-      if (!_match(TokenType.RPAREN)) {
-        throw Exception('Il faut une parenthèse fermante après l\'expression');
-      }
-    }
+    // if (_match(TokenType.IDENTIFIER)) {
+    //   if (_match(TokenType.DOT)) {
+    //     String sensor = currentToken.lexeme;
+    //     if (!_match(TokenType.IDENTIFIER)) {
+    //       throw Exception('Il faut un identifiant après le point');
+    //     }
+    //     // resultMap.addkey(sensor);
+    //     if (_match(TokenType.LPAREN) || _match(TokenType.LBRACKET)) {
+    //       arguments();
+    //     }
+    //   }
+    // } else if (_match(TokenType.CONSTANT)) {
+    //   String result = lastToken.lexeme;
+    //   // resultMap.add(resultMap._data.keys.last, result);
+    //   // resultMap.add('vide', result);
+    // } else if (_match(TokenType.LPAREN)) {
+    //   expression();
+    //   if (!_match(TokenType.RPAREN)) {
+    //     throw Exception('Il faut une parenthèse fermante après l\'expression');
+    //   }
+    // }
   }
 
   Expression arguments() {
@@ -254,32 +247,6 @@ class Parser {
       return true;
     }
     return false;
-  }
-}
-
-class ResultMap {
-  final Map<String, List<String>> _data = {
-    'vide': [],
-    'else': [],
-  };
-
-  void add(String key, String value) {
-    if (!_data.containsKey(key)) {
-      _data[key] = [];
-    }
-    _data[key]?.add(value);
-  }
-
-  void addkey(String key) {
-    if (!_data.containsKey(key)) {
-      _data[key] = [];
-    }
-  }
-
-  Map<String, List<String>> get data => _data;
-
-  List<String> get(String key) {
-    return _data[key]!;
   }
 }
 

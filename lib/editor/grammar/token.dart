@@ -21,6 +21,7 @@ enum TokenType {
   // Identifiers and constants
   IDENTIFIER,
   CONSTANT,
+  INTEGER,
 
   // Relational operators
   LESS_EQUAL,
@@ -32,14 +33,20 @@ enum TokenType {
   EOF,
 
   RANDOM,
-  CHOICE,
-  SENSOR,
+
+  // Constants
   FREE_AHEAD,
   LETTUCE_HERE,
   LETTUCE_AHEAD,
   WATER_AHEAD,
   WATER_HERE,
-  DRINK_LEVEL
+  DRINK_LEVEL,
+
+  FORWARD,
+  LEFT,
+  RIGHT,
+  EAT,
+  DRINK
 }
 
 class Token {
