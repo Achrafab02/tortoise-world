@@ -28,18 +28,6 @@ abstract class NonTerminalExpression extends Expression {
   }
 }
 
-class ArgumentListExpression extends NonTerminalExpression {
-  ArgumentListExpression(super.expressions);
-
-  @override
-  String? interpret(TortoiseWorld tortoiseWorld) {
-    if (expressions[0].result) {
-      return expressions[1].result;
-    }
-    return null;
-  }
-}
-
 class ProgramExpression extends NonTerminalExpression {
   ProgramExpression(super.expressions);
 
@@ -60,8 +48,56 @@ class ProgramExpression extends NonTerminalExpression {
   }
 }
 
+class ArgumentListExpression extends NonTerminalExpression {
+  ArgumentListExpression(super.expressions);
+
+  @override
+  String? interpret(TortoiseWorld tortoiseWorld) {
+    if (expressions[0].result) {
+      return expressions[1].result;
+    }
+    return null;
+  }
+}
+
 class IfExpression extends NonTerminalExpression {
   IfExpression(super.expressions);
+
+  @override
+  String? interpret(TortoiseWorld tortoiseWorld) {
+    if (expressions[0].result) {
+      return expressions[1].result;
+    }
+    return null;
+  }
+}
+
+class OrConditionExpression extends NonTerminalExpression {
+  OrConditionExpression(super.expressions);
+
+  @override
+  String? interpret(TortoiseWorld tortoiseWorld) {
+    if (expressions[0].result) {
+      return expressions[1].result;
+    }
+    return null;
+  }
+}
+
+class AndConditionExpression extends NonTerminalExpression {
+  AndConditionExpression(super.expressions);
+
+  @override
+  String? interpret(TortoiseWorld tortoiseWorld) {
+    if (expressions[0].result) {
+      return expressions[1].result;
+    }
+    return null;
+  }
+}
+
+class ConditionExpression extends NonTerminalExpression {
+  ConditionExpression(super.expressions);
 
   @override
   String? interpret(TortoiseWorld tortoiseWorld) {
@@ -80,6 +116,20 @@ class ReturnExpression extends TerminalExpression {
   String? interpret(TortoiseWorld tortoiseWorld) {
     print("** ReturnExpression returns action=${action}");
     return action;
+  }
+}
+
+class ActionExpression extends TerminalExpression {
+  // AVANCE,
+  ActionExpression(super.token, super.action);
+
+  @override
+  dynamic interpret(TortoiseWorld tortoiseWorld) {
+    if (token.type == TokenType.DRINK_LEVEL) {
+      return tortoiseWorld.drinkLevel;
+    } else {
+      return null;
+    }
   }
 }
 
@@ -106,23 +156,14 @@ class BooleanSensorExpression extends TerminalExpression {
   }
 }
 
-class IntegerSensorExpression extends TerminalExpression {
-  // capteur.laitue_devant
-  IntegerSensorExpression(super.token, super.action);
+class RelationalConditionExpression extends TerminalExpression {
+  final String operator;
 
-  @override
-  dynamic interpret(TortoiseWorld tortoiseWorld) {
-    if (token.type == TokenType.DRINK_LEVEL) {
-      return tortoiseWorld.drinkLevel;
-    } else {
-      return null;
-    }
-  }
-}
-
-class ActionExpression extends TerminalExpression {
-  // AVANCE,
-  ActionExpression(super.token, super.action);
+  RelationalConditionExpression(
+    super.token,
+    this.operator,
+    super.action,
+  );
 
   @override
   dynamic interpret(TortoiseWorld tortoiseWorld) {

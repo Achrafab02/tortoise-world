@@ -19,6 +19,8 @@ class Lexer {
       return Token(TokenType.IF, 'if');
     } else if (currentChar == 'r' && _matchKeyword('return')) {
       return Token(TokenType.RETURN, 'return');
+    } else if (currentChar == 'n' && _matchKeyword('not')) {
+      return Token(TokenType.NOT, 'not');
     } else if (currentChar == 'a' && _matchKeyword('and')) {
       return Token(TokenType.AND, 'and');
     } else if (currentChar == 'o' && _matchKeyword('or')) {

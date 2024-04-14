@@ -4,9 +4,7 @@ enum TokenType {
   RETURN,
   AND,
   OR,
-
-  // Operators
-  EQUAL,
+  NOT,
 
   // Punctuation and Parenthesis
   LPAREN,
@@ -28,10 +26,11 @@ enum TokenType {
   GREATER_EQUAL,
   GREATER,
   LESS,
+  EQUAL,
+  NOT_EQUAL,
 
   // Others
   EOF,
-
   RANDOM,
 
   // Constants
@@ -41,7 +40,6 @@ enum TokenType {
   WATER_AHEAD,
   WATER_HERE,
   DRINK_LEVEL,
-
   FORWARD,
   LEFT,
   RIGHT,

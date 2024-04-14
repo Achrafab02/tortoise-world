@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tortoise_world/editor/grammar/lexer.dart';
 import 'package:tortoise_world/editor/grammar/token.dart';
 
-//generate rapports JUnit and coverage
 void main() {
   test('Tokenizing input with only return statement', () {
     var lexer = Lexer("return DROITE");
