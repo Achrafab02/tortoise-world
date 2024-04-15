@@ -1,28 +1,42 @@
 # LL(1) Grammar
 
 ```
-pg -> instr pg | ε 
-{  }
+  pg : instruction pg
+     | ε
+     
+  instruction : if_instruction
+              | return_instruction
+                       
+  return_instruction : RETURN CONSTANT
+                     | RETURN RANDOM array
+                   
+  array : [ argList ]
+  
+  arg_list : CONSTANT
+           | CONSTANT COMA arg_list
+          
+  if_instruction : IF condition COLON instruction
+  
+  condition : LPAREN condition RPAREN
+            | simple_condition AND condition
+            | simple_condition OR condition
+            | NOT simple_bondition
+                      
+  simple_ondition : sensor
+                   | DRINK_LEVEL RELATION_OPERATOR INTEGER
 
-instr -> IF condition COLON return | return | otherStatement
+  sensor: SENSOR DOT VALUE
+```
 
-return -> RETURN ACTION
-{ return.action = ACTION; }
+# Exemples d'instructions possibles
 
-condition -> (IDENTIFIER DOT IDENTIFIER | LPAREN condition RPAREN | LBRACKET expression RBRACKET) (AND condition)? (OR condition)? (LESS | LESS_EQUAL | GREATER | GREATER_EQUAL | EQUAL) identifierOrConstant (DOT IDENTIFIER)?
- { test condition }
- 
-otherStatement -> IDENTIFIER (DOT IDENTIFIER LPAREN args RPAREN)?
-  | RETURN args
-  | ELSE (IF condition COLON S | COLON S)?
-
-args -> argList | CONSTANT
-
-argList -> expression (COMMA argList | RPAREN | RBRACKET)
-
-expression -> identifierOrConstant AND expression | identifierOrConstant
-
-identifierOrConstant -> IDENTIFIER (DOT IDENTIFIER (LPAREN | LBRACKET)?)? | CONSTANT | LPAREN expression RPAREN
-
-arguments -> LPAREN argList RPAREN | LBRACKET argList (RBRACKET | RPAREN)
+```
+    return AVANCE
+    return random.choice([AVANCE, DROITE, GAUCHE])
+    if capteur.laitue_devant: return AVANCE
+    if capteur.niveau_boisson < 70: return BOIT
+    if capteur.laitue_ici: return MANGE
+    if capteur.eau_ici and capteur.niveau_boisson < 70: return BOIT
+    if (capteur.eau_ici and capteur.niveau_boisson < 70 and capteur.libre_devant): return BOIT
+    if not capteur.libre_devant: return random.choice([AVANCE, DROITE, GAUCHE])
 ```

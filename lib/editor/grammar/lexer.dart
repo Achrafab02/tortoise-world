@@ -12,7 +12,11 @@ class Lexer {
     if (_position >= _input.length) {
       return Token(TokenType.EOF, '');
     }
+    if (_matchKeyword("\n")) {
+      // return Token(TokenType.EOF, "\n");
+    }
     var currentChar = _input[_position];
+
 
     // keywords
     if (currentChar == 'i' && _matchKeyword('if')) {
@@ -21,9 +25,9 @@ class Lexer {
       return Token(TokenType.RETURN, 'return');
     } else if (currentChar == 'n' && _matchKeyword('not')) {
       return Token(TokenType.NOT, 'not');
-    } else if (currentChar == 'a' && _matchKeyword('and')) {
+    } else if ((currentChar == 'a' && _matchKeyword('and')) || (currentChar == 'A' && _matchKeyword('AND'))) {
       return Token(TokenType.AND, 'and');
-    } else if (currentChar == 'o' && _matchKeyword('or')) {
+    } else if ((currentChar == 'o' && _matchKeyword('or')) || (currentChar == 'O' && _matchKeyword('OR'))) {
       return Token(TokenType.OR, 'or');
     } else if (currentChar == 'r' && _matchKeyword('random.choice')) {
       return Token(TokenType.RANDOM, 'random.choice');
@@ -159,7 +163,9 @@ class Lexer {
   List<Token> tokenizeCode() {
     var token = <Token>[];
     while (true) {
-      token.add(getNextToken());
+      var nextToken = getNextToken();
+      print("-> ${nextToken.lexeme}");
+      token.add(nextToken);
       if (token.last.type == TokenType.EOF) {
         break;
       }

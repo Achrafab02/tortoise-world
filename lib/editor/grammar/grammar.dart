@@ -1,3 +1,5 @@
+import "dart:math" as math;
+
 import 'package:tortoise_world/game/tortoise_world.dart';
 
 import 'token.dart';
@@ -17,87 +19,75 @@ abstract class TerminalExpression extends Expression {
 }
 
 abstract class NonTerminalExpression extends Expression {
-  final List<Expression> _expressions;
+  final List<Expression> instructions;
 
-  NonTerminalExpression(this._expressions);
+  NonTerminalExpression(this.instructions);
 
-  List<Expression> get expressions => _expressions;
+  List<Expression> get expressions => instructions;
 
   void add(Expression expression) {
-    _expressions.add(expression);
+    instructions.insert(0, expression);
   }
 }
 
 class ProgramExpression extends NonTerminalExpression {
-  ProgramExpression(super.expressions);
+  ProgramExpression(super.instructions);
 
   @override
   String? interpret(TortoiseWorld tortoiseWorld) {
-    print("%% nombre expressions ${_expressions.length}");
-    if (_expressions.isNotEmpty) {
-      String? result = _expressions[0].interpret(tortoiseWorld);
+    for (var instruction in instructions) {
+      print("interpete ${instruction.runtimeType}");
+      String? result = instruction.interpret(tortoiseWorld);
       if (result != null) {
         return result;
       }
-      if (expressions.length > 1) {
-        return expressions[1].interpret(tortoiseWorld);
-      }
-    }
-    print("ERROR return null");
-    return null;
-  }
-}
-
-class ArgumentListExpression extends NonTerminalExpression {
-  ArgumentListExpression(super.expressions);
-
-  @override
-  String? interpret(TortoiseWorld tortoiseWorld) {
-    if (expressions[0].result) {
-      return expressions[1].result;
     }
     return null;
   }
 }
 
 class IfExpression extends NonTerminalExpression {
-  IfExpression(super.expressions);
+  IfExpression(super.instructions);
 
   @override
   String? interpret(TortoiseWorld tortoiseWorld) {
-    if (expressions[0].result) {
-      return expressions[1].result;
-    }
-    return null;
-  }
-}
-
-class OrConditionExpression extends NonTerminalExpression {
-  OrConditionExpression(super.expressions);
-
-  @override
-  String? interpret(TortoiseWorld tortoiseWorld) {
-    if (expressions[0].result) {
-      return expressions[1].result;
+    print("interprete if");
+    if (instructions.isNotEmpty) {
+      var conditionPart = instructions[0];
+      var thenPart = instructions[1];
+      print("Condition : ${conditionPart.interpret(tortoiseWorld)}");
+      if (conditionPart.interpret(tortoiseWorld)) {
+        return thenPart.interpret(tortoiseWorld);
+      }
     }
     return null;
   }
 }
 
 class AndConditionExpression extends NonTerminalExpression {
-  AndConditionExpression(super.expressions);
+  AndConditionExpression(super.instructions);
 
   @override
-  String? interpret(TortoiseWorld tortoiseWorld) {
-    if (expressions[0].result) {
-      return expressions[1].result;
-    }
-    return null;
+  bool? interpret(TortoiseWorld tortoiseWorld) {
+    var operand1 = expressions[0];
+    var operand2 = expressions[1];
+    return operand1.interpret(tortoiseWorld) && operand2.interpret(tortoiseWorld);
+  }
+}
+
+class OrConditionExpression extends NonTerminalExpression {
+  OrConditionExpression(super.instructions);
+
+  @override
+  bool? interpret(TortoiseWorld tortoiseWorld) {
+    var operand1 = expressions[0];
+    var operand2 = expressions[1];
+    return operand1.interpret(tortoiseWorld) || operand2.interpret(tortoiseWorld);
   }
 }
 
 class ConditionExpression extends NonTerminalExpression {
-  ConditionExpression(super.expressions);
+  ConditionExpression(super.instructions);
 
   @override
   String? interpret(TortoiseWorld tortoiseWorld) {
@@ -108,28 +98,50 @@ class ConditionExpression extends NonTerminalExpression {
   }
 }
 
-class ReturnExpression extends TerminalExpression {
+class ReturnExpression extends NonTerminalExpression {
   // TODO a quoi sert token ?
-  ReturnExpression(super.token, super.action);
+  ReturnExpression(super.instructions);
 
   @override
   String? interpret(TortoiseWorld tortoiseWorld) {
-    print("** ReturnExpression returns action=${action}");
-    return action;
+    final expression = expressions[0];
+    return expression.interpret(tortoiseWorld);
   }
 }
 
+/// AVANCE | DROITE | GAUCHE | MANGE | BOIT
 class ActionExpression extends TerminalExpression {
-  // AVANCE,
   ActionExpression(super.token, super.action);
 
   @override
   dynamic interpret(TortoiseWorld tortoiseWorld) {
-    if (token.type == TokenType.DRINK_LEVEL) {
-      return tortoiseWorld.drinkLevel;
-    } else {
-      return null;
+    return action;
+  }
+}
+
+/// random.choice([AVANCE, DROITE)]
+class RandomExpression extends TerminalExpression {
+  final List<ActionExpression> argList;
+
+  RandomExpression(super.token, super.action, this.argList);
+
+  @override
+  dynamic interpret(TortoiseWorld tortoiseWorld) {
+    var rng = math.Random();
+    var nextInt = rng.nextInt(argList.length);
+    return argList[nextInt].action;
+  }
+}
+
+class ArgumentListExpression extends NonTerminalExpression {
+  ArgumentListExpression(super.instructions);
+
+  @override
+  String? interpret(TortoiseWorld tortoiseWorld) {
+    if (expressions[0].result) {
+      return expressions[1].result;
     }
+    return null;
   }
 }
 
@@ -157,18 +169,34 @@ class BooleanSensorExpression extends TerminalExpression {
 }
 
 class RelationalConditionExpression extends TerminalExpression {
-  final String operator;
+  final String _operator;
 
-  RelationalConditionExpression(
-    super.token,
-    this.operator,
-    super.action,
-  );
+  RelationalConditionExpression(super.token, this._operator, super.action);
 
   @override
   dynamic interpret(TortoiseWorld tortoiseWorld) {
+    int value;
+    try {
+      value = int.parse(action);
+    } catch (e) {
+      return null;
+    }
     if (token.type == TokenType.DRINK_LEVEL) {
-      return tortoiseWorld.drinkLevel;
+      switch (_operator) {
+        case "<":
+          return tortoiseWorld.drinkLevel < value;
+        case ">":
+          return tortoiseWorld.drinkLevel > value;
+        case "<=":
+          return tortoiseWorld.drinkLevel <= value;
+        case ">=":
+          return tortoiseWorld.drinkLevel >= value;
+        case "==":
+          return tortoiseWorld.drinkLevel == value;
+        case "!=":
+          return tortoiseWorld.drinkLevel != value;
+      }
+      return null;
     } else {
       return null;
     }

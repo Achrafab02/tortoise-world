@@ -63,6 +63,38 @@ void main() {
     expect(token[9].type, TokenType.EOF);
   });
 
+  test('Tokenizing input with or operator', () {
+    var lexer = Lexer("if capteur.eau_ici OR capteur.niveau_boisson <= 70: return BOIT");
+    List<Token> token = lexer.tokenizeCode();
+    expect(token[0].type, TokenType.IF);
+    expect(token[1].type, TokenType.WATER_HERE);
+    expect(token[2].type, TokenType.OR);
+    expect(token[3].type, TokenType.DRINK_LEVEL);
+    expect(token[4].type, TokenType.LESS_EQUAL);
+    expect(token[5].type, TokenType.INTEGER);
+    expect(token[6].type, TokenType.COLON);
+    expect(token[7].type, TokenType.RETURN);
+    expect(token[8].type, TokenType.DRINK);
+    expect(token[9].type, TokenType.EOF);
+  });
+
+  test('Tokenizing input with parenthesis', () {
+    var lexer = Lexer("if (capteur.eau_ici or capteur.niveau_boisson == 70): return BOIT");
+    List<Token> token = lexer.tokenizeCode();
+    expect(token[0].type, TokenType.IF);
+    expect(token[1].type, TokenType.LPAREN);
+    expect(token[2].type, TokenType.WATER_HERE);
+    expect(token[3].type, TokenType.OR);
+    expect(token[4].type, TokenType.DRINK_LEVEL);
+    expect(token[5].type, TokenType.EQUAL);
+    expect(token[6].type, TokenType.INTEGER);
+    expect(token[7].type, TokenType.RPAREN);
+    expect(token[8].type, TokenType.COLON);
+    expect(token[9].type, TokenType.RETURN);
+    expect(token[10].type, TokenType.DRINK);
+    expect(token[11].type, TokenType.EOF);
+  });
+
   test('Tokenizing input with all actions', () {
     var lexer = Lexer("AVANCE DROITE GAUCHE MANGE BOIT");
     List<Token> token = lexer.tokenizeCode();

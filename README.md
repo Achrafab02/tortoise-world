@@ -9,7 +9,7 @@ Le protagoniste du jeu est une tortue équipée de capteurs lui permettant de re
 La tortue peut avancer, manger des feuilles de laitue et boire de l'eau en évitant les pierres.
 Chaque action effectuée par la tortue contribue à l'évolution d'un score.
 Le but ultime du joueur est d'obtenir le meilleur score possible en écrivant un programme dans
-un langage qui ets un sous-ensemble du Python.
+un langage qui est un sous-ensemble du Python.
 
 Le joueur doit programmer la tortue pour qu'elle se déplace de manière stratégique, prenne des décisions
 basées sur des conditions et utilise des boucles pour optimiser ses actions.
@@ -51,7 +51,6 @@ dont les valeurs peuvent être obtenues par les variables :
 ## Exemples d'instructions du langage
 
 ```python
-if capteur.libre_devant:
-    return AVANCE
-else:
-    return DROITE
+if capteur.libre_devant: return AVANCE
+return random.choice([DROITE, GAUCHE])
+```

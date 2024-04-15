@@ -3,55 +3,67 @@ import 'package:tortoise_world/editor/grammar/lexer.dart';
 import 'package:tortoise_world/editor/grammar/parser.dart';
 import 'package:tortoise_world/editor/grammar/token.dart';
 
-//generate rapports JUnit and coverage
 void main() {
-  test('Parsing input with if statement', () {
-    var lexer = Lexer("if capteur.libre_devant : return AVANCE");
-    List<Token> token = lexer.tokenizeCode();
-    var parser = Parser(token);
-    parser.parse();
-    // expect();
-  });
-
   test('Parsing input with only return statement', () {
     var lexer = Lexer("return DROITE");
     List<Token> token = lexer.tokenizeCode();
     var parser = Parser(token);
-    parser.parse();
+    expect(() => parser.parse(), returnsNormally);
   });
 
-  test('Parsing input with if statement and else statement', () {
-    var lexer = Lexer("if capteur.libre_devant: return AVANCE else : return random.choise([GAUCHE,DROITE])");
+  test('Parsing input with random.choice with 1 item', () {
+    var lexer = Lexer("return random.choice([GAUCHE])");
     List<Token> token = lexer.tokenizeCode();
     var parser = Parser(token);
-    parser.parse();
+    expect(() => parser.parse(), returnsNormally);
   });
 
-  test('Parsing input with laitue condition and else if condition', () {
-    var lexer = Lexer("if capteur.laitue_devant: return AVANCE else if capteur.laitue_ici: return MANGE else : return DROITE");
+  test('Parsing input with random.choice with 3 items', () {
+    var lexer = Lexer("return random.choice([AVANCE, DROITE,GAUCHE])");
     List<Token> token = lexer.tokenizeCode();
     var parser = Parser(token);
-    parser.parse();
+    expect(() => parser.parse(), returnsNormally);
   });
 
-  test('Parsing input with niveau.boisson', () {
-    var lexer = Lexer("if capteur.eau_ici and capteur.niveau.boisson <= 70: return BOIT");
+  test('Parsing input with if statement', () {
+    var lexer = Lexer("if capteur.libre_devant : return AVANCE");
     List<Token> token = lexer.tokenizeCode();
     var parser = Parser(token);
-    parser.parse();
+    expect(() => parser.parse(), returnsNormally);
   });
 
-  test('Parsing input with random.choise', () {
-    var lexer = Lexer("return random.choise([GAUCHE,DROITE])");
+  test('Parsing input with niveau boisson', () {
+    var lexer = Lexer("if capteur.niveau_boisson < 70: return BOIT");
     List<Token> token = lexer.tokenizeCode();
     var parser = Parser(token);
-    parser.parse();
+    expect(() => parser.parse(), returnsNormally);
   });
 
-  test('Parsing input with random.choise', () {
-    var lexer = Lexer("return random.choise([AVAVCE,DROITE,GAUCE])");
+  test('Parsing input with not', () {
+    var lexer = Lexer("if not capteur.eau_ici: return AVANCE");
     List<Token> token = lexer.tokenizeCode();
     var parser = Parser(token);
-    parser.parse();
+    expect(() => parser.parse(), returnsNormally);
+  });
+
+  test('Parsing input with and', () {
+    var lexer = Lexer("if capteur.eau_ici and capteur.niveau_boisson <= 70: return BOIT");
+    List<Token> token = lexer.tokenizeCode();
+    var parser = Parser(token);
+    expect(() => parser.parse(), returnsNormally);
+  });
+
+  test('Parsing input with 2 and', () {
+    var lexer = Lexer("if capteur.eau_ici and capteur.libre_devant and capteur.niveau_boisson <= 70: return BOIT");
+    List<Token> token = lexer.tokenizeCode();
+    var parser = Parser(token);
+    expect(() => parser.parse(), returnsNormally);
+  });
+
+  test('Parsing input with parenthesis', () {
+    var lexer = Lexer("if (capteur.eau_ici and capteur.niveau_boisson <= 70): return BOIT");
+    List<Token> token = lexer.tokenizeCode();
+    var parser = Parser(token);
+    expect(() => parser.parse(), returnsNormally);
   });
 }
