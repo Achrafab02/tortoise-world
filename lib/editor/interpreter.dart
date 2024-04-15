@@ -6,19 +6,24 @@ import 'grammar/lexer.dart';
 import 'grammar/parser.dart';
 import 'grammar/token.dart';
 
-// TODO utiliser le pattern Interpreteur pour construire une du programme
+/* Exemple de programme solution :
+if capteur.eau_ici and capteur.niveau_boisson < 70: return BOIT
+if capteur.eau_devant and capteur.niveau_boisson < 70: return AVANCE
+if capteur.laitue_ici: return MANGE
+if capteur.laitue_devant: return AVANCE
+if not capteur.libre_devant: return random.choice([DROITE, GAUCHE])
+return random.choice([AVANCE, AVANCE, AVANCE, DROITE, GAUCHE, AVANCE])
+*/
+
 class Interpreter {
   Parser? _parser;
   Expression? _program;
 
   String? parse(String code) {
-    // TODO construire la répresentation de la grammaire -> retourne les erreurs
-    // TODO -> Expression
-    // TODO il suffit ensuite de faire expression. interperete(données d'execution)
+    code = code.trim();
     _parser = tokenizeCode(code);
     try {
       _program = _parser!.parse();
-      print("** Programme construit..");
       return null;
     } catch (e) {
       return e.toString();
@@ -33,9 +38,6 @@ class Interpreter {
     return parser;
   }
 
-  // FIXME en fait ce n'est pas vraiment un interpréteur.
-  //       Ce n'est qu'un parser qui donne une analyse sommaire de la grammaire du code
-  //       -> Il faut entièrement faire l'interpréteur, ce code ne sert à pas grand chose
   String executeCode(TortoiseWorld tortoiseWorld) {
     return _program!.interpret(tortoiseWorld);
   }

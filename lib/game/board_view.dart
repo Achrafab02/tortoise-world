@@ -17,7 +17,7 @@ class BoardViewState extends State<BoardView> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    widget.gamePresenter.setBoard(ticker: createTicker((elapsed) => _update(elapsed)));
+    widget.gamePresenter.setBoard(ticker: createTicker((Duration elapsed) => _update(elapsed)));
     widget.gamePresenter.initializeWorldMap();
   }
 

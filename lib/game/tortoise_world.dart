@@ -7,9 +7,6 @@ class TortoiseWorld {
   static const int maxTime = 5000;
   static const double delayInMs = 1000;
 
-  final int rows = 12;
-  final int columns = 12;
-  int _direction = 1;
   final List<List<int>> _directionTable = [
     [0, -1],
     [1, 0],
@@ -17,18 +14,22 @@ class TortoiseWorld {
     [-1, 0],
     [0, 0],
   ];
-  int _xpos = 1;
-  int _ypos = 1;
-  final List<List<CellType>> _worldMap = [];
-  late String _tortoiseImage = "tortoise-east";
   final List<String> _directionTortoiseImageTable = ['tortoise-north', 'tortoise-east', 'tortoise-south', 'tortoise-west'];
-  int _drinkLevel = maxDrinkLevel;
-  int _health = maxHealthLevel;
-  int _eaten = 0;
+
+  final int rows = 12;
+  final int columns = 12;
+
+  late int _xpos;
+  late int _ypos;
+  late int _direction;
+  final List<List<CellType>> _worldMap = [];
+  late String _tortoiseImage;
+  late int _drinkLevel;
+  late int _health;
+  late int _eaten;
   late int _lettuceCount;
-  int _score = 0;
-  bool _win = false;
-  int _moveCount = 0;
+  late int _score;
+  late int _moveCount = 10; // To force draw a new tortoise world
 
   TortoiseWorld();
 
@@ -47,6 +48,19 @@ class TortoiseWorld {
   get ypos => _ypos;
 
   void initializeWorldMap() {
+    if (_moveCount == 0) {
+      return;
+    }
+    _xpos = 1;
+    _ypos = 1;
+    _direction = 1;
+    _tortoiseImage = "tortoise-east";
+    _drinkLevel = maxDrinkLevel;
+    _health = maxHealthLevel;
+    _eaten = 0;
+    _score = 0;
+    _moveCount = 0;
+
     for (int i = 0; i < rows; i++) {
       List<CellType> rows = [];
       for (int j = 0; j < columns; j++) {
@@ -65,6 +79,7 @@ class TortoiseWorld {
         }
       }
     }
+
     _lettuceCount = countLettuce;
   }
 
@@ -155,10 +170,8 @@ class TortoiseWorld {
     _tortoiseImage = _directionTortoiseImageTable[_direction];
     if (_eaten == _lettuceCount) {
       action = "stop"; // TODO plus utile si success est pris en compte dans update()
-      _win = true;
       return MoveResultType.success;
     } else if (_drinkLevel <= 0 || _health <= 0) {
-      _win = false;
       if (_drinkLevel <= 0) {
         return MoveResultType.diedOfThirsty;
       } else {

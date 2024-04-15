@@ -164,7 +164,6 @@ class Lexer {
     var token = <Token>[];
     while (true) {
       var nextToken = getNextToken();
-      print("-> ${nextToken.lexeme}");
       token.add(nextToken);
       if (token.last.type == TokenType.EOF) {
         break;

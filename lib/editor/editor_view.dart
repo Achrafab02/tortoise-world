@@ -1,16 +1,15 @@
 import 'package:code_text_field/code_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/themes/monokai-sublime.dart';
+import 'package:flutter_highlight/themes/dracula.dart';
 import 'package:highlight/languages/python.dart';
 import 'package:tortoise_world/game_presenter.dart';
 
 // TODO ajouter au-dessus de l'éditeur les instructions utiles (AVANCE et capteur.laiture_devant...)
-// TODO Utiliser le même bouton pour executer et pour stopper l'exécution.
 // TODO Ajouter l'analyse interactive du code et afficher les erreurs en soulignant l'endroit de l'erreur (puis tooltip avce le détail de l'erreur)
 class EditorView extends StatefulWidget {
-  final GamePresenter gamePresenter;
+  final GamePresenter _gamePresenter;
 
-  const EditorView(this.gamePresenter, {super.key});
+  const EditorView(this._gamePresenter, {super.key});
 
   @override
   EditorViewState createState() => EditorViewState();
@@ -18,6 +17,7 @@ class EditorView extends StatefulWidget {
 
 class EditorViewState extends State<EditorView> {
   late final CodeController? _codeController;
+  late FocusNode _focusNode;
   bool _isRunning = false;
 
   @override
@@ -27,6 +27,8 @@ class EditorViewState extends State<EditorView> {
       language: python,
       params: const EditorParams(tabSpaces: 8),
     );
+    _focusNode = FocusNode();
+    _focusNode.requestFocus();
   }
 
   @override
@@ -47,10 +49,12 @@ class EditorViewState extends State<EditorView> {
         const SizedBox(height: 20.0),
         Expanded(
           child: CodeTheme(
-            data: const CodeThemeData(styles: monokaiSublimeTheme),
+            data: const CodeThemeData(styles: draculaTheme),
             child: CodeField(
+              expands: true,
+              focusNode: _focusNode,
               controller: _codeController!,
-              textStyle: const TextStyle(fontFamily: 'SourceCode', fontSize: 24),
+              textStyle: const TextStyle(fontFamily: 'SourceCode', fontSize: 18),
             ),
           ),
         ),
@@ -77,7 +81,7 @@ class EditorViewState extends State<EditorView> {
   void _startExecution() {
     if (_codeController != null) {
       setState(() {
-        widget.gamePresenter.executeCode(this, _codeController.text);
+        widget._gamePresenter.executeCode(this, _codeController.text);
         _isRunning = true;
       });
     }
@@ -86,7 +90,7 @@ class EditorViewState extends State<EditorView> {
   void stopExecution() {
     setState(() {
       _isRunning = false;
-      widget.gamePresenter.stop();
+      widget._gamePresenter.stop();
     });
   }
 

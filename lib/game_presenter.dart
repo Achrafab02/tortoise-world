@@ -1,15 +1,16 @@
 import 'package:flutter/scheduler.dart';
-import 'package:tortoise_world/editor/interpreter.dart';
 import 'package:tortoise_world/editor/editor_view.dart';
+import 'package:tortoise_world/editor/interpreter.dart';
 import 'package:tortoise_world/game/board_view.dart';
 import 'package:tortoise_world/game/tortoise_world.dart';
 
 class GamePresenter {
   final Interpreter _codeInterpreter = Interpreter();
   late final Ticker _ticker;
-  final TortoiseWorld tortoiseWorld = TortoiseWorld();
   double _cumulativeTime = 0;
   EditorViewState? _editorViewState;
+
+  final TortoiseWorld tortoiseWorld = TortoiseWorld();
 
   GamePresenter();
 
@@ -33,6 +34,7 @@ class GamePresenter {
   void initializeWorldMap() => tortoiseWorld.initializeWorldMap();
 
   void executeCode(EditorViewState editorViewState, String code) {
+    initializeWorldMap();
     String? error = _codeInterpreter.parse(code);
     if (error != null) {
       editorViewState.showErrorDialog(error.replaceFirst('Exception: ', ''));
@@ -42,8 +44,9 @@ class GamePresenter {
   }
 
   Future<void> update(Duration elapsed, BoardViewState boardViewState) async {
-    _cumulativeTime += 1500; // TODO Voir le ticker
-    if (_cumulativeTime > TortoiseWorld.delayInMs && tortoiseWorld.moveCount <= TortoiseWorld.maxTime) {
+    // _cumulativeTime += 500;
+    // if (_cumulativeTime > TortoiseWorld.delayInMs && tortoiseWorld.moveCount <= TortoiseWorld.maxTime) {
+    if (tortoiseWorld.moveCount <= TortoiseWorld.maxTime) {
       _cumulativeTime = 0;
       var action = _codeInterpreter.executeCode(tortoiseWorld);
       MoveResultType result = tortoiseWorld.moveTortoise(action);
@@ -55,8 +58,10 @@ class GamePresenter {
         _editorViewState?.stopExecution();
         boardViewState.showResultDialog("Vous êtes mort de faim!");
         // TODO Ajouter le niveau de sante
+      } else if (result == MoveResultType.success) {
+        _editorViewState?.stopExecution();
+        boardViewState.showResultDialog("Bravo, vous avez gagné");
       }
-      // IF Success -> stop sur une victoire
     }
   }
 }

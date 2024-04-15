@@ -88,7 +88,7 @@ void main() {
     TortoiseWorld tortoiseWorld = TortoiseWorldMock();
     when(() => tortoiseWorld.drinkLevel).thenReturn(100);
     when(() => tortoiseWorld.isWaterHere()).thenReturn(true);
-    var lexer = Lexer("if (capteur.eau_ici and capteur.niveau_boisson < 70): return BOIT");
+    var lexer = Lexer("if capteur.eau_ici and capteur.niveau_boisson < 70: return BOIT");
     List<Token> token = lexer.tokenizeCode();
     var parser = Parser(token);
     var program = parser.parse();
@@ -129,5 +129,27 @@ void main() {
     var program = parser.parse();
     String action = program.interpret(tortoiseWorld);
     expect(action, "DROITE");
+  });
+
+  test('Execute input with if not false', () {
+    TortoiseWorld tortoiseWorld = TortoiseWorldMock();
+    when(() => tortoiseWorld.isFreeAhead()).thenReturn(false);
+    var lexer = Lexer("if not capteur.libre_devant: return random.choice([DROITE, DROITE])");
+    List<Token> token = lexer.tokenizeCode();
+    var parser = Parser(token);
+    var program = parser.parse();
+    String? action = program.interpret(tortoiseWorld);
+    expect(action, "DROITE");
+  });
+
+  test('Execute input with if not true', () {
+    TortoiseWorld tortoiseWorld = TortoiseWorldMock();
+    when(() => tortoiseWorld.isFreeAhead()).thenReturn(true);
+    var lexer = Lexer("if not capteur.libre_devant: return random.choice([DROITE, DROITE])");
+    List<Token> token = lexer.tokenizeCode();
+    var parser = Parser(token);
+    var program = parser.parse();
+    String? action = program.interpret(tortoiseWorld);
+    expect(action, null);
   });
 }

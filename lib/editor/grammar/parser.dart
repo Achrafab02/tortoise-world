@@ -151,8 +151,7 @@ class Parser {
       throw Exception("Parenthèse fermante manquante");
     } else if (_match(TokenType.NOT)) {
       var conditionSimple = _conditionSimple();
-      var not = BooleanSensorExpression(currentToken, "not");
-      return ConditionExpression([not, conditionSimple]);
+      return NotConditionExpression([conditionSimple]);
     } else {
       var simpleCondition = _conditionSimple();
       if (_match(TokenType.AND)) {

@@ -36,7 +36,6 @@ class ProgramExpression extends NonTerminalExpression {
   @override
   String? interpret(TortoiseWorld tortoiseWorld) {
     for (var instruction in instructions) {
-      print("interpete ${instruction.runtimeType}");
       String? result = instruction.interpret(tortoiseWorld);
       if (result != null) {
         return result;
@@ -51,16 +50,24 @@ class IfExpression extends NonTerminalExpression {
 
   @override
   String? interpret(TortoiseWorld tortoiseWorld) {
-    print("interprete if");
     if (instructions.isNotEmpty) {
       var conditionPart = instructions[0];
       var thenPart = instructions[1];
-      print("Condition : ${conditionPart.interpret(tortoiseWorld)}");
       if (conditionPart.interpret(tortoiseWorld)) {
         return thenPart.interpret(tortoiseWorld);
       }
     }
     return null;
+  }
+}
+
+class NotConditionExpression extends NonTerminalExpression {
+  NotConditionExpression(super.instructions);
+
+  @override
+  bool? interpret(TortoiseWorld tortoiseWorld) {
+    var condition = expressions[0];
+    return !condition.interpret(tortoiseWorld);
   }
 }
 
