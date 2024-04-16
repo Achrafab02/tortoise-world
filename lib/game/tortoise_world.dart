@@ -1,7 +1,7 @@
 import 'dart:math';
 
 class TortoiseWorld {
-  // TODO pouvoir changer la taille du tableau (avec un taille maximum)
+  // TODO pouvoir changer la taille du tableau (avec un taille maximum -> faire une jauge)
   static const int maxDrinkLevel = 100;
   static const int maxHealthLevel = 100;
   static const int maxTime = 5000;
@@ -19,17 +19,17 @@ class TortoiseWorld {
   final int rows = 12;
   final int columns = 12;
 
-  late int _xpos;
-  late int _ypos;
-  late int _direction;
   final List<List<CellType>> _worldMap = [];
+  late int _xPos;
+  late int _yPos;
+  late int _direction;
   late String _tortoiseImage;
   late int _drinkLevel;
   late int _health;
   late int _eaten;
   late int _lettuceCount;
   late int _score;
-  late int _moveCount = 10; // To force draw a new tortoise world
+  late int _moveCount = 10; // Positive value to force to redraw a new tortoise world at inception
 
   TortoiseWorld();
 
@@ -43,16 +43,16 @@ class TortoiseWorld {
 
   get tortoiseImage => _tortoiseImage;
 
-  get xpos => _xpos;
+  get xpos => _xPos;
 
-  get ypos => _ypos;
+  get ypos => _yPos;
 
   void initializeWorldMap() {
     if (_moveCount == 0) {
       return;
     }
-    _xpos = 1;
-    _ypos = 1;
+    _xPos = 1;
+    _yPos = 1;
     _direction = 1;
     _tortoiseImage = "tortoise-east";
     _drinkLevel = maxDrinkLevel;
@@ -117,8 +117,8 @@ class TortoiseWorld {
     int dx = directionXY[0];
     int dy = directionXY[1];
 
-    CellType ahead = _worldMap[_ypos + dy][_xpos + dx];
-    CellType here = _worldMap[_ypos][_xpos];
+    CellType ahead = _worldMap[_yPos + dy][_xPos + dx];
+    CellType here = _worldMap[_yPos][_xPos];
     bool freeAhead = ![CellType.stone, CellType.wall].contains(ahead);
     bool lettuceAhead = ahead == CellType.lettuce;
     bool lettuceHere = here == CellType.lettuce;
@@ -132,8 +132,8 @@ class TortoiseWorld {
       isWaterAhead: waterAhead,
       isWaterHere: waterHere,
       drinkLevel: _drinkLevel,
-      tortoiseX: _xpos,
-      tortoiseY: _ypos,
+      tortoiseX: _xPos,
+      tortoiseY: _yPos,
       tortoiseDirection: _direction,
     );
     switch (action) {
@@ -147,7 +147,7 @@ class TortoiseWorld {
         break;
       case 'MANGE':
         if (sensor.isLettuceHere) {
-          _worldMap[_ypos][_xpos] = CellType.ground;
+          _worldMap[_yPos][_xPos] = CellType.ground;
           _eaten = _eaten + 1;
         }
         break;
@@ -157,19 +157,17 @@ class TortoiseWorld {
         }
         break;
       case 'AVANCE':
-        // TODO pourquoi Wall n'est pas pris en compte ?
         if (!sensor.isFreeAhead) {
           _health = _health - 1;
           _drinkLevel = max(_drinkLevel - 2, 0);
         } else {
-          _xpos = _xpos + dx;
-          _ypos = _ypos + dy;
+          _xPos = _xPos + dx;
+          _yPos = _yPos + dy;
         }
         break;
     }
     _tortoiseImage = _directionTortoiseImageTable[_direction];
     if (_eaten == _lettuceCount) {
-      action = "stop"; // TODO plus utile si success est pris en compte dans update()
       return MoveResultType.success;
     } else if (_drinkLevel <= 0 || _health <= 0) {
       if (_drinkLevel <= 0) {
@@ -186,7 +184,7 @@ class TortoiseWorld {
     List<int> directionXY = _directionTable[_direction];
     int dx = directionXY[0];
     int dy = directionXY[1];
-    CellType ahead = _worldMap[_ypos + dy][_xpos + dx];
+    CellType ahead = _worldMap[_yPos + dy][_xPos + dx];
     return ![CellType.stone, CellType.wall].contains(ahead);
   }
 
@@ -195,12 +193,12 @@ class TortoiseWorld {
     int dx = directionXY[0];
     int dy = directionXY[1];
 
-    CellType ahead = _worldMap[_ypos + dy][_xpos + dx];
+    CellType ahead = _worldMap[_yPos + dy][_xPos + dx];
     return ahead == CellType.lettuce;
   }
 
   bool isLettuceHere() {
-    CellType here = _worldMap[_ypos][_xpos];
+    CellType here = _worldMap[_yPos][_xPos];
     return here == CellType.lettuce;
   }
 
@@ -209,12 +207,12 @@ class TortoiseWorld {
     int dx = directionXY[0];
     int dy = directionXY[1];
 
-    CellType ahead = _worldMap[_ypos + dy][_xpos + dx];
+    CellType ahead = _worldMap[_yPos + dy][_xPos + dx];
     return ahead == CellType.pond;
   }
 
   bool isWaterHere() {
-    CellType here = _worldMap[_ypos][_xpos];
+    CellType here = _worldMap[_yPos][_xPos];
     return here == CellType.pond;
   }
 }

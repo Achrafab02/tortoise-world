@@ -4,6 +4,14 @@ import 'package:tortoise_world/editor/grammar/parser.dart';
 import 'package:tortoise_world/editor/grammar/token.dart';
 
 void main() {
+  test('test isAction false', () {
+    expect(Parser.isAction(TokenType.DRINK_LEVEL), false);
+  });
+
+  test('test isAction true', () {
+    expect(Parser.isAction(TokenType.FORWARD), true);
+  });
+
   test('Parsing input with only return statement', () {
     var lexer = Lexer("return DROITE");
     List<Token> token = lexer.tokenizeCode();

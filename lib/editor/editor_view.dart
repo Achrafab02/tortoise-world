@@ -1,6 +1,6 @@
 import 'package:code_text_field/code_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_highlight/themes/dracula.dart';
+import 'package:flutter_highlight/themes/magula.dart';
 import 'package:highlight/languages/python.dart';
 import 'package:tortoise_world/game_presenter.dart';
 
@@ -16,7 +16,7 @@ class EditorView extends StatefulWidget {
 }
 
 class EditorViewState extends State<EditorView> {
-  late final CodeController? _codeController;
+  late final CodeController _codeController;
   late FocusNode _focusNode;
   bool _isRunning = false;
 
@@ -33,7 +33,7 @@ class EditorViewState extends State<EditorView> {
 
   @override
   void dispose() {
-    _codeController?.dispose();
+    _codeController.dispose();
     super.dispose();
   }
 
@@ -42,18 +42,18 @@ class EditorViewState extends State<EditorView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        const Text(
-          'Éditeur de Code',
-          style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+        Text(
+          "Éditeur de Code",
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         const SizedBox(height: 20.0),
         Expanded(
           child: CodeTheme(
-            data: const CodeThemeData(styles: draculaTheme),
+            data: const CodeThemeData(styles: magulaTheme),
             child: CodeField(
               expands: true,
               focusNode: _focusNode,
-              controller: _codeController!,
+              controller: _codeController,
               textStyle: const TextStyle(fontFamily: 'SourceCode', fontSize: 18),
             ),
           ),
@@ -67,11 +67,6 @@ class EditorViewState extends State<EditorView> {
               _startExecution();
             }
           },
-          style: ElevatedButton.styleFrom(
-            fixedSize: const Size(150, 30),
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.blueGrey,
-          ),
           child: _isRunning ? const Text("Stop") : const Text("Exécuter"),
         ),
       ],
@@ -79,11 +74,13 @@ class EditorViewState extends State<EditorView> {
   }
 
   void _startExecution() {
-    if (_codeController != null) {
+    if (_codeController.text.trim().isNotEmpty) {
       setState(() {
-        widget._gamePresenter.executeCode(this, _codeController.text);
         _isRunning = true;
+        widget._gamePresenter.executeCode(this, _codeController.text);
       });
+    } else {
+      showErrorDialog("Ecrivez le programme avant de l'exécuter !");
     }
   }
 
@@ -95,14 +92,16 @@ class EditorViewState extends State<EditorView> {
   }
 
   void showErrorDialog(String message) {
+    stopExecution();
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Correction de code'),
-          content: Text('Vous devez corriger votre code : $message'),
+          title: const Text('Erreur de compilation', style: TextStyle(color: Colors.red)),
+          content: Text(message, style: TextStyle(color: Colors.black),),
           actions: <Widget>[
             TextButton(
+              autofocus: true,
               child: const Text('Fermer'),
               onPressed: () {
                 Navigator.of(context).pop();

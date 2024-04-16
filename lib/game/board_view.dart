@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tortoise_world/game/tortoise_world.dart';
 import 'package:tortoise_world/game_presenter.dart';
+import 'package:tortoise_world/green_theme.dart';
 
 import 'board_cell.dart';
 
@@ -48,6 +49,7 @@ class BoardViewState extends State<BoardView> with TickerProviderStateMixin {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Game Over'),
+          contentTextStyle: const TextStyle(color: Colors.black),
           content: Text(message),
           actions: <Widget>[
             TextButton(
@@ -97,7 +99,15 @@ class BoardViewState extends State<BoardView> with TickerProviderStateMixin {
               itemCount: tortoiseWorld.rows * tortoiseWorld.columns,
             ),
             const SizedBox(height: 20),
-            Text("Salades: ${tortoiseWorld.eaten} Temps: ${tortoiseWorld.moveCount} Score: ${tortoiseWorld.score} Niveau d'eau: ${tortoiseWorld.drinkLevel}"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text("Salades: ${tortoiseWorld.eaten} "),
+                Text("Temps: ${tortoiseWorld.moveCount} "),
+                Text("Score: ${tortoiseWorld.score} "),
+                Text("Niveau d'eau: ${tortoiseWorld.drinkLevel}"),
+              ],
+            ),
           ],
         ),
       ),

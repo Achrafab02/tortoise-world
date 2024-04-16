@@ -7,7 +7,6 @@ import 'package:tortoise_world/game/tortoise_world.dart';
 class GamePresenter {
   final Interpreter _codeInterpreter = Interpreter();
   late final Ticker _ticker;
-  double _cumulativeTime = 0;
   EditorViewState? _editorViewState;
 
   final TortoiseWorld tortoiseWorld = TortoiseWorld();
@@ -44,10 +43,7 @@ class GamePresenter {
   }
 
   Future<void> update(Duration elapsed, BoardViewState boardViewState) async {
-    // _cumulativeTime += 500;
-    // if (_cumulativeTime > TortoiseWorld.delayInMs && tortoiseWorld.moveCount <= TortoiseWorld.maxTime) {
     if (tortoiseWorld.moveCount <= TortoiseWorld.maxTime) {
-      _cumulativeTime = 0;
       var action = _codeInterpreter.executeCode(tortoiseWorld);
       MoveResultType result = tortoiseWorld.moveTortoise(action);
       if (result == MoveResultType.diedOfThirsty) {

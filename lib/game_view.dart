@@ -5,7 +5,6 @@ import 'game/board_view.dart';
 import 'game_presenter.dart';
 
 class GameView extends StatefulWidget {
-
   const GameView({super.key});
 
   @override
@@ -32,23 +31,26 @@ class _GameViewState extends State<GameView> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Instructions du jeu'),
-                    // TODO Changer pour ne garder que les actions et les capteurs
+                    title: const Text('Liste des instructions'),
                     content: const Text(
-                      'Bienvenue dans le monde de la tortue! \n'
-                      '- Pour faire avancer la tortue, il faut que la case devant elle soit libre. on verifie cette condition avec le code suivant: \n'
-                      'if capteur.libre_devant : return AVANCE\n'
-                      '- Pour faire manger la tortue. on execute le code suivant: \n'
-                      'if capteur.laitue_ici : return MANGE\n'
-                      '- Pour faire boire la tortue, on execute le code suivant: \n'
-                      'if capteur.eau_ici : return BOIT\n'
-                      '- Pour faire tourner la tortue a gauche, on execute le code suivant: \n'
-                      'return GAUCHE\n'
-                      '- Pour faire tourner la tortue a droite, on execute le code suivant: \n'
-                      'return DROITE\n'
-                      '- Si vous hesitez, vous pouvez utiliser l\'aleatoire pour faire bouger la tortue, pour cela, vous pouvez utiliser le code suivant: \n'
-                      'return random([GAUCHE, DROITE, AVANCE, MANGE, BOIT])\n'
-                      'Bonne chance!',
+                      "Exemples de programme :\n"
+                      "if capteur.libre_devant: return AVANCE\n"
+                      "if capteur.niveau_boisson < 20 and capteur.libre_devant: return AVANCE\n"
+                      "\nListe des valeurs du capteur :\n"
+                      "- capteur.libre_devant\n"
+                      " -capteur.laitue_ici\n"
+                      "- capteur.laitue_devant\n"
+                      "- capteur.eau_devant\n"
+                      "- capteur.eau_ici\n"
+                      "- capteur.niveau_boisson\n"
+                      "\nListe des commandes possibles :\n"
+                      "- return GAUCHE\n"
+                      "- return DROITE\n"
+                      "- return AVANCE\n"
+                      "- return MANGE\n"
+                      "- return BOIT\n"
+                      "\Choisir une action au hasard :\n"
+                      'return random([GAUCHE, DROITE, AVANCE, MANGE, BOIT])\n',
                       style: TextStyle(fontSize: 20, color: Colors.black, fontFamily: 'Roboto'),
                     ),
                     actions: <Widget>[
@@ -65,16 +67,8 @@ class _GameViewState extends State<GameView> {
             },
           ),
         ],
-        backgroundColor: Colors.blueGrey,
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [Color(0xFF76A097), Color(0xFFDDDADD)],
-          ),
-        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

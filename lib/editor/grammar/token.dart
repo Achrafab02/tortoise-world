@@ -31,6 +31,7 @@ enum TokenType {
 
   // Others
   EOF,
+  EOL,
   RANDOM,
 
   // Constants

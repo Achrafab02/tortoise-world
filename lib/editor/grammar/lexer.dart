@@ -13,10 +13,9 @@ class Lexer {
       return Token(TokenType.EOF, '');
     }
     if (_matchKeyword("\n")) {
-      // return Token(TokenType.EOF, "\n");
+      return Token(TokenType.EOL, "\n");
     }
     var currentChar = _input[_position];
-
 
     // keywords
     if (currentChar == 'i' && _matchKeyword('if')) {

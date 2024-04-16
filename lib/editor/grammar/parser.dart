@@ -1,37 +1,46 @@
+import 'package:flutter/cupertino.dart';
+import 'package:tortoise_world/editor/grammar/SyntaxErrorException.dart';
 import 'package:tortoise_world/editor/grammar/grammar.dart';
 
-/*
- * LL(1) Grammar
- * pg : instructionExpression pg
- *    | ε
- * instructionExpresion : ifExpression
- *                      | returnExpression
- * returnExpression : RETURN CONSTANT
- *                  | RETURN RANDOM DOT CHOICE arrayExpression
- * arrayExpression : [ argList ]
- * argList : CONSTANT
- *         | CONSTANT COMA argList
- * ifExpression : IF conditionExpression COLON instructionExpression (TODO les tabulations)
- * conditionExpression : LPAREN conditionExpression RPAREN
- *                     | simpleConditionExpression AND conditionExpression
- *                     | simpleConditionExpression OR conditionExpression
- * simpleConditionExpression : sensorExpression
- *                           | NOT sensorExpression
- *                           | sensorExpression RELATION_OPERATOR INTEGER
- * sensorExpression: SENSOR DOT VALUE
- */
+/// LL(1) Grammar
+///
+///   pg : instruction pg
+///      | ε
+///
+/// instruction : if_instruction
+///             | return_instruction
+///
+/// return_instruction : RETURN CONSTANT
+///                    | RETURN RANDOM array
+///
+/// array : [ argList ]
+///
+/// arg_list : CONSTANT
+///          | CONSTANT COMA arg_list
+///
+/// if_instruction : IF condition COLON instruction
+///
+/// condition : LPAREN condition RPAREN
+///           | simple_condition AND condition
+///           | simple_condition OR condition
+///           | NOT simple_condition
+///
+/// simple_condition : sensor
+///                  | DRINK_LEVEL RELATION_OPERATOR INTEGER
+///
+/// sensor: SENSOR DOT VALUE
 import 'token.dart';
 
-// TODO Manque toute la gestion des erreurs
 class Parser {
   final List<Token> _tokens;
-  int currentTokenIndex = 0;
+  int _currentTokenIndex = 0;
+  int _currentLineNumber = 1;
 
   Parser(this._tokens);
 
-  Token get currentToken => _tokens[currentTokenIndex];
+  Token get currentToken => _tokens[_currentTokenIndex];
 
-  Token get lastToken => _tokens[currentTokenIndex - 1];
+  Token get lastToken => _tokens[_currentTokenIndex - 1];
 
   Expression parse() {
     return _pg();
@@ -40,6 +49,9 @@ class Parser {
   Expression _pg() {
     if (currentToken.type != TokenType.EOF) {
       Expression instruction = _instruction();
+      if (_match(TokenType.EOL)) {
+        _currentLineNumber++;
+      }
       ProgramExpression pg = _pg() as ProgramExpression;
       pg.add(instruction);
       return pg;
@@ -53,25 +65,27 @@ class Parser {
     } else if (_match(TokenType.RETURN)) {
       return _returnInstruction();
     } else {
-      throw Exception("Instruction inconnue");
+      throw SyntaxErrorException(_currentLineNumber, "Début d'instruction inconnue : ${currentToken.lexeme}");
     }
   }
 
   Expression _returnInstruction() {
     if (_match(TokenType.LPAREN)) {
-      // expression:: return AVANCE
-      if (_isAction(currentToken)) {
+      // expression:: return (AVANCE)
+      if (isAction(currentToken.type)) {
         String action = currentToken.lexeme;
+        var token = currentToken;
         if (_match(currentToken.type)) {
-          return ReturnExpression([ActionExpression(currentToken, action)]);
-        } else {
-          throw Exception("Commande inconnue ${action}");
+          if (!_match(TokenType.RPAREN)) {
+            throw SyntaxErrorException(_currentLineNumber, "Parenthèse fermante manquante");
+          }
+          return ReturnExpression([ActionExpression(token, action)]);
         }
+      } else {
+        // TODO regarder s'il s'agit de la version minuscule -> message erreur majuscule
+        throw SyntaxErrorException(_currentLineNumber, "Action inconnue ${currentToken.lexeme}");
       }
-      if (_match(TokenType.RPAREN)) {
-        throw Exception("Parenthèse fermante manquante");
-      }
-    } else if (_isAction(currentToken)) {
+    } else if (isAction(currentToken.type)) {
       // expression:: return AVANCE
       String action = currentToken.lexeme;
       if (_match(currentToken.type)) {
@@ -81,7 +95,8 @@ class Parser {
       // expression:: return random.choice([AVANCE, DROITE)
       return ReturnExpression([_randomChoice()]);
     }
-    throw Exception("Expression inattendue ${currentToken.lexeme}");
+    // TODO regarder s'il s'agit de la version minuscule -> message erreur majuscule
+    throw SyntaxErrorException(_currentLineNumber, "Action inconnue ${currentToken.lexeme}");
   }
 
   Expression _randomChoice() {
@@ -92,10 +107,11 @@ class Parser {
         if (_match(TokenType.RPAREN)) {
           return RandomExpression(currentToken, "", argList);
         }
+        throw SyntaxErrorException(_currentLineNumber, "Parenthèse fermante manquante");
       }
-      throw Exception("Manque choice après random");
+      throw SyntaxErrorException(_currentLineNumber, "Manque une parenthèse ouvrante après random.choice");
     }
-    throw Exception("Ne devrait jamais arriver");
+    throw SyntaxErrorException(_currentLineNumber, "Manque random.choice()");
   }
 
   List<ActionExpression> _array() {
@@ -104,12 +120,16 @@ class Parser {
       if (_match(TokenType.RBRACKET)) {
         return array;
       }
+      // return random.choice([AVANCE])
+      throw SyntaxErrorException(_currentLineNumber, "Manquante un crochet fermant");
     }
-    throw Exception("Manquante un crochet ouvrant");
+    throw SyntaxErrorException(_currentLineNumber, "Manquante un crochet ouvrant");
   }
 
   List<ActionExpression> _argumentList() {
-    if (_isAction(currentToken)) {
+    // arg_list : CONSTANT
+    //          | CONSTANT COMA arg_list
+    if (isAction(currentToken.type)) {
       var token = currentToken;
       var lexeme = currentToken.lexeme;
       _match(currentToken.type);
@@ -121,34 +141,36 @@ class Parser {
       } else if (currentToken.type == TokenType.RBRACKET) {
         // un seul ou dernier argument
         return [argument];
+      } else {
+        throw SyntaxErrorException(_currentLineNumber, "Manque un crochet fermant");
       }
-      throw Exception("Erreur??");
     }
-    throw Exception(" ??");
+    throw SyntaxErrorException(_currentLineNumber, "Manque une action : AVANCE, BOIT...");
   }
 
-  bool _isAction(token) => token.type == TokenType.FORWARD || token.type == TokenType.LEFT || token.type == TokenType.RIGHT || token.type == TokenType.DRINK || token.type == TokenType.EAT;
-
   Expression _ifInstruction() {
+    // if_instruction : IF condition COLON instruction
     Expression condition = _condition();
     if (_match(TokenType.COLON)) {
       Expression instruction = _instruction();
       return IfExpression([condition, instruction]);
     } else {
-      throw Exception("Manque un : ");
+      throw SyntaxErrorException(_currentLineNumber, "Manque un ':' avant l'action");
     }
   }
 
   Expression _condition() {
     // condition : LPAREN condition RPAREN
-    //           | condition_simple AND condition
-    //           | condition_simple OR condition
+    //           | simple_condition AND condition
+    //           | simple_condition OR condition
+    //           | NOT simple_condition
     if (_match(TokenType.LPAREN)) {
       var condition = _condition();
       if (_match(TokenType.RPAREN)) {
         return condition;
+      } else {
+        throw SyntaxErrorException(_currentLineNumber, "Parenthèse fermante manquante");
       }
-      throw Exception("Parenthèse fermante manquante");
     } else if (_match(TokenType.NOT)) {
       var conditionSimple = _conditionSimple();
       return NotConditionExpression([conditionSimple]);
@@ -166,44 +188,58 @@ class Parser {
   }
 
   Expression _conditionSimple() {
-    // condition_simple : sensorExpression RELATION_OPERATOR INTEGER
-    //                  | sensorExpression
-    //                  | NOT sensorExpression
+    // simple_condition : FREE_HEAD | WATER_AHEAD | WATER_HERE...
+    //                  | DRINK_LEVEL RELATIONAL_OPERATOR INTEGER
     var token = currentToken;
-    if (currentToken.type == TokenType.DRINK_LEVEL) {
+    if (_match(TokenType.DRINK_LEVEL)) {
       /// capteur_niveau_boisson > 10
-      _match(TokenType.DRINK_LEVEL);
-      if (currentToken.type == TokenType.GREATER || currentToken.type == TokenType.GREATER_EQUAL || currentToken.type == TokenType.EQUAL || currentToken.type == TokenType.LESS || currentToken.type == TokenType.LESS_EQUAL || currentToken.type == TokenType.NOT_EQUAL) {
+      if (currentToken.type == TokenType.GREATER //
+          ||
+          currentToken.type == TokenType.GREATER_EQUAL //
+          ||
+          currentToken.type == TokenType.EQUAL //
+          ||
+          currentToken.type == TokenType.LESS //
+          ||
+          currentToken.type == TokenType.LESS_EQUAL //
+          ||
+          currentToken.type == TokenType.NOT_EQUAL) {
         var relationalOperator = currentToken;
         _match(currentToken.type);
         var integer = currentToken;
         if (_match(TokenType.INTEGER)) {
-          return RelationalConditionExpression(token, relationalOperator.lexeme, integer.lexeme  );
+          return RelationalConditionExpression(token, relationalOperator.lexeme, integer.lexeme);
         }
-        throw Exception("Il faut un entier après l'opérateur de comparaison");
+        throw SyntaxErrorException(_currentLineNumber, "Il faut un entier après l'opérateur relationnel ${relationalOperator.lexeme}");
       }
-    } else if (currentToken.type == TokenType.FREE_AHEAD) {
-      _match(TokenType.FREE_AHEAD);
+    } else if (_match(TokenType.FREE_AHEAD)) {
       return BooleanSensorExpression(token, "");
-    } else if (currentToken.type == TokenType.WATER_AHEAD) {
-      _match(TokenType.WATER_AHEAD);
+    } else if (_match(TokenType.WATER_AHEAD)) {
       return BooleanSensorExpression(token, "");
-    } else if (currentToken.type == TokenType.WATER_HERE) {
-      _match(TokenType.WATER_HERE);
+    } else if (_match(TokenType.WATER_HERE)) {
       return BooleanSensorExpression(token, "");
-    } else if (currentToken.type == TokenType.LETTUCE_AHEAD) {
-      _match(TokenType.LETTUCE_AHEAD);
+    } else if (_match(TokenType.LETTUCE_AHEAD)) {
       return BooleanSensorExpression(token, "");
-    } else if (currentToken.type == TokenType.LETTUCE_HERE) {
-      _match(TokenType.LETTUCE_HERE);
+    } else if (_match(TokenType.LETTUCE_HERE)) {
       return BooleanSensorExpression(token, "");
     }
-    throw Exception("Expression inattendue ${token.lexeme}");
+    throw SyntaxErrorException(_currentLineNumber, "Expression inattendue ${token.lexeme}");
+  }
+
+  @visibleForTesting
+  static bool isAction(TokenType tokenType) {
+    return [
+      TokenType.FORWARD,
+      TokenType.LEFT,
+      TokenType.RIGHT,
+      TokenType.DRINK,
+      TokenType.EAT,
+    ].contains(tokenType);
   }
 
   bool _match(TokenType type) {
     if (currentToken.type == type) {
-      currentTokenIndex++;
+      _currentTokenIndex++;
       return true;
     }
     return false;

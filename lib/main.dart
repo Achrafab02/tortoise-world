@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'game_view.dart';
+import 'green_theme.dart';
 
 void main() {
   runApp(const TortoiseGame());
@@ -11,11 +12,12 @@ class TortoiseGame extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
+      home: const Scaffold(
         body: GameView(),
       ),
+      theme: greenTheme,
     );
   }
 }

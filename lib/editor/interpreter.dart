@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:tortoise_world/editor/grammar/SyntaxErrorException.dart';
 import 'package:tortoise_world/editor/grammar/grammar.dart';
 import 'package:tortoise_world/game/tortoise_world.dart';
 
@@ -25,8 +26,10 @@ class Interpreter {
     try {
       _program = _parser!.parse();
       return null;
-    } catch (e) {
-      return e.toString();
+    } on SyntaxErrorException catch (error) {
+      return "Ligne ${error.line}: ${error.message}";
+    } catch (error) {
+      return error.toString();
     }
   }
 

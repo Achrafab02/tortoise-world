@@ -135,6 +135,7 @@ class RandomExpression extends TerminalExpression {
   @override
   dynamic interpret(TortoiseWorld tortoiseWorld) {
     var rng = math.Random();
+    // TODO tricher pour choisir la direction qui est la moins fréquentée...
     var nextInt = rng.nextInt(argList.length);
     return argList[nextInt].action;
   }
@@ -154,6 +155,7 @@ class ArgumentListExpression extends NonTerminalExpression {
 
 class BooleanSensorExpression extends TerminalExpression {
   // capteur.laitue_devant
+  // TODO Action ne sert à rien???
   BooleanSensorExpression(super.token, super.action);
 
   @override
