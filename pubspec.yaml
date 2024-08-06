@@ -15,15 +15,13 @@ dependencies:
 
   code_text_field: ^1.1.0
   highlight: ^0.7.0
-  flutter_highlight: ^0.7.0
 
 dev_dependencies:
-  junitreport: ^2.0.2
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.1
-  mocktail: ^1.0.3
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.4
 
 flutter:
   assets:
