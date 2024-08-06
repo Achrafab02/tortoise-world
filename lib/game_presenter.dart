@@ -43,6 +43,7 @@ class GamePresenter {
   }
 
   Future<void> update(Duration elapsed, BoardViewState boardViewState) async {
+    print("update ...");
     if (tortoiseWorld.moveCount <= TortoiseWorld.maxTime) {
       var action = _codeInterpreter.executeCode(tortoiseWorld);
       MoveResultType result = tortoiseWorld.moveTortoise(action);

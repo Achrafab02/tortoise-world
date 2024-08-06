@@ -1,21 +1,21 @@
 import 'token.dart';
 
 class Lexer {
-  final String _input;
+  final String _code;
   int _position = 0;
 
-  Lexer(this._input);
+  Lexer(this._code);
 
   // TODO Les tests unitaires pour toutes ces méthodces
   Token getNextToken() {
     _skipWhitespace();
-    if (_position >= _input.length) {
+    if (_position >= _code.length) {
       return Token(TokenType.EOF, '');
     }
     if (_matchKeyword("\n")) {
       return Token(TokenType.EOL, "\n");
     }
-    var currentChar = _input[_position];
+    var currentChar = _code[_position];
 
     // keywords
     if (currentChar == 'i' && _matchKeyword('if')) {
@@ -55,12 +55,12 @@ class Lexer {
     }
 
     // Logical operators
-    if (currentChar == '=' && _input[_position + 1] == '=') {
+    if (currentChar == '=' && _code[_position + 1] == '=') {
       _position += 2;
       return Token(TokenType.EQUAL, '==');
     }
 
-    if (currentChar == '<' && _input[_position + 1] == '=') {
+    if (currentChar == '<' && _code[_position + 1] == '=') {
       _position += 2;
       return Token(TokenType.LESS_EQUAL, '<=');
     }
@@ -70,7 +70,7 @@ class Lexer {
       return Token(TokenType.LESS, '<');
     }
 
-    if (currentChar == '>' && _input[_position + 1] == '=') {
+    if (currentChar == '>' && _code[_position + 1] == '=') {
       _position += 2;
       return Token(TokenType.GREATER_EQUAL, '>=');
     }
@@ -127,14 +127,14 @@ class Lexer {
   }
 
   void _skipWhitespace() {
-    while (_position < _input.length && _input[_position] == ' ') {
+    while (_position < _code.length && _code[_position] == ' ') {
       _position++;
     }
   }
 
   bool _matchKeyword(String keyword) {
     for (var i = 0; i < keyword.length; i++) {
-      if (_position + i >= _input.length || _input[_position + i] != keyword[i]) {
+      if (_position + i >= _code.length || _code[_position + i] != keyword[i]) {
         return false;
       }
     }
@@ -144,8 +144,8 @@ class Lexer {
 
   String _consumeWhile(bool Function(String) condition) {
     var result = '';
-    while (_position < _input.length && condition(_input[_position])) {
-      result += _input[_position];
+    while (_position < _code.length && condition(_code[_position])) {
+      result += _code[_position];
       _position++;
     }
     return result;

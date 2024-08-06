@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tortoise_world/game/tortoise_world.dart';
 import 'package:tortoise_world/game_presenter.dart';
-import 'package:tortoise_world/green_theme.dart';
 
 import 'board_cell.dart';
 
@@ -17,9 +16,9 @@ class BoardView extends StatefulWidget {
 class BoardViewState extends State<BoardView> with TickerProviderStateMixin {
   @override
   void initState() {
-    super.initState();
     widget.gamePresenter.setBoard(ticker: createTicker((Duration elapsed) => _update(elapsed)));
     widget.gamePresenter.initializeWorldMap();
+    super.initState();
   }
 
   @override
@@ -64,15 +63,15 @@ class BoardViewState extends State<BoardView> with TickerProviderStateMixin {
     );
   }
 
-  void _update(Duration elapsed) {
-    setState(() {
-      widget.gamePresenter.update(elapsed, this);
-    });
+  void _update(Duration elapsed) async {
+    await widget.gamePresenter.update(elapsed, this);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    var tortoiseWorld = widget.gamePresenter.tortoiseWorld;
+    final tortoiseWorld = widget.gamePresenter.tortoiseWorld;
+    print("update... niveau : ${tortoiseWorld.drinkLevel}");
     return SingleChildScrollView(
       child: Container(
         width: 500,

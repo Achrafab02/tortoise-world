@@ -34,23 +34,23 @@ class _GameViewState extends State<GameView> {
                     title: const Text('Liste des instructions'),
                     content: const Text(
                       "Exemples de programme :\n"
-                      "if capteur.libre_devant: return AVANCE\n"
-                      "if capteur.niveau_boisson < 20 and capteur.libre_devant: return AVANCE\n"
+                      "  if capteur.libre_devant: return AVANCE\n"
+                      "  if capteur.niveau_boisson < 20 and capteur.libre_devant: return AVANCE\n"
                       "\nListe des valeurs du capteur :\n"
-                      "- capteur.libre_devant\n"
-                      " -capteur.laitue_ici\n"
-                      "- capteur.laitue_devant\n"
-                      "- capteur.eau_devant\n"
-                      "- capteur.eau_ici\n"
-                      "- capteur.niveau_boisson\n"
+                      "  - capteur.libre_devant\n"
+                      "  - capteur.laitue_ici\n"
+                      "  - capteur.laitue_devant\n"
+                      "  - capteur.eau_devant\n"
+                      "  - capteur.eau_ici\n"
+                      "  - capteur.niveau_boisson\n"
                       "\nListe des commandes possibles :\n"
-                      "- return GAUCHE\n"
-                      "- return DROITE\n"
-                      "- return AVANCE\n"
-                      "- return MANGE\n"
-                      "- return BOIT\n"
-                      "\Choisir une action au hasard :\n"
-                      'return random([GAUCHE, DROITE, AVANCE, MANGE, BOIT])\n',
+                      "  - return GAUCHE\n"
+                      "  - return DROITE\n"
+                      "  - return AVANCE\n"
+                      "  - return MANGE\n"
+                      "  - return BOIT\n"
+                      "\nChoisir une action au hasard :\n"
+                      '  return random([GAUCHE, DROITE, AVANCE, MANGE, BOIT])\n',
                       style: TextStyle(fontSize: 20, color: Colors.black, fontFamily: 'Roboto'),
                     ),
                     actions: <Widget>[
@@ -68,26 +68,24 @@ class _GameViewState extends State<GameView> {
           ),
         ],
       ),
-      body: Container(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(20.0),
-                child: BoardView(_gamePresenter),
-              ),
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(20.0),
+              child: BoardView(_gamePresenter),
             ),
-            Expanded(
-              child: Container(
-                alignment: Alignment.topCenter,
-                padding: const EdgeInsets.all(20.0),
-                child: EditorView(_gamePresenter),
-              ),
+          ),
+          Expanded(
+            child: Container(
+              alignment: Alignment.topCenter,
+              padding: const EdgeInsets.all(20.0),
+              child: EditorView(_gamePresenter),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

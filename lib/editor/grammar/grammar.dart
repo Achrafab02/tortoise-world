@@ -106,7 +106,6 @@ class ConditionExpression extends NonTerminalExpression {
 }
 
 class ReturnExpression extends NonTerminalExpression {
-  // TODO a quoi sert token ?
   ReturnExpression(super.instructions);
 
   @override
@@ -155,7 +154,6 @@ class ArgumentListExpression extends NonTerminalExpression {
 
 class BooleanSensorExpression extends TerminalExpression {
   // capteur.laitue_devant
-  // TODO Action ne sert à rien???
   BooleanSensorExpression(super.token, super.action);
 
   @override

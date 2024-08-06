@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:tortoise_world/editor/grammar/SyntaxErrorException.dart';
 import 'package:tortoise_world/editor/grammar/grammar.dart';
 import 'package:tortoise_world/game/tortoise_world.dart';
@@ -22,7 +21,7 @@ class Interpreter {
 
   String? parse(String code) {
     code = code.trim();
-    _parser = tokenizeCode(code);
+    _parser = _tokenizeCode(code);
     try {
       _program = _parser!.parse();
       return null;
@@ -33,8 +32,7 @@ class Interpreter {
     }
   }
 
-  @visibleForTesting
-  static Parser tokenizeCode(code) {
+  static Parser _tokenizeCode(code) {
     var lexer = Lexer(code);
     List<Token> token = lexer.tokenizeCode();
     var parser = Parser(token);
