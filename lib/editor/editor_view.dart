@@ -98,7 +98,7 @@ class EditorViewState extends State<EditorView> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Erreur de compilation', style: TextStyle(color: Colors.red)),
-          content: Text(message, style: TextStyle(color: Colors.black),),
+          content: Text(message, style: const TextStyle(color: Colors.black),),
           actions: <Widget>[
             TextButton(
               autofocus: true,

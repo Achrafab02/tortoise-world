@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:tortoise_world/editor/grammar/SyntaxErrorException.dart';
+import 'package:tortoise_world/editor/grammar/syntax_error_exception.dart';
 import 'package:tortoise_world/editor/grammar/grammar.dart';
 
 /// LL(1) Grammar

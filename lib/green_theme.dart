@@ -9,18 +9,15 @@ Color blanc2 = const Color(0xFFBCB88A);
 Color blanc1 = const Color(0xFFD1FACE);
 
 ThemeData greenTheme = ThemeData(
+  brightness: Brightness.light,
   appBarTheme: AppBarTheme(
     color: green5,
     shadowColor: green2,
     elevation: 5,
     foregroundColor: blanc2,
   ),
-  colorScheme: ColorScheme.fromSeed(
-    background: green4,
-    seedColor: green1,
-    brightness: Brightness.light,
-    error: green2,
-  ),
+  colorSchemeSeed: green1,
+  scaffoldBackgroundColor: green4,
   textTheme:  TextTheme(
     bodyLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.w400, color: blanc2),
     bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: blanc2),
@@ -31,24 +28,24 @@ ThemeData greenTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      elevation: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.hovered)) {
+      elevation: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.hovered)) {
           return 5.0;
         } else {
           return 3.0;
         }
       }),
-      backgroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
-        if (states.contains(MaterialState.hovered)) {
+      backgroundColor: WidgetStateProperty.resolveWith((Set<WidgetState> states) {
+        if (states.contains(WidgetState.hovered)) {
           return blanc1;
         } else {
           return green5;
         }
       }),
-      shadowColor: MaterialStateProperty.all<Color>(Colors.lightGreenAccent),
-      foregroundColor: MaterialStateProperty.resolveWith(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.hovered)) {
+      shadowColor: WidgetStateProperty.all<Color>(Colors.lightGreenAccent),
+      foregroundColor: WidgetStateProperty.resolveWith(
+        (Set<WidgetState> states) {
+          if (states.contains(WidgetState.hovered)) {
             return green5;
           } else {
             return blanc1;
