@@ -50,7 +50,7 @@ class _GameViewState extends State<GameView> {
                       "  - return MANGE\n"
                       "  - return BOIT\n"
                       "\nChoisir une action au hasard :\n"
-                      '  return random([GAUCHE, DROITE, AVANCE, MANGE, BOIT])\n',
+                      '  return random.choice([GAUCHE, DROITE, AVANCE, MANGE, BOIT])\n',
                       style: TextStyle(fontSize: 20, color: Colors.black, fontFamily: 'Roboto'),
                     ),
                     actions: <Widget>[

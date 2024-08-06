@@ -13,10 +13,10 @@ class BoardView extends StatefulWidget {
   BoardViewState createState() => BoardViewState();
 }
 
-class BoardViewState extends State<BoardView> with TickerProviderStateMixin {
+class BoardViewState extends State<BoardView> {
   @override
   void initState() {
-    widget.gamePresenter.setBoard(ticker: createTicker((Duration elapsed) => _update(elapsed)));
+    widget.gamePresenter.setBoardView(this);
     widget.gamePresenter.initializeWorldMap();
     super.initState();
   }
@@ -63,15 +63,13 @@ class BoardViewState extends State<BoardView> with TickerProviderStateMixin {
     );
   }
 
-  void _update(Duration elapsed) async {
-    await widget.gamePresenter.update(elapsed, this);
+  void update() async {
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     final tortoiseWorld = widget.gamePresenter.tortoiseWorld;
-    print("update... niveau : ${tortoiseWorld.drinkLevel}");
     return SingleChildScrollView(
       child: Container(
         width: 500,
@@ -104,7 +102,7 @@ class BoardViewState extends State<BoardView> with TickerProviderStateMixin {
                 Text("Salades: ${tortoiseWorld.eaten} "),
                 Text("Temps: ${tortoiseWorld.moveCount} "),
                 Text("Score: ${tortoiseWorld.score} "),
-                Text("Niveau d'eau: ${tortoiseWorld.drinkLevel}"),
+                Text("Niveau boisson: ${tortoiseWorld.drinkLevel}"),
               ],
             ),
           ],

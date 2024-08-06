@@ -1,4 +1,5 @@
-import 'package:flutter/scheduler.dart';
+import 'dart:async';
+
 import 'package:tortoise_world/editor/editor_view.dart';
 import 'package:tortoise_world/editor/interpreter.dart';
 import 'package:tortoise_world/game/board_view.dart';
@@ -6,28 +7,37 @@ import 'package:tortoise_world/game/tortoise_world.dart';
 
 class GamePresenter {
   final Interpreter _codeInterpreter = Interpreter();
-  late final Ticker _ticker;
+  Timer? _timer;
   EditorViewState? _editorViewState;
 
   final TortoiseWorld tortoiseWorld = TortoiseWorld();
+  late final BoardViewState _boardViewState;
 
   GamePresenter();
 
-  void setBoard({required Ticker ticker}) {
-    _ticker = ticker;
+  void setBoardView(BoardViewState boardViewState) {
+    _boardViewState = boardViewState;
   }
 
   void dispose() {
-    _ticker.dispose();
+    _timer?.cancel();
+    _timer = null;
   }
 
   void _start(EditorViewState editorViewState) {
     _editorViewState = editorViewState;
-    _ticker.start();
+    if (_timer != null) {
+      _timer!.cancel();
+    }
+    _timer = Timer.periodic(const Duration(milliseconds: 200), (Timer timer) async {
+      await update();
+      _boardViewState.update();
+    });
   }
 
   void stop() {
-    _ticker.stop();
+    _timer?.cancel();
+    _timer = null;
   }
 
   void initializeWorldMap() => tortoiseWorld.initializeWorldMap();
@@ -42,22 +52,23 @@ class GamePresenter {
     }
   }
 
-  Future<void> update(Duration elapsed, BoardViewState boardViewState) async {
-    print("update ...");
+  Future<void> update() async {
     if (tortoiseWorld.moveCount <= TortoiseWorld.maxTime) {
       var action = _codeInterpreter.executeCode(tortoiseWorld);
       MoveResultType result = tortoiseWorld.moveTortoise(action);
       if (result == MoveResultType.diedOfThirsty) {
         _editorViewState?.stopExecution();
-        boardViewState.showResultDialog("Vous êtes mort de soif!");
+        stop();
+        _boardViewState.showResultDialog("Vous êtes mort de soif !");
       }
       if (result == MoveResultType.diedOfHunger) {
         _editorViewState?.stopExecution();
-        boardViewState.showResultDialog("Vous êtes mort de faim!");
-        // TODO Ajouter le niveau de sante
+        stop();
+        _boardViewState.showResultDialog("Vous êtes mort de faim !");
       } else if (result == MoveResultType.success) {
         _editorViewState?.stopExecution();
-        boardViewState.showResultDialog("Bravo, vous avez gagné");
+        stop();
+        _boardViewState.showResultDialog("Bravo, vous avez gagné !");
       }
     }
   }
