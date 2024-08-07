@@ -44,7 +44,6 @@ class GamePresenter {
   void initializeWorldMap() => tortoiseWorld.initializeWorldMap(gridSize);
 
   void executeCode(EditorViewState editorViewState, String code) {
-    print("Execute code size = $gridSize");
     initializeWorldMap();
     String? error = _codeInterpreter.parse(code);
     if (error != null) {

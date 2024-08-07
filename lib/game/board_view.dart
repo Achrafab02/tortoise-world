@@ -63,9 +63,7 @@ class BoardViewState extends State<BoardView> {
     );
   }
 
-  void update() async {
-    setState(() {});
-  }
+  void update() async => setState(() {});
 
   @override
   Widget build(BuildContext context) {
@@ -74,38 +72,47 @@ class BoardViewState extends State<BoardView> {
       child: Container(
         width: 500,
         height: 600,
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GridView.builder(
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: tortoiseWorld.size,
+                crossAxisCount: tortoiseWorld.gridSize,
               ),
               itemBuilder: (BuildContext context, int index) {
-                print("dans builder size = ${tortoiseWorld.size}");
-                int x = index % tortoiseWorld.size;
-                int y = index ~/ tortoiseWorld.size;
-                print("x = ${x}");
-                print("y = ${y}");
-                bool isTortoisePosition = tortoiseWorld.xpos == x && tortoiseWorld.ypos == y;
+                int x = index % tortoiseWorld.gridSize;
+                int y = index ~/ tortoiseWorld.gridSize;
+                bool isTortoisePosition = tortoiseWorld.xPos == x && tortoiseWorld.yPos == y;
                 return BoardCell(
                   imageName: _getImageFromCellType(tortoiseWorld.getCellContent(x, y)),
                   tortoiseImage: tortoiseWorld.tortoiseImage,
                   isTortoisePosition: isTortoisePosition,
                 );
               },
-              itemCount: tortoiseWorld.size * tortoiseWorld.size,
+              itemCount: tortoiseWorld.gridSize * tortoiseWorld.gridSize,
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("Salades: ${tortoiseWorld.eaten} "),
-                Text("Temps: ${tortoiseWorld.moveCount} "),
-                Text("Score: ${tortoiseWorld.score} "),
-                Text("Niveau boisson: ${tortoiseWorld.drinkLevel}"),
+                Text.rich(TextSpan(children: [
+                  const TextSpan(text: "Salades : ", style: TextStyle(fontSize: 16)),
+                  TextSpan(text: "${tortoiseWorld.eaten} ", style: const TextStyle(fontSize: 20)),
+                ])),
+                Text.rich(TextSpan(children: [
+                  const TextSpan(text: "Temps : ", style: TextStyle(fontSize: 16)),
+                  TextSpan(text: "${tortoiseWorld.moveCount} ", style: const TextStyle(fontSize: 20)),
+                ])),
+                Text.rich(TextSpan(children: [
+                  const TextSpan(text: "Score : ", style: TextStyle(fontSize: 16)),
+                  TextSpan(text: "${tortoiseWorld.score} ", style: const TextStyle(fontSize: 20)),
+                ])),
+                Text.rich(TextSpan(children: [
+                  const TextSpan(text: "Niveau boisson : ", style: TextStyle(fontSize: 16)),
+                  TextSpan(text: "${tortoiseWorld.drinkLevel} ", style: const TextStyle(fontSize: 20)),
+                ])),
               ],
             ),
           ],

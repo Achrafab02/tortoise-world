@@ -32,12 +32,13 @@ class _IntegerPickerWidgetState extends State<IntegerPickerWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Text(
             widget.title,
-            style: const TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 20),
           ),
         ),
         Container(
@@ -68,7 +69,7 @@ class _IntegerPickerWidgetState extends State<IntegerPickerWidget> {
                     signed: true,
                   ),
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                   ),
                   inputFormatters: <TextInputFormatter>[
                     FilteringTextInputFormatter.digitsOnly,
@@ -94,6 +95,7 @@ class _IntegerPickerWidgetState extends State<IntegerPickerWidget> {
                         child: const Icon(
                           Icons.arrow_drop_up,
                           size: 18.0,
+                          color: Colors.lightGreen,
                         ),
                         onTap: () {
                           int value = int.parse(_controller.text);
@@ -111,6 +113,7 @@ class _IntegerPickerWidgetState extends State<IntegerPickerWidget> {
                       child: const Icon(
                         Icons.arrow_drop_down,
                         size: 18.0,
+                        color: Colors.lightGreen,
                       ),
                       onTap: () {
                         int value = int.parse(_controller.text);

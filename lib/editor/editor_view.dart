@@ -4,7 +4,6 @@ import 'package:flutter_highlight/themes/magula.dart';
 import 'package:highlight/languages/python.dart';
 import 'package:tortoise_world/game_presenter.dart';
 
-// TODO Ajouter l'analyse interactive du code et afficher les erreurs en soulignant l'endroit de l'erreur (puis tooltip avec le détail de l'erreur)
 class EditorView extends StatefulWidget {
   final GamePresenter _gamePresenter;
 

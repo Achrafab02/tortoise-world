@@ -25,14 +25,6 @@ class _GameViewState extends State<GameView> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
-          IntegerPickerWidget(
-            title: "Taille de la grille",
-            minValue: 6,
-            maxValue: 20,
-            initialValue: _gamePresenter.gridSize,
-            onChanged: (value) => _gamePresenter.gridSize = value,
-          ),
-          const SizedBox(width: 100),
           IconButton(
             icon: const Icon(Icons.help),
             onPressed: () {
@@ -83,8 +75,19 @@ class _GameViewState extends State<GameView> {
           Expanded(
             child: Container(
               alignment: Alignment.center,
-              padding: const EdgeInsets.all(20.0),
-              child: BoardView(_gamePresenter),
+              padding: const EdgeInsets.only(top: 40.0),
+              child: Column(
+                children: [
+                  IntegerPickerWidget(
+                    title: "Taille de la grille",
+                    minValue: 6,
+                    maxValue: 20,
+                    initialValue: _gamePresenter.gridSize,
+                    onChanged: (value) => _gamePresenter.gridSize = value,
+                  ),
+                  BoardView(_gamePresenter),
+                ],
+              ),
             ),
           ),
           Expanded(

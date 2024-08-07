@@ -15,7 +15,6 @@ class TortoiseWorld {
   ];
   final List<String> _directionTortoiseImageTable = ['tortoise-north', 'tortoise-east', 'tortoise-south', 'tortoise-west'];
 
-  // TODO pouvoir changer la taille du tableau (avec un taille maximum -> faire une jauge)
   late int? _gridSize;
 
   final List<List<CellType>> _worldMap = [];
@@ -42,18 +41,14 @@ class TortoiseWorld {
 
   String get tortoiseImage => _tortoiseImage;
 
-  int get xpos => _xPos;
+  int get xPos => _xPos;
 
-  int get ypos => _yPos;
+  int get yPos => _yPos;
 
-  int get size => _gridSize!;
+  int get gridSize => _gridSize!;
 
   void initializeWorldMap(int gridSize) {
-    print("**** worldmap size ==> $gridSize");
     _gridSize = gridSize;
-    if (_moveCount == 0) {
-      return;
-    }
     _xPos = 1;
     _yPos = 1;
     _direction = 1;
@@ -64,7 +59,6 @@ class TortoiseWorld {
     _score = 0;
     _moveCount = 0;
 
-    _worldMap.clear();
     for (int i = 0; i < gridSize; i++) {
       List<CellType> rows = [];
       for (int j = 0; j < gridSize; j++) {
@@ -73,9 +67,6 @@ class TortoiseWorld {
       _worldMap.add(rows);
     }
 
-    print("worldmap size ${_worldMap.length} x ${_worldMap[0].length}");
-    // TODO mettre un mur tout autour
-    // TODO mettre le contenu adaquate
     int countLettuce = 0;
     for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
@@ -117,9 +108,6 @@ class TortoiseWorld {
   }
 
   CellType getCellContent(int x, int y) {
-    // TODO remettre l'ancien code
-    if (y > _worldMap.length - 1) y = _worldMap.length - 1;
-    if (x > _worldMap[0].length - 1) x = _worldMap[0].length - 1;
     return _worldMap[y][x];
   }
 
