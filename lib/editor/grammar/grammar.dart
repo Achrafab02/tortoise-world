@@ -134,7 +134,6 @@ class RandomExpression extends TerminalExpression {
   @override
   dynamic interpret(TortoiseWorld tortoiseWorld) {
     var rng = math.Random();
-    // TODO tricher pour choisir la direction qui est la moins fréquentée...
     var nextInt = rng.nextInt(argList.length);
     return argList[nextInt].action;
   }

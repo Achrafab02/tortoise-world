@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'editor/editor_view.dart';
 import 'game/board_view.dart';
 import 'game_presenter.dart';
+import 'integer_picker_widget.dart';
 
 class GameView extends StatefulWidget {
   const GameView({super.key});
@@ -20,10 +21,18 @@ class _GameViewState extends State<GameView> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          'Le monde de la tortue',
+          'Le monde de la tortue \u00a9 ENSICAEN 2024',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: <Widget>[
+          IntegerPickerWidget(
+            title: "Taille de la grille",
+            minValue: 6,
+            maxValue: 20,
+            initialValue: _gamePresenter.gridSize,
+            onChanged: (value) => _gamePresenter.gridSize = value,
+          ),
+          const SizedBox(width: 100),
           IconButton(
             icon: const Icon(Icons.help),
             onPressed: () {

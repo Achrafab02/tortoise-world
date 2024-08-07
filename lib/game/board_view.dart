@@ -81,11 +81,14 @@ class BoardViewState extends State<BoardView> {
             GridView.builder(
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: tortoiseWorld.columns,
+                crossAxisCount: tortoiseWorld.size,
               ),
               itemBuilder: (BuildContext context, int index) {
-                int x = index % tortoiseWorld.columns;
-                int y = index ~/ tortoiseWorld.columns;
+                print("dans builder size = ${tortoiseWorld.size}");
+                int x = index % tortoiseWorld.size;
+                int y = index ~/ tortoiseWorld.size;
+                print("x = ${x}");
+                print("y = ${y}");
                 bool isTortoisePosition = tortoiseWorld.xpos == x && tortoiseWorld.ypos == y;
                 return BoardCell(
                   imageName: _getImageFromCellType(tortoiseWorld.getCellContent(x, y)),
@@ -93,7 +96,7 @@ class BoardViewState extends State<BoardView> {
                   isTortoisePosition: isTortoisePosition,
                 );
               },
-              itemCount: tortoiseWorld.rows * tortoiseWorld.columns,
+              itemCount: tortoiseWorld.size * tortoiseWorld.size,
             ),
             const SizedBox(height: 20),
             Row(

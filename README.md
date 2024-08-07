@@ -54,3 +54,20 @@ dont les valeurs peuvent être obtenues par les variables :
 if capteur.libre_devant: return AVANCE
 return random.choice([DROITE, GAUCHE])
 ```
+
+# Installation du jeu sur un site web
+
+## 1. Compilation pour le site web
+
+```shell
+flutter build web --release --base-href=/tortoise/web/ --web-renderer canvaskit
+```
+
+## 2. Adresse du site Web
+
+Il est nécessaire de créer un dossier `tortoise` pour y mettre le dosser des fichiers
+issus de la compilation, dossier `web` dans le dossier `build` du projet Flutter.
+
+Exemple de site Web&nbsp;:
+
+[https://clouard.users.greyc.fr/tortoise/web/](https://clouard.users.greyc.fr/tortoise/web/)

@@ -9,6 +9,7 @@ class GamePresenter {
   final Interpreter _codeInterpreter = Interpreter();
   Timer? _timer;
   EditorViewState? _editorViewState;
+  int gridSize = 10;
 
   final TortoiseWorld tortoiseWorld = TortoiseWorld();
   late final BoardViewState _boardViewState;
@@ -40,9 +41,10 @@ class GamePresenter {
     _timer = null;
   }
 
-  void initializeWorldMap() => tortoiseWorld.initializeWorldMap();
+  void initializeWorldMap() => tortoiseWorld.initializeWorldMap(gridSize);
 
   void executeCode(EditorViewState editorViewState, String code) {
+    print("Execute code size = $gridSize");
     initializeWorldMap();
     String? error = _codeInterpreter.parse(code);
     if (error != null) {

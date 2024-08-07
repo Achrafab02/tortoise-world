@@ -82,7 +82,6 @@ class Parser {
           return ReturnExpression([ActionExpression(token, action)]);
         }
       } else {
-        // TODO regarder s'il s'agit de la version minuscule -> message d'erreur  il faut des majuscules
         throw SyntaxErrorException(_currentLineNumber, "Action inconnue ${currentToken.lexeme}");
       }
     } else if (isAction(currentToken.type)) {
@@ -95,7 +94,6 @@ class Parser {
       // expression:: return random.choice([AVANCE, DROITE)
       return ReturnExpression([_randomChoice()]);
     }
-    // TODO regarder s'il s'agit de la version minuscule -> message d'erreur -> il faut des majuscules
     throw SyntaxErrorException(_currentLineNumber, "Action inconnue ${currentToken.lexeme}");
   }
 

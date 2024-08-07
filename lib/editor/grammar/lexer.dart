@@ -6,7 +6,7 @@ class Lexer {
 
   Lexer(this._code);
 
-  // TODO Les tests unitaires pour toutes ces méthodces
+  // TODO Les tests unitaires pour toutes ces méthodes
   Token getNextToken() {
     _skipWhitespace();
     if (_position >= _code.length) {

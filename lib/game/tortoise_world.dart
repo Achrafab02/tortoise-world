@@ -1,7 +1,6 @@
 import 'dart:math';
 
 class TortoiseWorld {
-  // TODO pouvoir changer la taille du tableau (avec un taille maximum -> faire une jauge)
   static const int maxDrinkLevel = 100;
   static const int maxHealthLevel = 100;
   static const int maxTime = 5000;
@@ -16,8 +15,8 @@ class TortoiseWorld {
   ];
   final List<String> _directionTortoiseImageTable = ['tortoise-north', 'tortoise-east', 'tortoise-south', 'tortoise-west'];
 
-  final int rows = 12;
-  final int columns = 12;
+  // TODO pouvoir changer la taille du tableau (avec un taille maximum -> faire une jauge)
+  late int? _gridSize;
 
   final List<List<CellType>> _worldMap = [];
   late int _xPos;
@@ -41,13 +40,17 @@ class TortoiseWorld {
 
   int get moveCount => _moveCount;
 
-  get tortoiseImage => _tortoiseImage;
+  String get tortoiseImage => _tortoiseImage;
 
-  get xpos => _xPos;
+  int get xpos => _xPos;
 
-  get ypos => _yPos;
+  int get ypos => _yPos;
 
-  void initializeWorldMap() {
+  int get size => _gridSize!;
+
+  void initializeWorldMap(int gridSize) {
+    print("**** worldmap size ==> $gridSize");
+    _gridSize = gridSize;
     if (_moveCount == 0) {
       return;
     }
@@ -61,17 +64,21 @@ class TortoiseWorld {
     _score = 0;
     _moveCount = 0;
 
-    for (int i = 0; i < rows; i++) {
+    _worldMap.clear();
+    for (int i = 0; i < gridSize; i++) {
       List<CellType> rows = [];
-      for (int j = 0; j < columns; j++) {
+      for (int j = 0; j < gridSize; j++) {
         rows.add(CellType.ground);
       }
       _worldMap.add(rows);
     }
 
+    print("worldmap size ${_worldMap.length} x ${_worldMap[0].length}");
+    // TODO mettre un mur tout autour
+    // TODO mettre le contenu adaquate
     int countLettuce = 0;
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < columns; j++) {
+    for (int i = 0; i < gridSize; i++) {
+      for (int j = 0; j < gridSize; j++) {
         CellType type = _selectTileType(j, i);
         _worldMap[i][j] = type;
         if (type == CellType.lettuce) {
@@ -86,7 +93,7 @@ class TortoiseWorld {
   CellType _selectTileType(int x, int y) {
     if (x == 1 && y == 1) {
       return CellType.pond;
-    } else if (x == 0 || x == columns - 1 || y == 0 || y == rows - 1) {
+    } else if (x == 0 || x == _gridSize! - 1 || y == 0 || y == _gridSize! - 1) {
       return CellType.wall;
     } else {
       double stoneProbability = 0.1;
@@ -109,7 +116,12 @@ class TortoiseWorld {
     }
   }
 
-  CellType getCellContent(int x, int y) => _worldMap[y][x];
+  CellType getCellContent(int x, int y) {
+    // TODO remettre l'ancien code
+    if (y > _worldMap.length - 1) y = _worldMap.length - 1;
+    if (x > _worldMap[0].length - 1) x = _worldMap[0].length - 1;
+    return _worldMap[y][x];
+  }
 
   MoveResultType moveTortoise(String action) {
     _moveCount++;
