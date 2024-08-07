@@ -39,7 +39,7 @@ class Interpreter {
     return parser;
   }
 
-  String executeCode(TortoiseWorld tortoiseWorld) {
+  String? executeCode(TortoiseWorld tortoiseWorld) {
     return _program!.interpret(tortoiseWorld);
   }
 }

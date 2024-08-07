@@ -60,16 +60,16 @@ class GamePresenter {
       if (result == MoveResultType.diedOfThirsty) {
         _editorViewState?.stopExecution();
         stop();
-        _boardViewState.showResultDialog("Vous êtes mort de soif !");
+        _boardViewState.showResultDialog("ÉCHEC", "Vous êtes mort de soif !");
       }
       if (result == MoveResultType.diedOfHunger) {
         _editorViewState?.stopExecution();
         stop();
-        _boardViewState.showResultDialog("Vous êtes mort de faim !");
+        _boardViewState.showResultDialog("ÉCHEC", "Vous êtes mort de faim !");
       } else if (result == MoveResultType.success) {
         _editorViewState?.stopExecution();
         stop();
-        _boardViewState.showResultDialog("Bravo, vous avez gagné !");
+        _boardViewState.showResultDialog("VICTOIRE", "Bravo, vous avez gagné !");
       }
     }
   }

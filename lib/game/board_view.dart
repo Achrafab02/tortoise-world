@@ -42,12 +42,12 @@ class BoardViewState extends State<BoardView> {
     }
   }
 
-  void showResultDialog(String message) {
+  void showResultDialog(String title, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Game Over'),
+          title: Text(title),
           contentTextStyle: const TextStyle(color: Colors.black),
           content: Text(message),
           actions: <Widget>[
@@ -99,19 +99,15 @@ class BoardViewState extends State<BoardView> {
               children: [
                 Text.rich(TextSpan(children: [
                   const TextSpan(text: "Salades : ", style: TextStyle(fontSize: 16)),
-                  TextSpan(text: "${tortoiseWorld.eaten} ", style: const TextStyle(fontSize: 20)),
+                  TextSpan(text: "${tortoiseWorld.eaten} / ${tortoiseWorld.lettuceCount}", style: const TextStyle(fontSize: 20)),
                 ])),
                 Text.rich(TextSpan(children: [
                   const TextSpan(text: "Temps : ", style: TextStyle(fontSize: 16)),
-                  TextSpan(text: "${tortoiseWorld.moveCount} ", style: const TextStyle(fontSize: 20)),
-                ])),
-                Text.rich(TextSpan(children: [
-                  const TextSpan(text: "Score : ", style: TextStyle(fontSize: 16)),
-                  TextSpan(text: "${tortoiseWorld.score} ", style: const TextStyle(fontSize: 20)),
+                  TextSpan(text: "${tortoiseWorld.moveCount}", style: const TextStyle(fontSize: 20)),
                 ])),
                 Text.rich(TextSpan(children: [
                   const TextSpan(text: "Niveau boisson : ", style: TextStyle(fontSize: 16)),
-                  TextSpan(text: "${tortoiseWorld.drinkLevel} ", style: const TextStyle(fontSize: 20)),
+                  TextSpan(text: "${tortoiseWorld.drinkLevel}", style: const TextStyle(fontSize: 20)),
                 ])),
               ],
             ),

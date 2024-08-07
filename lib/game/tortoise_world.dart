@@ -2,7 +2,6 @@ import 'dart:math';
 
 class TortoiseWorld {
   static const int maxDrinkLevel = 100;
-  static const int maxHealthLevel = 100;
   static const int maxTime = 5000;
   static const double delayInMs = 1000;
 
@@ -23,17 +22,15 @@ class TortoiseWorld {
   late int _direction;
   late String _tortoiseImage;
   late int _drinkLevel;
-  late int _health;
   late int _eaten;
   late int _lettuceCount;
-  late int _score;
   late int _moveCount = 10; // Positive value to force to redraw a new tortoise world at inception
 
   TortoiseWorld();
 
   int get eaten => _eaten;
 
-  int get score => _score;
+  int get lettuceCount => _lettuceCount;
 
   int get drinkLevel => _drinkLevel;
 
@@ -54,9 +51,7 @@ class TortoiseWorld {
     _direction = 1;
     _tortoiseImage = "tortoise-east";
     _drinkLevel = maxDrinkLevel;
-    _health = maxHealthLevel;
     _eaten = 0;
-    _score = 0;
     _moveCount = 0;
 
     for (int i = 0; i < gridSize; i++) {
@@ -111,7 +106,7 @@ class TortoiseWorld {
     return _worldMap[y][x];
   }
 
-  MoveResultType moveTortoise(String action) {
+  MoveResultType moveTortoise(String? action) {
     _moveCount++;
     List<int> directionXY = _directionTable[_direction];
     int dx = directionXY[0];
@@ -137,6 +132,9 @@ class TortoiseWorld {
       tortoiseDirection: _direction,
     );
     switch (action) {
+      case null:
+        _drinkLevel = max(_drinkLevel - 1, 0);
+        break;
       case 'GAUCHE':
         _direction = (_direction - 1) % 4;
         _drinkLevel = max(_drinkLevel - 1, 0);
@@ -158,7 +156,6 @@ class TortoiseWorld {
         break;
       case 'AVANCE':
         if (!sensor.isFreeAhead) {
-          _health = _health - 1;
           _drinkLevel = max(_drinkLevel - 2, 0);
         } else {
           _xPos = _xPos + dx;
@@ -169,14 +166,13 @@ class TortoiseWorld {
     _tortoiseImage = _directionTortoiseImageTable[_direction];
     if (_eaten == _lettuceCount) {
       return MoveResultType.success;
-    } else if (_drinkLevel <= 0 || _health <= 0) {
+    } else if (_drinkLevel <= 0) {
       if (_drinkLevel <= 0) {
         return MoveResultType.diedOfThirsty;
       } else {
         return MoveResultType.diedOfHunger;
       }
     }
-    _score = _eaten * 10 - _moveCount ~/ 10;
     return MoveResultType.ok;
   }
 
